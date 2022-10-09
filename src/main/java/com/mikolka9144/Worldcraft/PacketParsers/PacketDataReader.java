@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public class PacketDataReader {
-    private ByteArrayInputStream data;
+    private final ByteArrayInputStream data;
 
     public PacketDataReader(byte[] data){
         this.data = new ByteArrayInputStream(data);
@@ -20,19 +20,11 @@ public class PacketDataReader {
             throw new RuntimeException(e);
         }
     }
-    public int getInt(){
-        try {
+    public int getInt() throws IOException {
             return ByteBuffer.wrap(this.data.readNBytes(Integer.BYTES)).getInt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
-    public short getShort(){
-        try {
+    public short getShort() throws IOException {
             return ByteBuffer.wrap(this.data.readNBytes(Short.BYTES)).getShort();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     public byte getByte(){
         return (byte) data.read();
