@@ -1,34 +1,23 @@
 package com.mikolka9144.Impl;
 
-import com.mikolka9144.Impl.Loggers.PacketLogger;
 import com.mikolka9144.Models.Packet;
-import com.mikolka9144.Models.WorldcraftSocket;
+import com.mikolka9144.Models.PacketInterceptor;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.WorldcraftClient;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.util.List;
 
-public class PacketOffitialInterceptor extends PacketLogger {
+public class PacketOffitialInterceptor extends PacketInterceptor {
 
-    private final WorldcraftSocket officialIO;
+    private final WorldcraftClient client;
 
     public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO) {
         super(connectionIO);
-        Socket socket = null;
         try {
-            socket = new Socket("worldcraft.solverlabs.com",443);
-            officialIO = new WorldcraftSocket(socket);
-            new Thread(() -> {
-                while (true){
-                    try {
-                        Packet packet = officialIO.getChannel().recive();
-                        super.InterceptRawPacket(packet);
-                        connectionIO.send(packet);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }).start();
+            client = new WorldcraftClient("worldcraft.solverlabs.com",443,
+                    s -> List.of(new WritebackInterceptor(s,connectionIO)));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +26,7 @@ public class PacketOffitialInterceptor extends PacketLogger {
     @Override
     public void InterceptRawPacket(Packet packet) {
         try {
-            officialIO.getChannel().send(packet);
+            client.send(packet);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -45,6 +34,28 @@ public class PacketOffitialInterceptor extends PacketLogger {
 
     @Override
     public void close() throws IOException {
-        officialIO.close();
+        client.close();
+    }
+    private class WritebackInterceptor extends PacketInterceptor{
+        private WorldCraftPacketIO out;
+
+        public WritebackInterceptor(WorldCraftPacketIO in, WorldCraftPacketIO out){
+            super(in);
+            this.out = out;
+        }
+
+        @Override
+        public void InterceptRawPacket(Packet packet) {
+            try {
+                out.send(packet);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public void close() throws IOException {
+
+        }
     }
 }
