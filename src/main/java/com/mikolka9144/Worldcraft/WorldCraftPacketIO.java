@@ -1,6 +1,6 @@
 package com.mikolka9144.Worldcraft;
 
-import com.mikolka9144.Models.Packet;
+import com.mikolka9144.Models.EventCodecs.Packet;
 import com.mikolka9144.Models.PacketCommand;
 import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Worldcraft.PacketParsers.PacketDataBuilder;

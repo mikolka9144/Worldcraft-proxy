@@ -1,6 +1,6 @@
 package com.mikolka9144.Impl.Loggers;
 
-import com.mikolka9144.Models.Packet;
+import com.mikolka9144.Models.EventCodecs.Packet;
 import com.mikolka9144.Models.PacketInterceptor;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
 

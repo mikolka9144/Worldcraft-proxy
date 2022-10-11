@@ -44,6 +44,15 @@ public class PacketDataBuilder  {
         }
         return this;
     }
+    public PacketDataBuilder append(boolean value){
+        if (value){
+            append((byte)1);
+        }
+        else{
+            append((byte)0);
+        }
+        return this;
+    }
     public byte[] build(){
         return out.toByteArray();
     }

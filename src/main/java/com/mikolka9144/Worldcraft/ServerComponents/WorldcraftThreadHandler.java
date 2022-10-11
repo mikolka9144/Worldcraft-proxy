@@ -1,8 +1,9 @@
 package com.mikolka9144.Worldcraft.ServerComponents;
 
-import com.mikolka9144.Models.Packet;
+import com.mikolka9144.Models.EventCodecs.Packet;
 import com.mikolka9144.Models.PacketInterceptor;
 import com.mikolka9144.Models.WorldcraftSocket;
+import com.mikolka9144.Worldcraft.ContentParsers.PacketContentDeserializer;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,9 +16,12 @@ public class WorldcraftThreadHandler {
         try {
             while (true) {
                 Packet packet = socket.getChannel().recive();
-                socketInter.forEach(s -> s.InterceptRawPacket(packet));
-                switch (packet.getCommand()){
-
+                for (PacketInterceptor interceptor:socketInter) {
+                    interceptor.InterceptRawPacket(packet);
+                    switch (packet.getCommand()){
+                        case S_ROOM_LIST_RESP -> interceptor.InterceptRoomsPacket(packet,
+                                PacketContentDeserializer.decodeRoomsData(packet.getData()));
+                    }
                 }
             }
         }
