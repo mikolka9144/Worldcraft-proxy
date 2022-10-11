@@ -1,6 +1,7 @@
 package com.mikolka9144.Impl;
 
-import com.mikolka9144.Models.Packet;
+import com.mikolka9144.Impl.Loggers.PacketLogger;
+import com.mikolka9144.Models.EventCodecs.Packet;
 import com.mikolka9144.Models.PacketInterceptor;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
 import com.mikolka9144.WorldcraftClient;
@@ -16,7 +17,12 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
         super(connectionIO);
         try {
             client = new WorldcraftClient("worldcraft.solverlabs.com",443,
-                    s -> List.of(new WritebackInterceptor(s,connectionIO)));
+                    s -> List.of(
+                            new PacketLogger(s),
+                            new PacketConverter(s),
+                            new PacketLogger(s),
+                            new WritebackInterceptor(s,connectionIO)
+                    ));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -31,7 +37,6 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void close() throws IOException {
         client.close();

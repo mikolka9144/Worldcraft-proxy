@@ -15,7 +15,8 @@ public class PacketDataReader {
         try {
             short strSize = getShort();
             byte[] strAsBytes =  data.readNBytes(strSize);
-            return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(strAsBytes)).toString();
+            String out = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(strAsBytes)).toString();
+            return out;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -31,5 +32,9 @@ public class PacketDataReader {
     }
     public byte[] getBytes(){
         return data.readAllBytes();
+    }
+    public boolean getBoolean(){return getByte()==1;}
+    public boolean hasNext(int bytes){
+        return data.available()>=bytes;
     }
 }
