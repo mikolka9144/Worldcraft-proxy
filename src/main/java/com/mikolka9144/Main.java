@@ -2,6 +2,7 @@ package com.mikolka9144;
 
 import com.mikolka9144.Impl.HttpOffictalInterceptor;
 import com.mikolka9144.Impl.Loggers.PacketLogger;
+import com.mikolka9144.Impl.PacketConverter;
 import com.mikolka9144.Impl.PacketOffitialInterceptor;
 import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Worldcraft.ServerComponents.HttpServer;
@@ -22,7 +23,11 @@ public class Main {
                         SocketServer.WORLD_OF_CRAFT_PORT,
                         io -> List.of(
                                 new PacketLogger(io),
-                                new PacketOffitialInterceptor(io, PacketProtocol.WORLD_OF_CRAFT_V_3_8_5))
+                                new PacketOffitialInterceptor(io,s -> List.of(
+                                    new PacketLogger(s),
+                                    new PacketConverter(s, PacketProtocol.WORLD_OF_CRAFT_V_3_8_5),
+                                    new PacketLogger(s)
+                                )))
                 );
                 server.start();
         } catch (IOException e) {
