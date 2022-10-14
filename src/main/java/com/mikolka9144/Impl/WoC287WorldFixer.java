@@ -1,7 +1,7 @@
-package com.mikolka9144.Impl.WoC2_8_7WorldFix;
+package com.mikolka9144.Impl;
 
-import com.mikolka9144.Impl.WoC2_8_7WorldFix.gzip.GZipConverter;
-import com.mikolka9144.Impl.WoC2_8_7WorldFix.gzip.GzipEntry;
+import com.mikolka9144.Utills.gzip.GZipConverter;
+import com.mikolka9144.Utills.gzip.GzipEntry;
 import com.mikolka9144.Models.HttpInterceptor;
 import dev.dewy.nbt.Nbt;
 import dev.dewy.nbt.tags.collection.CompoundTag;

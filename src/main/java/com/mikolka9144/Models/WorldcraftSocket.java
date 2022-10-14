@@ -1,6 +1,6 @@
 package com.mikolka9144.Models;
 
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.mikolka9144.Impl.WoC2_8_7WorldFix.gzip;
+package com.mikolka9144.Utills.gzip;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 

@@ -1,4 +1,4 @@
-package com.mikolka9144.Worldcraft.ServerComponents;
+package com.mikolka9144.Worldcraft.ServerComponents.http;
 
 import com.mikolka9144.Models.HttpInterceptor;
 

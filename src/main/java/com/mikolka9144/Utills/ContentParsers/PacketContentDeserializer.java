@@ -1,7 +1,7 @@
-package com.mikolka9144.Worldcraft.ContentParsers;
+package com.mikolka9144.Utills.ContentParsers;
 
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
-import com.mikolka9144.Worldcraft.PacketParsers.PacketDataReader;
+import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.mikolka9144.Models.EventCodecs;
+package com.mikolka9144.Models.Packets;
 
 import com.mikolka9144.Models.PacketCommand;
 import com.mikolka9144.Models.PacketProtocol;

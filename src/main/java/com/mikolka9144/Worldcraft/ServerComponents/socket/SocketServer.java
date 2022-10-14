@@ -1,8 +1,8 @@
-package com.mikolka9144.Worldcraft.ServerComponents;
+package com.mikolka9144.Worldcraft.ServerComponents.socket;
 
-import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
+import com.mikolka9144.Models.Packets.PacketInterceptor;
 import com.mikolka9144.Models.WorldcraftSocket;
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftThreadHandler;
 
 import java.io.Closeable;
 import java.io.IOException;

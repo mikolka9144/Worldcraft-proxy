@@ -1,13 +1,13 @@
 package com.mikolka9144.Worldcraft.ServerComponents;
 
-import com.mikolka9144.Models.EventCodecs.Packet;
-import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
+import com.mikolka9144.Models.Packets.Packet;
+import com.mikolka9144.Models.Packets.PacketInterceptor;
 import com.mikolka9144.Models.WorldcraftSocket;
 
 import java.io.IOException;
 import java.util.List;
 
-public class WorldcraftThreadHandler {
+public abstract class WorldcraftThreadHandler {
     protected void attachToThread(WorldcraftSocket socket, List<PacketInterceptor> socketInter){
         new Thread(() -> worldcraftClientHandler(socket,socketInter)).start();
     }
