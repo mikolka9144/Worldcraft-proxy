@@ -2,7 +2,8 @@ package com.mikolka9144.Impl;
 
 import com.mikolka9144.Impl.Loggers.PacketLogger;
 import com.mikolka9144.Models.EventCodecs.Packet;
-import com.mikolka9144.Models.PacketInterceptor;
+import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
+import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
 import com.mikolka9144.WorldcraftClient;
 
@@ -13,15 +14,15 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
 
     private final WorldcraftClient client;
 
-    public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO) {
+    public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO, PacketProtocol clientProto) {
         super(connectionIO);
         try {
             client = new WorldcraftClient("worldcraft.solverlabs.com",443,
                     s -> List.of(
                             new PacketLogger(s),
-                            new PacketConverter(s),
+                            new PacketConverter(s, clientProto),
                             new PacketLogger(s),
-                            new WritebackInterceptor(s,connectionIO)
+                            new WritebackInterceptor(s, connectionIO)
                     ));
 
         } catch (IOException e) {
@@ -41,7 +42,7 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
     public void close() throws IOException {
         client.close();
     }
-    private class WritebackInterceptor extends PacketInterceptor{
+    private static class WritebackInterceptor extends PacketInterceptor{
         private WorldCraftPacketIO out;
 
         public WritebackInterceptor(WorldCraftPacketIO in, WorldCraftPacketIO out){
@@ -53,7 +54,7 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
         public void InterceptRawPacket(Packet packet) {
             try {
                 out.send(packet);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }

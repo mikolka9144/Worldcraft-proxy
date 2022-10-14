@@ -121,7 +121,7 @@ public class RoomsPacket {
             return name;
         }
 
-        public Boolean isProtected() {
+        public boolean isProtected() {
             return isProtected;
         }
 
@@ -142,7 +142,7 @@ public class RoomsPacket {
             return likes;
         }
 
-        public Boolean isReadOlny() {
+        public boolean isReadOlny() {
             return isReadOlny;
         }
     }

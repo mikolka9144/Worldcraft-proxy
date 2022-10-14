@@ -5,7 +5,7 @@ import com.mikolka9144.Models.EventCodecs.RoomsPacket;
 import com.mikolka9144.Worldcraft.PacketParsers.PacketDataBuilder;
 
 public class PacketContentSerializer {
-    public static byte[] encodeRoomsData(RoomsPacket packet, PacketProtocol proto){
+    public static byte[] encodeRoomsData(RoomsPacket packet, PacketProtocol protoFormat){
         PacketDataBuilder builder = new PacketDataBuilder()
                 .append(packet.getPacketIndex())
                 .append(packet.getAllPackets())
@@ -19,7 +19,7 @@ public class PacketContentSerializer {
                     .append(room.getRoomCapacity())
                     .append(room.getNumberOfEntrances())
                     .append(room.getLikes());
-            if(proto.equals(PacketProtocol.WORLD_OF_CRAFT_V_3_8_5)){
+            if(protoFormat.equals(PacketProtocol.WORLD_OF_CRAFT_V_3_8_5)){
                 builder.append(room.isReadOlny());
             }
         }
