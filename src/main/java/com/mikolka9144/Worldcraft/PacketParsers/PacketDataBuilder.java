@@ -3,14 +3,13 @@ package com.mikolka9144.Worldcraft.PacketParsers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 public class PacketDataBuilder  {
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
     public PacketDataBuilder append(String value){
         try {
             append((short) value.length());
-            out.write(StandardCharsets.UTF_8.encode(value).array());
+            out.write(value.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

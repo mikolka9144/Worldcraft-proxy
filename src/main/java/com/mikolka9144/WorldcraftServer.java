@@ -1,7 +1,7 @@
 package com.mikolka9144;
 
 import com.mikolka9144.Models.HttpInterceptor;
-import com.mikolka9144.Models.PacketInterceptor;
+import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
 import com.mikolka9144.Worldcraft.ServerComponents.HttpWorldRecever;
 import com.mikolka9144.Worldcraft.ServerComponents.HttpWorldUploader;
 import com.mikolka9144.Worldcraft.ServerComponents.SocketServer;

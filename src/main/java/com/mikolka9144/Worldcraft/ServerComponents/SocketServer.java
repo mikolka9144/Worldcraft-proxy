@@ -1,6 +1,6 @@
 package com.mikolka9144.Worldcraft.ServerComponents;
 
-import com.mikolka9144.Models.PacketInterceptor;
+import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
 import com.mikolka9144.Models.WorldcraftSocket;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
 

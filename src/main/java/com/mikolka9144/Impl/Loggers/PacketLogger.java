@@ -1,7 +1,7 @@
 package com.mikolka9144.Impl.Loggers;
 
 import com.mikolka9144.Models.EventCodecs.Packet;
-import com.mikolka9144.Models.PacketInterceptor;
+import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
 import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
 
 import java.io.IOException;
@@ -14,6 +14,7 @@ public class PacketLogger extends PacketInterceptor {
 
     @Override
     public void InterceptRawPacket(Packet packet) {
+        System.out.println(Arrays.toString(packet.getData()));
         System.out.println("Proto: "+packet.getProtoId());
         System.out.println("Error code: "+packet.getError());
         System.out.println("Command: "+packet.getCommand());
