@@ -1,10 +1,10 @@
-package com.mikolka9144.Worldcraft;
+package com.mikolka9144.Worldcraft.ServerComponents.socket;
 
-import com.mikolka9144.Models.EventCodecs.Packet;
+import com.mikolka9144.Models.Packets.Packet;
 import com.mikolka9144.Models.PacketCommand;
 import com.mikolka9144.Models.PacketProtocol;
-import com.mikolka9144.Worldcraft.PacketParsers.PacketDataBuilder;
-import com.mikolka9144.Worldcraft.PacketParsers.PacketDataReader;
+import com.mikolka9144.Utills.PacketParsers.PacketDataBuilder;
+import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,8 +1,8 @@
-package com.mikolka9144.Worldcraft.ContentParsers;
+package com.mikolka9144.Utills.ContentParsers;
 
 import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
-import com.mikolka9144.Worldcraft.PacketParsers.PacketDataBuilder;
+import com.mikolka9144.Utills.PacketParsers.PacketDataBuilder;
 
 public class PacketContentSerializer {
     public static byte[] encodeRoomsData(RoomsPacket packet, PacketProtocol protoFormat){

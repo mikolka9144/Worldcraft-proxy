@@ -1,7 +1,8 @@
-package com.mikolka9144.Models.EventCodecs;
+package com.mikolka9144.Models.Packets;
 
-import com.mikolka9144.Worldcraft.ContentParsers.PacketContentDeserializer;
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Models.EventCodecs.RoomsPacket;
+import com.mikolka9144.Utills.ContentParsers.PacketContentDeserializer;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 public abstract class FullPacketInterceptor extends PacketInterceptor {
     public FullPacketInterceptor(WorldCraftPacketIO connectionIO) {

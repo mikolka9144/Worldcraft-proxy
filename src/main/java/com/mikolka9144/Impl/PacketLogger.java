@@ -1,8 +1,8 @@
-package com.mikolka9144.Impl.Loggers;
+package com.mikolka9144.Impl;
 
-import com.mikolka9144.Models.EventCodecs.Packet;
-import com.mikolka9144.Models.EventCodecs.PacketInterceptor;
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Models.Packets.Packet;
+import com.mikolka9144.Models.Packets.PacketInterceptor;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.IOException;
 import java.util.Arrays;

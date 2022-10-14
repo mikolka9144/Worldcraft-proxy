@@ -1,6 +1,6 @@
-package com.mikolka9144.Models.EventCodecs;
+package com.mikolka9144.Models.Packets;
 
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.Closeable;
 

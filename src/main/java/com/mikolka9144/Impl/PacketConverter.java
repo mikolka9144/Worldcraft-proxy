@@ -1,19 +1,18 @@
 package com.mikolka9144.Impl;
 
-import com.mikolka9144.Models.EventCodecs.FullPacketInterceptor;
-import com.mikolka9144.Models.EventCodecs.Packet;
+import com.mikolka9144.Models.Packets.FullPacketInterceptor;
+import com.mikolka9144.Models.Packets.Packet;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
 import com.mikolka9144.Models.PacketProtocol;
-import com.mikolka9144.Worldcraft.ContentParsers.PacketContentSerializer;
-import com.mikolka9144.Worldcraft.WorldCraftPacketIO;
+import com.mikolka9144.Utills.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.IOException;
 
 public class PacketConverter extends FullPacketInterceptor {
-    private PacketProtocol clientProto;
-    public PacketConverter(WorldCraftPacketIO connectionIO, PacketProtocol clientProto) {
+
+    public PacketConverter(WorldCraftPacketIO connectionIO) {
         super(connectionIO);
-        this.clientProto = clientProto;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class PacketConverter extends FullPacketInterceptor {
 
     @Override
     public void InterceptRoomsPacket(Packet packet, RoomsPacket data) {
-        packet.setData(PacketContentSerializer.encodeRoomsData(data,clientProto));
+        packet.setData(PacketContentSerializer.encodeRoomsData(data,PacketProtocol.WORLDCRAFT_V_2_8_7));
     }
 }

@@ -1,4 +1,4 @@
-package com.mikolka9144.Worldcraft.PacketParsers;
+package com.mikolka9144.Utills.PacketParsers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
