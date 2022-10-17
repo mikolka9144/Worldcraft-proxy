@@ -1,5 +1,6 @@
 package com.mikolka9144.Utills.ContentParsers;
 
+import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
@@ -30,5 +31,13 @@ public class PacketContentDeserializer{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static PurchaseValidationReq decodeValidatePurchaseReq(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        String marketName = reader.getString();
+        String bundleId = reader.getString();
+        String receipt = reader.getString();
+        return new PurchaseValidationReq(marketName,bundleId,receipt);
     }
 }

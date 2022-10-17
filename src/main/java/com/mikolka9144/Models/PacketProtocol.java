@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public enum PacketProtocol{
     WORLDCRAFT_V_2_8_7(1),
+    WORLDCRAFT_V_2_7_4(0),
     SERVER(7),
     WORLD_OF_CRAFT_V_3_8_5(70);
     private int Proto;

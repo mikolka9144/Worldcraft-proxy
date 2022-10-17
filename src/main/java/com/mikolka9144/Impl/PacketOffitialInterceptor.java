@@ -18,7 +18,7 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
                                      Function<WorldCraftPacketIO, List<PacketInterceptor>> clientInterceptors) {
         super(connectionIO);
         try {
-            client = new WorldcraftClient("worldcraft.solverlabs.com",443,
+            client = new WorldcraftClient("64.237.54.60",443,
                     s -> {
                         List<PacketInterceptor> ret = new ArrayList<>(clientInterceptors.apply(s));
                         ret.add(new WritebackInterceptor(s, connectionIO));

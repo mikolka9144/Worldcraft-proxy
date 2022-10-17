@@ -21,7 +21,7 @@ public class PacketConverter extends FullPacketInterceptor {
     }
 
     @Override
-    public void InterceptRoomsPacket(Packet packet, RoomsPacket data) {
+    public void interceptRoomsPacket(Packet packet, RoomsPacket data) {
         packet.setData(PacketContentSerializer.encodeRoomsData(data,PacketProtocol.WORLDCRAFT_V_2_8_7));
     }
 }

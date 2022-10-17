@@ -1,7 +1,8 @@
 package com.mikolka9144.Utills.ContentParsers;
 
-import com.mikolka9144.Models.PacketProtocol;
+import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
+import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Utills.PacketParsers.PacketDataBuilder;
 
 public class PacketContentSerializer {
@@ -24,5 +25,12 @@ public class PacketContentSerializer {
             }
         }
         return builder.build();
+    }
+    public static byte[] encodeValidatePurchaseReq(PurchaseValidationReq data) {
+        return new PacketDataBuilder()
+                .append(data.getPurchaseName())
+                .append(data.getBundleId())
+                .append(data.getReceipt())
+                .build();
     }
 }
