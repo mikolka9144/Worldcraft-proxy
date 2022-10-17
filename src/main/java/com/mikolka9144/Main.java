@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        try(WorldcraftServer server = WorldcraftServer.configureWorldcraftDefault()){
+        try(WorldcraftServer server = WorldcraftServer.configureLegacy()){
                 server.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
