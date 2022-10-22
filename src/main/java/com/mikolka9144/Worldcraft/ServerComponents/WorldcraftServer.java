@@ -25,9 +25,9 @@ public class WorldcraftServer implements Closeable {
     }
 
     public void createHttpServer(int port, List<HttpInterceptor> receivers,List<HttpInterceptor> uploaders) throws IOException {
-        var httpDownloader = new HttpWorldRecever();
+        HttpWorldRecever httpDownloader = new HttpWorldRecever();
         httpDownloader.getDownloadInterceptors().addAll(receivers);
-        var httpUploaders = new HttpWorldUploader();
+        HttpWorldUploader httpUploaders = new HttpWorldUploader();
         httpDownloader.getDownloadInterceptors().addAll(uploaders);
         httpServer = new HttpServer(port,httpDownloader,httpUploaders);
     }
@@ -45,6 +45,7 @@ public class WorldcraftServer implements Closeable {
                 io -> List.of(
                         new PacketLogger(io),
                         new PacketOffitialInterceptor(io, s -> List.of(
+                                new PurchaseFaker(io),
                                 new PacketLogger(s)
                         )))
         );
