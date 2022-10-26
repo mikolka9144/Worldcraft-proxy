@@ -1,7 +1,7 @@
 package com.mikolka9144.Impl;
 
-import com.mikolka9144.Models.Packets.Packet;
-import com.mikolka9144.Models.Packets.PacketInterceptor;
+import com.mikolka9144.Models.Packet.Packet;
+import com.mikolka9144.Models.Packet.PacketInterceptor;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftClient;
 

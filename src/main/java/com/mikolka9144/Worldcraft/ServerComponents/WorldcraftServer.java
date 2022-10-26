@@ -2,7 +2,7 @@ package com.mikolka9144.Worldcraft.ServerComponents;
 
 import com.mikolka9144.Impl.*;
 import com.mikolka9144.Models.HttpInterceptor;
-import com.mikolka9144.Models.Packets.PacketInterceptor;
+import com.mikolka9144.Models.Packet.PacketInterceptor;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpServer;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpWorldRecever;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpWorldUploader;
@@ -28,7 +28,7 @@ public class WorldcraftServer implements Closeable {
         HttpWorldRecever httpDownloader = new HttpWorldRecever();
         httpDownloader.getDownloadInterceptors().addAll(receivers);
         HttpWorldUploader httpUploaders = new HttpWorldUploader();
-        httpDownloader.getDownloadInterceptors().addAll(uploaders);
+        httpUploaders.getUploadInterceptors().addAll(uploaders);
         httpServer = new HttpServer(port,httpDownloader,httpUploaders);
     }
     public static WorldcraftServer configureWorldcraftDefault() throws IOException {
@@ -38,7 +38,9 @@ public class WorldcraftServer implements Closeable {
                 List.of(
                         new HttpOffictalInterceptor()
                 ),
-                List.of()
+                List.of(
+                        new HttpOffictalInterceptor()
+                )
         );
         server.createSocketServer(
                 SocketServer.WORLD_OF_CRAFT_PORT,
@@ -59,7 +61,9 @@ public class WorldcraftServer implements Closeable {
                         new HttpOffictalInterceptor(),
                         new WoC287WorldFixer()
                 ),
-                List.of()
+                List.of(
+                        new HttpOffictalInterceptor()
+                )
         );
         server.createSocketServer(
                 SocketServer.WORLDCRAFT_PORT,

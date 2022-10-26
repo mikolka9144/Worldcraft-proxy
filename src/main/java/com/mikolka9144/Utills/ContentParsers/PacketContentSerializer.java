@@ -1,5 +1,6 @@
 package com.mikolka9144.Utills.ContentParsers;
 
+import com.mikolka9144.Models.EventCodecs.ChatMessage;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
@@ -39,5 +40,20 @@ public class PacketContentSerializer {
                 .append(data.getStatus().ordinal())
                 .append(data.getReceipt())
                 .build();
+    }
+    public static byte[] encodeChatMessage(ChatMessage data,PacketProtocol protoFormat){
+        switch (protoFormat){
+            case WORLDCRAFT_V_2_8_7,WORLDCRAFT_V_2_7_4 -> {
+                return data.getMessage().getBytes();
+            }
+            default -> {
+                return new PacketDataBuilder()
+                        .append((byte)data.getType().ordinal())
+                        .append(data.getMsgTypeArg())
+                        .append(data.getMessage())
+                        .build();
+            }
+        }
+
     }
 }

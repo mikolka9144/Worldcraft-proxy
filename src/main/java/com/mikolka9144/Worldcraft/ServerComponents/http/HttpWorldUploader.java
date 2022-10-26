@@ -16,6 +16,13 @@ public class HttpWorldUploader implements HttpHandler {
     }
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-
+        byte[] data = httpExchange.getRequestBody().readAllBytes();
+        String contentType = httpExchange.getRequestHeaders().getFirst("Content-type");
+        for (HttpInterceptor interceptor : uploadInterceptors) {
+            data = interceptor.uploadWorld(data,contentType);
+        }
+        httpExchange.sendResponseHeaders(200,2);
+        httpExchange.getResponseBody().write("OK".getBytes());
+        httpExchange.close();
     }
 }

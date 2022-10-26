@@ -1,8 +1,8 @@
 package com.mikolka9144.Worldcraft.ServerComponents;
 
-import com.mikolka9144.Models.Packets.Packet;
-import com.mikolka9144.Models.Packets.PacketInterceptor;
-import com.mikolka9144.Models.WorldcraftSocket;
+import com.mikolka9144.Models.Packet.Packet;
+import com.mikolka9144.Models.Packet.PacketInterceptor;
+import com.mikolka9144.Models.Packet.WorldcraftSocket;
 
 import java.io.IOException;
 import java.util.List;

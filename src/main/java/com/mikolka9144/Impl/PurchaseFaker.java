@@ -1,8 +1,8 @@
 package com.mikolka9144.Impl;
 
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
-import com.mikolka9144.Models.Packets.FullPacketInterceptor;
-import com.mikolka9144.Models.Packets.Packet;
+import com.mikolka9144.Models.Packet.FullPacketInterceptor;
+import com.mikolka9144.Models.Packet.Packet;
 import com.mikolka9144.Utills.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 

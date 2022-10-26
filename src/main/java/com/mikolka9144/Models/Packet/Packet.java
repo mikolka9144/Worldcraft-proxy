@@ -1,6 +1,5 @@
-package com.mikolka9144.Models.Packets;
+package com.mikolka9144.Models.Packet;
 
-import com.mikolka9144.Models.PacketCommand;
 import com.mikolka9144.Models.PacketProtocol;
 
 public class Packet {
