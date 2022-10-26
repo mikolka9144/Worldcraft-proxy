@@ -1,5 +1,6 @@
 package com.mikolka9144.Utills.ContentParsers;
 
+import com.mikolka9144.Models.EventCodecs.ChatMessage;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
@@ -50,5 +51,13 @@ public class PacketContentDeserializer{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public static ChatMessage decodeChatMessage(byte[] data){
+        PacketDataReader reader = new PacketDataReader(data);
+        byte msgTypeBit = reader.getByte();
+        return new ChatMessage(
+                reader.getString(),
+                reader.getString(),
+                ChatMessage.MsgType.values()[msgTypeBit]);
     }
 }

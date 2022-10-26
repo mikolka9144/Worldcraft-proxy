@@ -1,5 +1,6 @@
-package com.mikolka9144.Models.Packets;
+package com.mikolka9144.Models.Packet;
 
+import com.mikolka9144.Models.EventCodecs.ChatMessage;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
 import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
 import com.mikolka9144.Models.EventCodecs.RoomsPacket;
@@ -20,7 +21,11 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
                     PacketContentDeserializer.decodeValidatePurchaseReq(packet.getData()));
             case S_VALIDATE_PURCHASE_RES -> this.interceptPurchaseValidationResponse(packet,
                     PacketContentDeserializer.decodeValidatePurchaseResp(packet.getData()));
+            case SB_CHAT_MSG -> this.interceptChatMessage(packet,PacketContentDeserializer.decodeChatMessage(packet.getData()));
         }
+    }
+
+    public void interceptChatMessage(Packet packet, ChatMessage data) {
     }
 
     public void interceptPurchaseValidationResponse(Packet packet, PurchaseValidationResp data) {

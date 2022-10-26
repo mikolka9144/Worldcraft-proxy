@@ -1,4 +1,4 @@
-package com.mikolka9144.Models;
+package com.mikolka9144.Models.Packet;
 
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 

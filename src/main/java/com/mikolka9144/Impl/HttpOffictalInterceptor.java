@@ -25,7 +25,18 @@ public class HttpOffictalInterceptor implements HttpInterceptor {
     }
 
     @Override
-    public byte[] uploadWorld(int worldId, byte[] worldBin) {
-        throw new RuntimeException("Not implemented");
+    public byte[] uploadWorld(byte[] worldBin, String ContentType) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofByteArray(worldBin))
+                .setHeader("Content-type",ContentType)
+                .uri(URI.create("http://worldcraft.solverlabs.com/worldcraft-web/upload"))
+                .build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+            return worldBin;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.mikolka9144.Models;
+package com.mikolka9144.Models.Packet;
 
 import java.util.Arrays;
 import java.util.Optional;

@@ -37,7 +37,9 @@ public class WoC287WorldFixer implements HttpInterceptor {
     }
 
     @Override
-    public byte[] uploadWorld(int worldId, byte[] worldBin) {
+    public byte[] uploadWorld(byte[] worldBin, String ContentType) {
         return worldBin;
     }
+
+
 }
