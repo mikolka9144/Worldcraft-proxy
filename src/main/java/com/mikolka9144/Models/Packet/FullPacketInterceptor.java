@@ -22,6 +22,7 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
             case S_VALIDATE_PURCHASE_RES -> this.interceptPurchaseValidationResponse(packet,
                     PacketContentDeserializer.decodeValidatePurchaseResp(packet.getData()));
             case SB_CHAT_MSG -> this.interceptChatMessage(packet,PacketContentDeserializer.decodeChatMessage(packet.getData()));
+            case C_CHAT_MSG -> this.interceptPlayerMessage(packet,PacketContentDeserializer.decodePlayerMessage(packet.getData()));
         }
     }
 
@@ -31,7 +32,9 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
     public void interceptPurchaseValidationResponse(Packet packet, PurchaseValidationResp data) {
 
     }
+    public void interceptPlayerMessage(Packet packet,String message){
 
+    }
     public void interceptPurchaseValidationRequest(Packet packet,PurchaseValidationReq data) {
 
     }

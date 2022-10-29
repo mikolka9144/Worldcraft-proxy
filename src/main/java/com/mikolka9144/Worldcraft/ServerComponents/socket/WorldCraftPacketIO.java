@@ -18,6 +18,7 @@ public class WorldCraftPacketIO {
 
         this.inputStream = in;
         this.outputStream = out;
+
     }
     public Packet recive() throws IOException {
         // Loading Early metadata

@@ -56,4 +56,7 @@ public class PacketContentSerializer {
         }
 
     }
+    public static byte[] encodePlayerMessage(String data) {
+        return data.getBytes();
+    }
 }
