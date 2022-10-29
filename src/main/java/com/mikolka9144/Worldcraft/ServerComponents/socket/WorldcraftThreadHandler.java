@@ -1,8 +1,9 @@
-package com.mikolka9144.Worldcraft.ServerComponents;
+package com.mikolka9144.Worldcraft.ServerComponents.socket;
 
 import com.mikolka9144.Models.Packet.Packet;
 import com.mikolka9144.Models.Packet.PacketInterceptor;
 import com.mikolka9144.Models.Packet.WorldcraftSocket;
+import com.mikolka9144.Utills.PacketAlreadyInterceptedException;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +17,10 @@ public abstract class WorldcraftThreadHandler {
             while (true) {
                 Packet packet = socket.getChannel().recive();
                 for (PacketInterceptor interceptor:socketInter) {
-                    interceptor.InterceptRawPacket(packet);
+                    try {
+                        interceptor.InterceptRawPacket(packet);
+                    }
+                    catch (PacketAlreadyInterceptedException ignored){break;}
                 }
 
             }

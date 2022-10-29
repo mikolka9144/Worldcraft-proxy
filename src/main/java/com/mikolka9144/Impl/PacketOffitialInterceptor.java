@@ -1,21 +1,21 @@
 package com.mikolka9144.Impl;
 
+import com.mikolka9144.Models.Interceptors.ServerInterceptorFunc;
 import com.mikolka9144.Models.Packet.Packet;
 import com.mikolka9144.Models.Packet.PacketInterceptor;
-import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftClient;
+import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class PacketOffitialInterceptor extends PacketInterceptor {
 
     private final WorldcraftClient client;
 
     public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO,
-                                     Function<WorldCraftPacketIO, List<PacketInterceptor>> clientInterceptors) {
+                                     ServerInterceptorFunc clientInterceptors) {
         super(connectionIO);
         try {
             client = new WorldcraftClient("64.237.54.60",443,

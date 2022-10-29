@@ -52,6 +52,9 @@ public class PacketDataBuilder  {
         }
         return this;
     }
+    public PacketDataBuilder append(float value){
+        return this; //TODO
+    }
     public byte[] build(){
         return out.toByteArray();
     }

@@ -37,4 +37,8 @@ public class PacketDataReader {
     public boolean hasNext(int bytes){
         return data.available()>=bytes;
     }
+
+    public float getFloat() throws IOException {
+        return Float.intBitsToFloat(getInt()); //TODO test this
+    }
 }

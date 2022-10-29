@@ -1,9 +1,6 @@
 package com.mikolka9144.Utills.ContentParsers;
 
-import com.mikolka9144.Models.EventCodecs.ChatMessage;
-import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
-import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
-import com.mikolka9144.Models.EventCodecs.RoomsPacket;
+import com.mikolka9144.Models.EventCodecs.*;
 import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Utills.PacketParsers.PacketDataBuilder;
 
@@ -58,5 +55,19 @@ public class PacketContentSerializer {
     }
     public static byte[] encodePlayerMessage(String data) {
         return data.getBytes();
+    }
+    public static byte[] encodeMovementPacket(MovementPacket data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getPlayerId());
+        writer.append(data.getPosition().getX());
+        writer.append(data.getPosition().getY());
+        writer.append(data.getPosition().getZ());
+        writer.append(data.getOrientation().getX());
+        writer.append(data.getOrientation().getY());
+        writer.append(data.getOrientation().getZ());
+        writer.append(data.getUp().getX());
+        writer.append(data.getUp().getY());
+        writer.append(data.getUp().getZ());
+        return writer.build();
     }
 }

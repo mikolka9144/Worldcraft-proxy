@@ -1,9 +1,7 @@
 package com.mikolka9144.Utills.ContentParsers;
 
-import com.mikolka9144.Models.EventCodecs.ChatMessage;
-import com.mikolka9144.Models.EventCodecs.PurchaseValidationReq;
-import com.mikolka9144.Models.EventCodecs.PurchaseValidationResp;
-import com.mikolka9144.Models.EventCodecs.RoomsPacket;
+import com.mikolka9144.Models.EventCodecs.*;
+import com.mikolka9144.Models.Vector3;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
@@ -65,5 +63,18 @@ public class PacketContentDeserializer{
 
     public static String decodePlayerMessage(byte[] data) {
         return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data)).toString();
+    }
+
+    public static MovementPacket decodeMovementPacket(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        try {
+            return new MovementPacket(reader.getInt(),
+                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat()),
+                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat()),
+                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat())
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
