@@ -1,7 +1,6 @@
 package com.mikolka9144.Utills.ContentParsers;
 
 import com.mikolka9144.Models.EventCodecs.*;
-import com.mikolka9144.Models.Vector3;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
@@ -69,9 +68,9 @@ public class PacketContentDeserializer{
         PacketDataReader reader = new PacketDataReader(data);
         try {
             return new MovementPacket(reader.getInt(),
-                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat()),
-                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat()),
-                    new Vector3(reader.getFloat(), reader.getFloat(), reader.getFloat())
+                    reader.getVector3(),
+                    reader.getVector3(),
+                    reader.getVector3()
             );
         } catch (IOException e) {
             throw new RuntimeException(e);

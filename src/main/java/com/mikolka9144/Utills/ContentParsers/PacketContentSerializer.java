@@ -59,15 +59,9 @@ public class PacketContentSerializer {
     public static byte[] encodeMovementPacket(MovementPacket data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getPlayerId());
-        writer.append(data.getPosition().getX());
-        writer.append(data.getPosition().getY());
-        writer.append(data.getPosition().getZ());
-        writer.append(data.getOrientation().getX());
-        writer.append(data.getOrientation().getY());
-        writer.append(data.getOrientation().getZ());
-        writer.append(data.getUp().getX());
-        writer.append(data.getUp().getY());
-        writer.append(data.getUp().getZ());
+        writer.append(data.getPosition());
+        writer.append(data.getOrientation());
+        writer.append(data.getUp());
         return writer.build();
     }
 }

@@ -39,6 +39,9 @@ public class PacketDataReader {
     }
 
     public float getFloat() throws IOException {
-        return Float.intBitsToFloat(getInt()); //TODO test this
+        return Float.intBitsToFloat(getInt());
+    }
+    public Vector3 getVector3() throws IOException {
+        return new Vector3(getFloat(),getFloat(),getFloat());
     }
 }

@@ -1,6 +1,6 @@
 package com.mikolka9144.Models.EventCodecs;
 
-import com.mikolka9144.Models.Vector3;
+import com.mikolka9144.Utills.PacketParsers.Vector3;
 
 public class MovementPacket {
     private int playerId;

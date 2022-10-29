@@ -53,7 +53,14 @@ public class PacketDataBuilder  {
         return this;
     }
     public PacketDataBuilder append(float value){
-        return this; //TODO
+        append(Float.floatToIntBits(value));
+        return this;
+    }
+    public PacketDataBuilder append(Vector3 value){
+        append(value.getX());
+        append(value.getY());
+        append(value.getZ());
+        return this;
     }
     public byte[] build(){
         return out.toByteArray();

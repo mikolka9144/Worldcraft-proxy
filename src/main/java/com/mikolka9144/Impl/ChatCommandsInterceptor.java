@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ChatCommandsInterceptor extends FullPacketInterceptor {
     private PacketInterceptor serverInterceptor;
+    private boolean isChatEnabled = true;
 
     public ChatCommandsInterceptor(WorldCraftPacketIO connectionIO, PacketInterceptor serverInterceptor) {
         super(connectionIO);
@@ -23,7 +24,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
 
     @Override
     public void interceptPlayerMessage(Packet packet, String message) {
-            if(message.contains("helo moto")){
+            if(message.contains(":moto")){
                 new Thread(() -> {
                     try {
                         connectionIO.send(println("In the notepad",packet.getProtoId()));
@@ -42,7 +43,17 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     }
                 }).start();
                 throw new PacketAlreadyInterceptedException();
+            } else if (message.contains(":chat off")) {
+                isChatEnabled = false;
             }
+            else if (message.contains(":chat on")) {
+                isChatEnabled = true;
+            }
+    }
+
+    @Override
+    public void interceptChatMessage(Packet packet, ChatMessage data) {
+        if(!isChatEnabled) throw new PacketAlreadyInterceptedException();
     }
 
     @Override
