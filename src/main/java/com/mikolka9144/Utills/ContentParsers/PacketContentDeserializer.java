@@ -7,6 +7,8 @@ import com.mikolka9144.Models.EventCodecs.RoomsPacket;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class PacketContentDeserializer{
     public static RoomsPacket decodeRoomsData(byte[] data){
@@ -59,5 +61,9 @@ public class PacketContentDeserializer{
                 reader.getString(),
                 reader.getString(),
                 ChatMessage.MsgType.values()[msgTypeBit]);
+    }
+
+    public static String decodePlayerMessage(byte[] data) {
+        return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data)).toString();
     }
 }

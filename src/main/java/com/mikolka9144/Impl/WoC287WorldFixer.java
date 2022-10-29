@@ -17,7 +17,6 @@ public class WoC287WorldFixer implements HttpInterceptor {
     public byte[] getWorld(int worldId, byte[] worldBin) {
         try {
             List<GzipEntry> files = GZipConverter.unGtar(worldBin);
-            Nbt nbt = new Nbt();
             GzipEntry levelEntry = files.stream().filter(s -> s.getHeader().getName().equals("level.dat")).findFirst().get();
             CompoundTag levelNbt = new Nbt().fromByteArray(levelEntry.getData());
             // Modify
