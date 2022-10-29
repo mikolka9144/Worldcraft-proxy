@@ -1,8 +1,8 @@
 package com.mikolka9144.Worldcraft.ServerComponents.socket;
 
+import com.mikolka9144.Models.Interceptors.ServerInterceptorFunc;
 import com.mikolka9144.Models.Packet.PacketInterceptor;
 import com.mikolka9144.Models.Packet.WorldcraftSocket;
-import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftThreadHandler;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
     private final ServerSocket serverSocket;
     private Function<WorldCraftPacketIO, List<PacketInterceptor>> interceptors;
 
-    public SocketServer(int port, Function<WorldCraftPacketIO, List<PacketInterceptor>> interceptors) throws IOException {
+    public SocketServer(int port, ServerInterceptorFunc interceptors) throws IOException {
         serverSocket = new ServerSocket(port);
         this.interceptors = interceptors;
     }

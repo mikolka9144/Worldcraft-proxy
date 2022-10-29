@@ -2,20 +2,17 @@ package com.mikolka9144.Worldcraft.ServerComponents;
 
 import com.mikolka9144.Impl.*;
 import com.mikolka9144.Models.HttpInterceptor;
-import com.mikolka9144.Models.Interceptors.ServerInterceptorFunc;
 import com.mikolka9144.Models.Interceptors.ClientInterceptorFunc;
-import com.mikolka9144.Models.Packet.PacketInterceptor;
+import com.mikolka9144.Models.Interceptors.ServerInterceptorFunc;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpServer;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpWorldRecever;
 import com.mikolka9144.Worldcraft.ServerComponents.http.HttpWorldUploader;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.SocketServer;
-import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class WorldcraftServer implements Closeable {
 
@@ -23,7 +20,7 @@ public class WorldcraftServer implements Closeable {
 
     private HttpServer httpServer;
 
-    public void createSocketServer(int port, Function<WorldCraftPacketIO, List<PacketInterceptor>> interceptors) throws IOException {
+    public void createSocketServer(int port, ServerInterceptorFunc interceptors) throws IOException {
         socketServer = new SocketServer(port,interceptors);
     }
 
@@ -50,13 +47,8 @@ public class WorldcraftServer implements Closeable {
         server.createSocketServer(
                 SocketServer.WORLD_OF_CRAFT_PORT,
                 io -> {
-                    var official = new PacketOffitialInterceptor(io,s -> {
-                        var resp = new ArrayList<>(respInterceptors.apply(s));
-                        resp.add(new PacketLogger(s));
-                        return resp;
-                    });
+                    var official = new PacketOffitialInterceptor(io, respInterceptors);
                     var ret = new ArrayList<>(reqInterceptors.apply(io,official));
-                    ret.add(new PacketLogger(io));
                     ret.add(official);
                     return ret;
                 }
@@ -84,13 +76,11 @@ public class WorldcraftServer implements Closeable {
                     var official = new PacketOffitialInterceptor(io,s -> {
                         var resp = new ArrayList<>(respInterceptors.apply(s));
                         resp.addAll(List.of(
-                                new PacketConverter(s),
-                                new PacketLogger(s)
+                                new PacketConverter(s)
                         ));
                         return resp;
                     });
                     var ret = new ArrayList<>(reqInterceptors.apply(io,official));
-                    ret.add(new PacketLogger(io));
                     ret.add(official);
                     return ret;
                 }
