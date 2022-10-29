@@ -1,4 +1,4 @@
-package com.mikolka9144.Models;
+package com.mikolka9144.Utills.PacketParsers;
 
 public class Vector3 {
     public Vector3(float x, float y, float z) {
