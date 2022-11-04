@@ -19,7 +19,7 @@ public class PacketContentSerializer {
                     .append(room.getRoomCapacity())
                     .append(room.getNumberOfEntrances())
                     .append(room.getLikes());
-            if(protoFormat.equals(PacketProtocol.WORLD_OF_CRAFT_V_3_8_5)){
+            if(protoFormat.isWorldOfCraft()){
                 builder.append(room.isReadOlny());
             }
         }
@@ -39,17 +39,15 @@ public class PacketContentSerializer {
                 .build();
     }
     public static byte[] encodeChatMessage(ChatMessage data,PacketProtocol protoFormat){
-        switch (protoFormat){
-            case WORLDCRAFT_V_2_8_7,WORLDCRAFT_V_2_7_4 -> {
-                return data.getMessage().getBytes();
-            }
-            default -> {
-                return new PacketDataBuilder()
-                        .append((byte)data.getType().ordinal())
-                        .append(data.getMsgTypeArg())
-                        .append(data.getMessage())
-                        .build();
-            }
+        if(protoFormat.isWorldOfCraft()){
+            return new PacketDataBuilder()
+                    .append((byte)data.getType().ordinal())
+                    .append(data.getMsgTypeArg())
+                    .append(data.getMessage())
+                    .build();
+        }
+        else {
+            return data.getMessage().getBytes();
         }
 
     }
@@ -62,6 +60,57 @@ public class PacketContentSerializer {
         writer.append(data.getPosition());
         writer.append(data.getOrientation());
         writer.append(data.getUp());
+        return writer.build();
+    }
+    public static byte[] encodePlaceBlockReq(BlockData data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getX());
+        writer.append(data.getY());
+        writer.append(data.getZ());
+        writer.append(data.getChunkX());
+        writer.append(data.getChunkZ());
+        writer.append(data.getBlockType());
+        writer.append(data.getBlockData());
+        writer.append(data.getPrevBlockType());
+        writer.append(data.getPrevBlockData());
+        return writer.build();
+    }
+    public static byte[] encodeServerBlocks(ServerBlockData data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getPacketIndex());
+        writer.append(data.getAllPackets());
+        for (BlockData block : data.getBlocks()) {
+            writer.append(block.getX());
+            writer.append(block.getY());
+            writer.append(block.getZ());
+            writer.append(block.getChunkX());
+            writer.append(block.getChunkZ());
+            writer.append(block.getBlockType());
+            writer.append(block.getBlockData());
+        }
+        return writer.build();
+    }
+    public static byte[] encodeServerPlaceBlock(BlockData data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getX());
+        writer.append(data.getY());
+        writer.append(data.getZ());
+        writer.append(data.getChunkX());
+        writer.append(data.getChunkZ());
+        writer.append(data.getBlockType());
+        writer.append(data.getBlockData());
+        return writer.build();
+    }
+    public static byte[] encodeLogin(LoginInfo data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getUsername());
+        writer.append(data.getSkinId());
+        writer.append(data.getClientVer());
+        writer.append(data.getDeviceId());
+        writer.append(data.getDeviceName());
+        writer.append(data.getAndroidVer());
+        writer.append(data.getAndroidAPI());
+        writer.append(data.getMarketName());
         return writer.build();
     }
 }

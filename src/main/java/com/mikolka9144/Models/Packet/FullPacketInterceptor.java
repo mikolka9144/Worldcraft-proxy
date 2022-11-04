@@ -1,7 +1,6 @@
 package com.mikolka9144.Models.Packet;
 
 import com.mikolka9144.Models.EventCodecs.*;
-import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Utills.ContentParsers.PacketContentDeserializer;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
@@ -13,6 +12,7 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
     @Override
     public void InterceptRawPacket(Packet packet) {
         switch (packet.getCommand()){
+            case C_LOGIN_REQ -> this.interceptLogin(packet,PacketContentDeserializer.decodeLogin(packet.getData()));
             case S_ROOM_LIST_RESP -> this.interceptRoomsPacket(packet,
                     PacketContentDeserializer.decodeRoomsData(packet.getData()));
             case C_VALIDATE_PURCHASE_REQ -> this.interceptPurchaseValidationRequest(packet,
@@ -22,9 +22,25 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
             case SB_CHAT_MSG -> this.interceptChatMessage(packet,PacketContentDeserializer.decodeChatMessage(packet.getData()));
             case C_CHAT_MSG -> this.interceptPlayerMessage(packet,PacketContentDeserializer.decodePlayerMessage(packet.getData()));
             case C_PLAYER_MOVE_REQ -> this.interceptPlayerPositionReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()));
+            case C_SET_BLOCK_TYPE_REQ -> this.interceptPlaceBlockReq(packet,PacketContentDeserializer.decodePlaceBlockReq(packet.getData()));
+            case S_MODIFIED_BLOCKS -> this.interceptServerBlocks(packet,PacketContentDeserializer.decodeServerBlocks(packet.getData()));
+            case S_SET_BLOCK_TYPE -> this.interceptServerPlaceBlock(packet,PacketContentDeserializer.decodeServerPlaceBlock(packet.getData()));
+
         }
     }
 
+    public void interceptLogin(Packet packet, LoginInfo data) {
+    }
+
+    public void interceptServerPlaceBlock(Packet packet,BlockData data) {
+    }
+
+    public void interceptPlaceBlockReq(Packet packet,BlockData data){
+
+    }
+    public void interceptServerBlocks(Packet packet,ServerBlockData data){
+
+    }
     public void interceptPlayerPositionReq(Packet packet, MovementPacket data){
 
     }

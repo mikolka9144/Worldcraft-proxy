@@ -6,6 +6,8 @@ import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PacketContentDeserializer{
     public static RoomsPacket decodeRoomsData(byte[] data){
@@ -72,6 +74,74 @@ public class PacketContentDeserializer{
                     reader.getVector3(),
                     reader.getVector3()
             );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static BlockData decodePlaceBlockReq(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        try {
+            return new BlockData(reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getByte(),
+                    reader.getByte(),
+                    reader.getByte(),
+                    reader.getByte());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ServerBlockData decodeServerBlocks(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        try {
+            int curPacket = reader.getInt();
+            int packetCount = reader.getInt();
+            List<BlockData> blocks = new ArrayList<>();
+            while (reader.hasNext(10)){
+                blocks.add(new BlockData(reader.getShort(),
+                        reader.getShort(),
+                        reader.getShort(),
+                        reader.getShort(),
+                        reader.getShort(),
+                        reader.getByte(),
+                        reader.getByte()));
+                reader = new PacketDataReader(reader.getBytes());
+            }
+            return new ServerBlockData(curPacket,packetCount,blocks);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static BlockData decodeServerPlaceBlock(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        try {
+            return new BlockData(reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getShort(),
+                    reader.getByte(),
+                    reader.getByte());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static LoginInfo decodeLogin(byte[] data) {
+        try {
+            PacketDataReader reader = new PacketDataReader(data);
+            return new LoginInfo(
+                    reader.getString(),
+                    reader.getShort(),
+                    reader.getString(),
+                    reader.getString(),
+                    reader.getString(), reader.getString(), reader.getString(), reader.getString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
