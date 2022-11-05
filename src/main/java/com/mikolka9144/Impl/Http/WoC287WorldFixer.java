@@ -1,4 +1,4 @@
-package com.mikolka9144.Impl;
+package com.mikolka9144.Impl.Http;
 
 import com.mikolka9144.Utills.gzip.GZipConverter;
 import com.mikolka9144.Utills.gzip.GzipEntry;
