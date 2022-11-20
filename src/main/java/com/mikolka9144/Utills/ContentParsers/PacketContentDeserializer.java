@@ -136,12 +136,13 @@ public class PacketContentDeserializer{
     public static LoginInfo decodeLogin(byte[] data) {
         try {
             PacketDataReader reader = new PacketDataReader(data);
-            return new LoginInfo(
-                    reader.getString(),
-                    reader.getShort(),
-                    reader.getString(),
-                    reader.getString(),
-                    reader.getString(), reader.getString(), reader.getString(), reader.getString());
+                return new LoginInfo(
+                        reader.getString(),
+                        reader.getShort(),
+                        reader.getString(),
+                        reader.getString(),
+                        reader.getString(), reader.getString(), reader.getString(), reader.getString());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
