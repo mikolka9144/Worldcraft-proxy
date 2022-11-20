@@ -1,8 +1,8 @@
 package com.mikolka9144.Impl;
 
-import com.mikolka9144.Models.Interceptors.ServerInterceptorFunc;
 import com.mikolka9144.Models.Packet.Packet;
 import com.mikolka9144.Models.Packet.PacketInterceptor;
+import com.mikolka9144.Models.Packet.PacketServer;
 import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftClient;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
@@ -10,17 +10,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketOffitialInterceptor extends PacketInterceptor {
+public class PacketOffitialInterceptor extends PacketServer {
 
-    private final WorldcraftClient client;
+    private WorldcraftClient client;
 
-    public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO,
-                                     ServerInterceptorFunc clientInterceptors) {
+    public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO) {
         super(connectionIO);
+    }
+    public void setInterceptors(List<PacketInterceptor> interceptors){
         try {
             client = new WorldcraftClient("64.237.54.60",443,
                     s -> {
-                        List<PacketInterceptor> ret = new ArrayList<>(clientInterceptors.apply(s));
+                        List<PacketInterceptor> ret = new ArrayList<>(interceptors);
                         ret.add(new WritebackInterceptor(s, connectionIO));
                         return ret;
                     });
@@ -29,7 +30,6 @@ public class PacketOffitialInterceptor extends PacketInterceptor {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void InterceptRawPacket(Packet packet) {
         try {
