@@ -1,4 +1,4 @@
-package com.mikolka9144.Utills.ContentParsers;
+package com.mikolka9144.Utills.PacketParsers.ContentParsers;
 
 import com.mikolka9144.Models.EventCodecs.*;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
@@ -145,6 +145,24 @@ public class PacketContentDeserializer{
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static RoomListRequest decodeRoomsReq(byte[] data) {
+        try {
+            PacketDataReader reader = new PacketDataReader(data);
+            return new RoomListRequest(RoomListRequest.RoomsType.values()[reader.getByte()], reader.getInt());
+        } catch (IOException x){
+            throw new RuntimeException(x);
+        }
+    }
+
+    public static PlayerAction decodeEnemyAction(byte[] data) {
+        try {
+            PacketDataReader reader = new PacketDataReader(data);
+            return new PlayerAction(reader.getInt(), PlayerAction.ActionType.values()[reader.getByte()]);
+        } catch (IOException x){
+            throw new RuntimeException(x);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.mikolka9144.Utills.ContentParsers;
+package com.mikolka9144.Utills.PacketParsers.ContentParsers;
 
 import com.mikolka9144.Models.EventCodecs.*;
 import com.mikolka9144.Models.PacketProtocol;
@@ -111,6 +111,18 @@ public class PacketContentSerializer {
         writer.append(data.getAndroidVer());
         writer.append(data.getAndroidAPI());
         writer.append(data.getMarketName());
+        return writer.build();
+    }
+    public static byte[] decodeRoomsReq(RoomListRequest data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append((byte)data.getRoomsType().ordinal());
+        writer.append(data.getStartingIndex());
+        return writer.build();
+    }
+    public static byte[] encodeEnemyAction(PlayerAction data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getPlayerId());
+        writer.append((byte) data.getActionType().ordinal());
         return writer.build();
     }
 }
