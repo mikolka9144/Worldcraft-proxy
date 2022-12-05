@@ -3,7 +3,7 @@ package com.mikolka9144.Impl;
 import com.mikolka9144.Models.EventCodecs.LoginInfo;
 import com.mikolka9144.Models.Packet.FullPacketInterceptor;
 import com.mikolka9144.Models.Packet.Packet;
-import com.mikolka9144.Utills.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.Utills.PacketParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 import java.io.IOException;

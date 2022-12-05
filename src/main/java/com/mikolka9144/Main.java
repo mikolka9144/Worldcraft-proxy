@@ -2,8 +2,10 @@ package com.mikolka9144;
 
 import com.mikolka9144.Impl.ChatCommandsInterceptor;
 import com.mikolka9144.Impl.DeviceSpoofer;
+import com.mikolka9144.Impl.PacketLogger;
 import com.mikolka9144.Impl.PurchaseFaker;
 import com.mikolka9144.Models.Interceptors.ClientInterceptorFunc;
+import com.mikolka9144.Models.PacketProtocol;
 import com.mikolka9144.Worldcraft.ServerComponents.WorldcraftServer;
 
 import java.io.IOException;
@@ -12,8 +14,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         ClientInterceptorFunc reqInterceptors  = (client, server) -> List.of(
-            new ChatCommandsInterceptor(client,server),
-               // new PacketLogger(client),
+            new ChatCommandsInterceptor(client,server, PacketProtocol.WORLDCRAFT_V_2_8_7),
+                new PacketLogger(client),
                 new DeviceSpoofer(client),
                 new PurchaseFaker(client)
         );

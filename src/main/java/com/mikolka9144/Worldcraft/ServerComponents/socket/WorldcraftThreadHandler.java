@@ -6,6 +6,8 @@ import com.mikolka9144.Models.Packet.WorldcraftSocket;
 import com.mikolka9144.Utills.PacketAlreadyInterceptedException;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.nio.BufferUnderflowException;
 import java.util.List;
 
 public abstract class WorldcraftThreadHandler {
@@ -15,7 +17,7 @@ public abstract class WorldcraftThreadHandler {
     private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketInterceptor> socketInter){
         try {
             while (true) {
-                Packet packet = socket.getChannel().recive();
+                    Packet packet = socket.getChannel().recive();
                 for (PacketInterceptor interceptor:socketInter) {
                     try {
                         interceptor.InterceptRawPacket(packet);
@@ -25,8 +27,14 @@ public abstract class WorldcraftThreadHandler {
 
             }
         }
+        catch (SocketException x){
+            System.out.println("Thread died");
+        }
+        catch (BufferUnderflowException ignore){}
         catch (IOException x) {
             System.out.println(x);
+        }
+        finally {
             try {
                 for (PacketInterceptor packetInterceptor : socketInter) {
                     packetInterceptor.close();

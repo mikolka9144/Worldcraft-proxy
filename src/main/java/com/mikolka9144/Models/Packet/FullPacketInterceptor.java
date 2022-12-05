@@ -1,7 +1,7 @@
 package com.mikolka9144.Models.Packet;
 
 import com.mikolka9144.Models.EventCodecs.*;
-import com.mikolka9144.Utills.ContentParsers.PacketContentDeserializer;
+import com.mikolka9144.Utills.PacketParsers.ContentParsers.PacketContentDeserializer;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
 public abstract class FullPacketInterceptor extends PacketInterceptor {
@@ -25,7 +25,8 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
             case C_SET_BLOCK_TYPE_REQ -> this.interceptPlaceBlockReq(packet,PacketContentDeserializer.decodePlaceBlockReq(packet.getData()));
             case S_MODIFIED_BLOCKS -> this.interceptServerBlocks(packet,PacketContentDeserializer.decodeServerBlocks(packet.getData()));
             case S_SET_BLOCK_TYPE -> this.interceptServerPlaceBlock(packet,PacketContentDeserializer.decodeServerPlaceBlock(packet.getData()));
-
+            case C_ROOM_LIST_REQ -> this.interceptRoomsReq(packet,PacketContentDeserializer.decodeRoomsReq(packet.getData()));
+            case S_ENEMY_ACTION -> this.interceptEnemyAction(packet,PacketContentDeserializer.decodeEnemyAction(packet.getData()));
         }
     }
 
@@ -47,6 +48,9 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
     public void interceptEnemyPosition(Packet packet, MovementPacket data){
 
     }
+    public void interceptEnemyAction(Packet packet, PlayerAction data){
+
+    }
     public void interceptChatMessage(Packet packet, ChatMessage data) {
     }
 
@@ -61,6 +65,9 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
     }
 
     public void interceptRoomsPacket(Packet packet, RoomsPacket data) {
+
+    }
+    public void interceptRoomsReq(Packet packet, RoomListRequest data) {
 
     }
 }

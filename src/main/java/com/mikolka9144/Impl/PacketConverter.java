@@ -8,7 +8,7 @@ import com.mikolka9144.Models.Packet.Packet;
 import com.mikolka9144.Models.Packet.PacketCommand;
 import com.mikolka9144.Models.Packet.PacketInterceptor;
 import com.mikolka9144.Models.PacketProtocol;
-import com.mikolka9144.Utills.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.Utills.PacketParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.Utills.PacketParsers.PacketDataReader;
 import com.mikolka9144.Worldcraft.ServerComponents.socket.WorldCraftPacketIO;
 
