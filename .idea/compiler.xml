@@ -6,11 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Worldcraft" />
+        <module name="WoCserver.base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Worldcraft_Proxy" target="17" />
+      <module name="WoCserver.base" target="17" />
+      <module name="WoCserver.cmdExts" target="17" />
+      <module name="WoCserver.legacy" target="17" />
+      <module name="WoCserver.standard" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
