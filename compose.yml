@@ -1,0 +1,6 @@
+services:
+  server:
+    image: mikolka9144/worldcraft
+    ports:
+      - "443:443"
+      - "12530:12530"
