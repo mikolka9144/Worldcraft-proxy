@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="WoCserver" />
         <module name="WoCserver.base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="untitled" target="17" />
       <module name="WoCserver.base" target="17" />
       <module name="WoCserver.cmdExts" target="17" />
       <module name="WoCserver.legacy" target="17" />
