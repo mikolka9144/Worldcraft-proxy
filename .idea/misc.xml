@@ -11,11 +11,15 @@
         <option value="$PROJECT_DIR$/WoCserver.base/WoCserver.standard/pom.xml" />
         <option value="$PROJECT_DIR$/WoCserver.base/WoCserver.legacy/pom.xml" />
         <option value="$PROJECT_DIR$/WoCserver.base/WoCserver.cmdExts/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/WoClegacy/pom.xml" />
+        <option value="$PROJECT_DIR$/config/WoClegacy-build/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/WoCserver.base/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </set>
     </option>
   </component>

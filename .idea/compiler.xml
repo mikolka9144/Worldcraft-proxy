@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="WoCserver" />
-        <module name="WoCserver.base" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="aggregator" target="1.7" />
       <module name="untitled" target="17" />
+      <module name="WoClegacy" target="17" />
+      <module name="WoClegacy-build" target="1.7" />
       <module name="WoCserver.base" target="17" />
       <module name="WoCserver.cmdExts" target="17" />
       <module name="WoCserver.legacy" target="17" />
