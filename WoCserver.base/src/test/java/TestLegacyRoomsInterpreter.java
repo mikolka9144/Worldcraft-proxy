@@ -1,4 +1,4 @@
-import com.mikolka9144.WoCserver.Utills.PacketParsers.PacketDataReader;
+import com.mikolka9144.WoCserver.utills.PacketParsers.PacketDataReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
