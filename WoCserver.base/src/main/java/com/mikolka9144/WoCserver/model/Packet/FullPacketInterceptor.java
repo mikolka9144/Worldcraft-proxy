@@ -1,6 +1,4 @@
 package com.mikolka9144.WoCserver.model.Packet;
-
-import com.mikolka9144.WoCserver.Base.model.EventCodecs.*;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
 import com.mikolka9144.WoCserver.utills.PacketParsers.ContentParsers.PacketContentDeserializer;
 import com.mikolka9144.WoCserver.model.EventCodecs.*;
