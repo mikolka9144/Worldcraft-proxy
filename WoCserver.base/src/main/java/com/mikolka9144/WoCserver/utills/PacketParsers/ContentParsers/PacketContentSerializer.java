@@ -1,6 +1,5 @@
 package com.mikolka9144.WoCserver.utills.PacketParsers.ContentParsers;
 
-import com.mikolka9144.WoCserver.Base.model.EventCodecs.*;
 import com.mikolka9144.WoCserver.model.EventCodecs.*;
 import com.mikolka9144.WoCserver.model.PacketProtocol;
 import com.mikolka9144.WoCserver.utills.PacketParsers.PacketDataBuilder;

@@ -1,8 +1,7 @@
 package com.mikolka9144.WoCserver.utills.PacketParsers.ContentParsers;
 
-import com.mikolka9144.WoCserver.Base.model.EventCodecs.*;
-import com.mikolka9144.WoCserver.utills.PacketParsers.PacketDataReader;
 import com.mikolka9144.WoCserver.model.EventCodecs.*;
+import com.mikolka9144.WoCserver.utills.PacketParsers.PacketDataReader;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
