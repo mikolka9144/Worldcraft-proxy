@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class DefaultWoC {
-    public static void main(String hostname, int port){
+    public static void main(String hostname, int port, int hostingPort){
         ClientInterceptorFunc reqInterceptors  = (client, server) -> List.of(
                 new PurchaseFaker(client)
         );

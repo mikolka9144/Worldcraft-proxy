@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GigachadWoC {
-    public static void main(String hostname, int port) throws IOException {
+    public static void main(String hostname, int port, int hostingPort) throws IOException {
         WorldcraftServer server = new WorldcraftServer();
         server.createHttpServer(
                     HttpServer.WORLDCRAFRT_HTTP_PORT,
