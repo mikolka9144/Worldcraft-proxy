@@ -35,7 +35,7 @@ public class WorldcraftServer implements Closeable {
         httpServer = new HttpServer(port,httpDownloader,httpUploaders);
     }
     public static WorldcraftServer configureWorldcraftDefault(
-            ClientInterceptorFunc reqInterceptors,String hostname,int port) throws IOException {
+            ClientInterceptorFunc reqInterceptors,String hostname,int port,int hostingPort) throws IOException {
         WorldcraftServer server = new WorldcraftServer();
         server.createHttpServer(
                 HttpServer.WORLD_OF_CRAFRT_HTTP_PORT,

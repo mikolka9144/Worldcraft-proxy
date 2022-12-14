@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class CmdExt {
-    public static void main(String hostname, int port) {
+    public static void main(String hostname, int port, int hostingPort) {
         ClientInterceptorFunc reqInterceptors  = (client, server) -> List.of(
                 new ChatCommandsInterceptor(client,server),
                 new PacketLogger(client),
