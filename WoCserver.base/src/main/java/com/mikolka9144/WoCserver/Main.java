@@ -1,29 +1,30 @@
 package com.mikolka9144.WoCserver;
 
-import com.mikolka9144.WoCserver.config.CmdExt;
-import com.mikolka9144.WoCserver.config.GigachadWoC;
-import com.mikolka9144.WoCserver.config.DefaultWoC;
+import com.mikolka9144.WoCserver.logic.WorldcraftServer;
 import com.mikolka9144.WoCserver.model.ServerConfig;
-import lombok.val;
-import lombok.var;
+import com.mikolka9144.WoCserver.logic.ConfigurationBuilder;
+
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args){
-        ServerConfig config;
-        try {
-
-             //
-
-            }
+    public static void main(String[] args) throws IOException {
+        if(args.length==0){
+            System.out.println(String.join("\n",
+                    "You need to specify configuration for a server",
+                    "Avaliable configurations: default legacy cmd",
+                    "Avaliable presets are: cmd-proxy official legacial",
+                    "Argument layouts:",
+                    "./server <config> <target-hostname> <target-http-port> <target-socket-port> <host-http-port> <host-socket-port>",
+                    "./server <preset>"));
+        } else if (args.length != 6 && args.length != 1) {
+            System.out.println(String.join("\n",
+                    "Argument layout ./server <config> <target-hostname> <target-http-port> <target-socket-port> <host-http -port> <host-socket-port>",
+                    "Avaliable presets are: cmd-proxy official legacial"));
         }
-        catch (Exception x){
-
-            System.out.println("You need to specify configuration for a server");
-            System.out.println("Avaliable configurations: default legacy cmd");
-            System.out.println("Avaliable presets are: cmd-proxy official legacial");
-            System.out.println("Argument layout ./server <config/preset> <target-hostname> <target-port> <host-port>");
+        else {
+            ServerConfig config = ConfigurationBuilder.configureFromArgs(args);
+            var server = WorldcraftServer.configure(config);
+            server.start();
         }
-
-
     }
 }
