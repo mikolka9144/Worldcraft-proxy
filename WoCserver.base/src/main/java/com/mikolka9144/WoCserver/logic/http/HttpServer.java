@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class HttpServer implements Closeable {
     public static final int WORLD_OF_CRAFRT_HTTP_PORT = 80;
-    public static final int WORLDCRAFRT_HTTP_PORT = 8080;
+    public static final int WORLDCRAFT_HTTP_PORT = 8080;
     private final com.sun.net.httpserver.HttpServer httpServer;
     private final HttpWorldRecever httpRecever;
 

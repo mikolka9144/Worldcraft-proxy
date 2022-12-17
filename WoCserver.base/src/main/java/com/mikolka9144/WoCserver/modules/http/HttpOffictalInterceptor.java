@@ -9,12 +9,20 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class HttpOffictalInterceptor implements HttpInterceptor {
+    private final String hostname;
+    private final int port;
+
+    public HttpOffictalInterceptor(String hostname, int port){
+
+        this.hostname = hostname;
+        this.port = port;
+    }
     @Override
     public byte[] getWorld(int worldId,byte[] worldBin) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://worldcraft.solverlabs.com/worldcraft-web/rooms/"+worldId+"/game.tar.gz"))
+                .uri(URI.create(String.format("http://%s:%d/worldcraft-web/rooms/%d/game.tar.gz",hostname,port,worldId)))
                 .build();
         try {
             HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
@@ -30,7 +38,7 @@ public class HttpOffictalInterceptor implements HttpInterceptor {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofByteArray(worldBin))
                 .setHeader("Content-type",ContentType)
-                .uri(URI.create("http://worldcraft.solverlabs.com/worldcraft-web/upload"))
+                .uri(URI.create(String.format("http://%s:%d/worldcraft-web/upload",hostname,port)))
                 .build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofByteArray());
