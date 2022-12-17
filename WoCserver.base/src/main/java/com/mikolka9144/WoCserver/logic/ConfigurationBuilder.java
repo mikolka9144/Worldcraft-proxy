@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.function.Function;
 
 public class ConfigurationBuilder {
-    public static ServerConfig configureFromArgs(String[] args){
-        String config_str = args[0];
-        switch (config_str){
-            case "official" ->{
+    public static ServerConfig configure(ServerPreset preset){
+        switch (preset){
+            case Official ->{
                 return configure(ConfigPreset.Default,
                     "64.237.54.60",
                     80,
@@ -28,7 +27,7 @@ public class ConfigurationBuilder {
                     80,
                     SocketServer.WORLD_OF_CRAFT_PORT);
             }
-            case "legacial" ->{
+            case Legacial ->{
                 return configure(ConfigPreset.Legacy,
                         "64.237.54.60",
                         HttpServer.WORLD_OF_CRAFRT_HTTP_PORT,
@@ -36,11 +35,8 @@ public class ConfigurationBuilder {
                         HttpServer.WORLDCRAFT_HTTP_PORT,
                         SocketServer.WORLDCRAFT_PORT);
             }
-            default -> { //443
-                var config = ConfigPreset.valueOf(config_str);
-                return configure(config,args[1], Integer.parseInt(args[2]),Integer.parseInt(args[3]),Integer.parseInt(args[4]),Integer.parseInt(args[5]));
-            }
         }
+        throw new IllegalStateException("UNIMPLEMENTED PRESET REQUESTED!!!("+preset.name()+")");
     }
     public static ServerConfig configure(ConfigPreset preset, String targetServer, int targetServerHttpPort, int targetServerSocketPort, int hostingHttpPort, int hostingSocketPort){
         ClientInterceptorFunc socketPreset = null;
@@ -73,9 +69,13 @@ public class ConfigurationBuilder {
 
         return new ServerConfig(hostingSocketPort,hostingHttpPort,socketPreset,httpDownloadPreset,serverCreator);
     }
-    enum ConfigPreset {
+    public enum ConfigPreset {
         Default,
         Legacy,
         Cmd
+    }
+    public enum ServerPreset{
+        Official,
+        Legacial
     }
 }
