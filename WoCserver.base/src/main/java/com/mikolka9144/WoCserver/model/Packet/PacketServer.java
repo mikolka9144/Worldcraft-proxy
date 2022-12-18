@@ -1,6 +1,7 @@
 package com.mikolka9144.WoCserver.model.Packet;
 
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 
 import java.util.List;
 

@@ -2,10 +2,10 @@ package com.mikolka9144.WoCserver.modules.socket;
 
 import com.mikolka9144.WoCserver.model.EventCodecs.BlockData;
 import com.mikolka9144.WoCserver.model.EventCodecs.ChatMessage;
-import com.mikolka9144.WoCserver.model.Packet.FullPacketInterceptor;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.Packet;
 import com.mikolka9144.WoCserver.model.Packet.PacketCommand;
-import com.mikolka9144.WoCserver.model.Packet.PacketInterceptor;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.PacketProtocol;
 import com.mikolka9144.WoCserver.utills.PacketParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.WoCserver.utills.PacketAlreadyInterceptedException;

@@ -1,6 +1,5 @@
-package com.mikolka9144.WoCserver.model.Interceptors;
+package com.mikolka9144.WoCserver.model.Packet.Interceptors;
 
-import com.mikolka9144.WoCserver.model.Packet.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.PacketServer;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
 

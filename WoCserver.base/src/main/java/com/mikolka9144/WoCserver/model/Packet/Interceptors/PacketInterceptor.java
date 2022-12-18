@@ -1,6 +1,7 @@
-package com.mikolka9144.WoCserver.model.Packet;
+package com.mikolka9144.WoCserver.model.Packet.Interceptors;
 
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
+import com.mikolka9144.WoCserver.model.Packet.Packet;
 
 import java.io.Closeable;
 
