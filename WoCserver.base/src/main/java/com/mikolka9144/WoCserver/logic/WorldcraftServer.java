@@ -5,10 +5,8 @@ import com.mikolka9144.WoCserver.logic.http.HttpWorldRecever;
 import com.mikolka9144.WoCserver.logic.http.HttpWorldUploader;
 import com.mikolka9144.WoCserver.logic.socket.SocketServer;
 import com.mikolka9144.WoCserver.model.ServerConfig;
-import com.mikolka9144.WoCserver.modules.http.HttpOffictalInterceptor;
-import com.mikolka9144.WoCserver.modules.socket.PacketOffitialInterceptor;
 import com.mikolka9144.WoCserver.model.HttpInterceptor;
-import com.mikolka9144.WoCserver.model.Interceptors.ClientInterceptorFunc;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.ClientInterceptorFunc;
 import com.mikolka9144.WoCserver.model.Packet.PacketServer;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
 

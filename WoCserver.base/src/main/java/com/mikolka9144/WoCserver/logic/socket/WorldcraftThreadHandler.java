@@ -1,7 +1,7 @@
 package com.mikolka9144.WoCserver.logic.socket;
 
 import com.mikolka9144.WoCserver.model.Packet.Packet;
-import com.mikolka9144.WoCserver.model.Packet.PacketInterceptor;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.WorldcraftSocket;
 import com.mikolka9144.WoCserver.utills.PacketAlreadyInterceptedException;
 

@@ -1,7 +1,7 @@
 package com.mikolka9144.WoCserver.modules.socket;
 
 import com.mikolka9144.WoCserver.model.EventCodecs.LoginInfo;
-import com.mikolka9144.WoCserver.model.Packet.FullPacketInterceptor;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.Packet;
 import com.mikolka9144.WoCserver.utills.PacketParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
