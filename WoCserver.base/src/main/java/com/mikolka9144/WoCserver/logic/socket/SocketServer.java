@@ -8,6 +8,7 @@ import com.mikolka9144.WoCserver.model.Packet.WorldcraftSocket;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -15,7 +16,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
     public static final int WORLD_OF_CRAFT_PORT = 443;
     public static final int WORLDCRAFT_PORT = 12530;
     private final ServerSocket serverSocket;
-    private ClientInterceptorFunc interceptors;
+    private final ClientInterceptorFunc interceptors;
     private final Function<WorldCraftPacketIO,PacketServer> endpoint;
 
     public SocketServer(int port, ClientInterceptorFunc interceptors, Function<WorldCraftPacketIO,PacketServer> endpoint) throws IOException {
@@ -28,6 +29,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
             WorldcraftSocket socket = new WorldcraftSocket(serverSocket.accept());
             PacketServer server = endpoint.apply(socket.getChannel());
             List<PacketInterceptor> socketInter = interceptors.apply(socket.getChannel(),server);
+            server.setInterceptors(new ArrayList<>(socketInter));
             socketInter.add(server);
             attachToThread(socket,socketInter);
         }

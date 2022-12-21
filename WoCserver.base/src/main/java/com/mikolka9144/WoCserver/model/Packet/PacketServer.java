@@ -10,6 +10,10 @@ public abstract class PacketServer extends PacketInterceptor {
         super(connectionIO);
     }
 
+    /**
+     * @param interceptors
+     * interceptors for a client (creates as a separate list)
+     */
     public void setInterceptors(List<PacketInterceptor> interceptors) {
     }
 }

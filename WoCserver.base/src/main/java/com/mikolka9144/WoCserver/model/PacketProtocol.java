@@ -8,14 +8,15 @@ public enum PacketProtocol{
     WORLDCRAFT_V_2_7_4(0,false),
     SERVER(7,true),
     WORLD_OF_CRAFT_V_3_8_5(70,true),
-    WORLD_OF_CRAFT_V_3_8_6(71,true);
-    private int Proto;
+    WORLD_OF_CRAFT_V_3_8_6(71,true),
+    WORLD_OF_CRAFT_V_3_8_7(72,true);
+    private final int Proto;
 
     public boolean isWorldOfCraft() {
         return isWorldOfCraft;
     }
 
-    private boolean isWorldOfCraft;
+    private final boolean isWorldOfCraft;
 
     public int getProto() {
         return Proto;

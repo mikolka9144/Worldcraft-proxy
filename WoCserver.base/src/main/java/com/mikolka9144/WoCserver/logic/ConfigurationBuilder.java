@@ -55,7 +55,6 @@ public class ConfigurationBuilder {
                     var ret = new ArrayList<PacketInterceptor>();
                     ret.add(0,new PacketConverter.Early(io));
                     ret.add(new PacketConverter.Late(io));
-                    server.setInterceptors(ret);
                     return ret;
                 };
                 httpDownloadPreset.add(new WoC287WorldFixer());

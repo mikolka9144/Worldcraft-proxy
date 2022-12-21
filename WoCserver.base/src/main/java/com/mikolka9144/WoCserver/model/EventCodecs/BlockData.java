@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class BlockData {
     private short x;
     private short y;
