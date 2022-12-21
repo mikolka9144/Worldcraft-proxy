@@ -1,40 +1,17 @@
 package com.mikolka9144.WoCserver.model.EventCodecs;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class ChatMessage {
-    private String message;
     private String msgTypeArg;
-
-    public ChatMessage(String msgTypeArg, String message, MsgType type) {
-        this.message = message;
-        this.msgTypeArg = msgTypeArg;
-        this.type = type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getMsgTypeArg() {
-        return msgTypeArg;
-    }
-
-    public void setMsgTypeArg(String msgTypeArg) {
-        this.msgTypeArg = msgTypeArg;
-    }
-
-    public MsgType getType() {
-        return type;
-    }
-
-    public void setType(MsgType type) {
-        this.type = type;
-    }
-
+    private String message;
     private MsgType type;
+
     public enum MsgType{
         STANDARD,
         PLAYER_JOINED,

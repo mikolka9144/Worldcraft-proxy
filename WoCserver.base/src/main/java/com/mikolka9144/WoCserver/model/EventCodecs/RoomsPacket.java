@@ -22,9 +22,9 @@ public class RoomsPacket {
         this.initialRoomListSize = initialRoomListSize;
         this.roomType = roomType;
     }
-    @AllArgsConstructor
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class Room {
         private int Id;
         private String name;

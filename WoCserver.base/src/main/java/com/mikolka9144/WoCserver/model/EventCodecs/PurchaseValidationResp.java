@@ -1,5 +1,12 @@
 package com.mikolka9144.WoCserver.model.EventCodecs;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class PurchaseValidationResp {
     public enum Status{
         NULL,
@@ -7,28 +14,6 @@ public class PurchaseValidationResp {
         Fail,
         Retry
     }
-
-    public PurchaseValidationResp(Status status, String receipt) {
-        this.status = status;
-        this.receipt = receipt;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(String receipt) {
-        this.receipt = receipt;
-    }
-
     private Status status;
     private String receipt;
 }

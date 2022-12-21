@@ -1,13 +1,12 @@
 package com.mikolka9144.WoCserver.modules.socket;
 
-import com.mikolka9144.WoCserver.model.Packet.Packet;
-import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
-import com.mikolka9144.WoCserver.model.Packet.PacketServer;
 import com.mikolka9144.WoCserver.logic.WorldcraftClient;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
+import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
+import com.mikolka9144.WoCserver.model.Packet.Packet;
+import com.mikolka9144.WoCserver.model.Packet.PacketServer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PacketOffitialInterceptor extends PacketServer {
@@ -25,9 +24,8 @@ public class PacketOffitialInterceptor extends PacketServer {
         try {
             client = new WorldcraftClient(hostname,port,
                     s -> {
-                        List<PacketInterceptor> ret = new ArrayList<>(interceptors);
-                        ret.add(new WritebackInterceptor(s, connectionIO));
-                        return ret;
+                        interceptors.add(new WritebackInterceptor(s, connectionIO));
+                        return interceptors;
                     });
 
         } catch (IOException e) {
@@ -47,7 +45,7 @@ public class PacketOffitialInterceptor extends PacketServer {
         client.close();
     }
     private static class WritebackInterceptor extends PacketInterceptor{
-        private WorldCraftPacketIO out;
+        private final WorldCraftPacketIO out;
 
         public WritebackInterceptor(WorldCraftPacketIO in, WorldCraftPacketIO out){
             super(in);
