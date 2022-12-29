@@ -1,34 +1,21 @@
 package com.mikolka9144.WoCserver.modules.http;
 
-import com.mikolka9144.WoCserver.utills.gzip.GZipConverter;
-import com.mikolka9144.WoCserver.utills.gzip.GzipEntry;
 import com.mikolka9144.WoCserver.model.HttpInterceptor;
-import dev.dewy.nbt.Nbt;
-import dev.dewy.nbt.tags.collection.CompoundTag;
+import com.mikolka9144.WoCserver.utills.level.World;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class WoC287WorldFixer implements HttpInterceptor {
     @Override
     public byte[] getWorld(int worldId, byte[] worldBin) {
         try {
-            List<GzipEntry> files = GZipConverter.unGtar(worldBin);
-            GzipEntry levelEntry = files.stream().filter(s -> s.getHeader().getName().equals("level.dat")).findFirst().get();
-            CompoundTag levelNbt = new Nbt().fromByteArray(levelEntry.getData());
+            World world = World.fromTarGzBin(worldBin);
             // Modify
-            if(!levelNbt.getCompound("Data").contains("LastPlayed")){
-                levelNbt.getCompound("Data").putLong("LastPlayed",0);
+            if(!world.level_dat.getCompound("Data").contains("LastPlayed")){
+                world.level_dat.getCompound("Data").putLong("LastPlayed",0);
             }
             //Saving
-            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-            DataOutput dataOutput = new DataOutputStream(byteOut);
-            new Nbt().toStream(levelNbt,dataOutput);
-            levelEntry.setData(byteOut.toByteArray());
-            return GZipConverter.Gtarify(files);
+            return world.toTarGzBin();
         }
         catch (IOException e) {
             throw new RuntimeException(e);

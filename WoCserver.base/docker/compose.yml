@@ -2,5 +2,7 @@ services:
   server:
     image: mikolka9144/worldcraft
     ports:
-      - "443:443"
+      - "8080:8080"
       - "12530:12530"
+      - "80:80"
+      - "443:443"

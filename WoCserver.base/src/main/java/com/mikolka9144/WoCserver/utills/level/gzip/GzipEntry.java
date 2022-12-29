@@ -1,8 +1,6 @@
-package com.mikolka9144.WoCserver.utills.gzip;
+package com.mikolka9144.WoCserver.utills.level.gzip;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-
-import java.io.IOException;
 
 public class GzipEntry {
     private TarArchiveEntry header;
@@ -21,23 +19,12 @@ public class GzipEntry {
     public void setHeader(TarArchiveEntry header) {
         this.header = header;
     }
-    public byte[] getGzipedData(){
-        return data;
-    }
     public byte[] getData() {
-        try {
-            return GZipConverter.unGzip(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return data;
     }
 
     public void setData(byte[] data) {
-        try {
-            this.data = GZipConverter.Gzipify(data);
+            this.data = data;
             header.setSize(this.data.length);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

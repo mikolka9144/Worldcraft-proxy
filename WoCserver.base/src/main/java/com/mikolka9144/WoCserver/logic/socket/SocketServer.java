@@ -28,7 +28,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
         while (true){
             WorldcraftSocket socket = new WorldcraftSocket(serverSocket.accept());
             PacketServer server = endpoint.apply(socket.getChannel());
-            List<PacketInterceptor> socketInter = interceptors.apply(socket.getChannel(),server);
+            List<PacketInterceptor> socketInter = new ArrayList<>(interceptors.apply(socket.getChannel(),server));
             server.setInterceptors(new ArrayList<>(socketInter));
             socketInter.add(server);
             attachToThread(socket,socketInter);

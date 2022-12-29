@@ -5,7 +5,6 @@ import com.mikolka9144.WoCserver.logic.socket.SocketServer;
 import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
 import com.mikolka9144.WoCserver.model.HttpInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.Interceptors.ClientInterceptorFunc;
-import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.PacketServer;
 import com.mikolka9144.WoCserver.model.ServerConfig;
 import com.mikolka9144.WoCserver.modules.http.HttpOffictalInterceptor;
@@ -51,12 +50,10 @@ public class ConfigurationBuilder {
                     new PurchaseFaker(client)
             );
             case Legacy -> {
-                socketPreset = (io,server) -> {
-                    var ret = new ArrayList<PacketInterceptor>();
-                    ret.add(0,new PacketConverter.Early(io));
-                    ret.add(new PacketConverter.Late(io));
-                    return ret;
-                };
+                socketPreset = (io,server) -> List.of(
+                  new PacketConverter.Early(io),
+                  new PacketConverter.Late(io)
+                );
                 httpDownloadPreset.add(new WoC287WorldFixer());
             }
             case Cmd -> socketPreset = (client, server) -> List.of(
