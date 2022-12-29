@@ -1,4 +1,4 @@
-package com.mikolka9144.WoCserver.utills.gzip;
+package com.mikolka9144.WoCserver.utills.level.gzip;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -31,7 +31,7 @@ public class GZipConverter {
         TarArchiveOutputStream gzip = new TarArchiveOutputStream(out);
         for (GzipEntry file : entries) {
             gzip.putArchiveEntry(file.getHeader());
-            IOUtils.copy(new ByteArrayInputStream(file.getGzipedData()),gzip);
+            IOUtils.copy(new ByteArrayInputStream(file.getData()),gzip);
             gzip.closeArchiveEntry();
         }
         gzip.close();
