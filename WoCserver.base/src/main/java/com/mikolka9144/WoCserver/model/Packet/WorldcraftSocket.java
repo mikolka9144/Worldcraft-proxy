@@ -8,10 +8,13 @@ import java.net.Socket;
 
 public class WorldcraftSocket implements Closeable {
     private final WorldCraftPacketIO channel;
-    private Socket rawSocket;
+    private final String connectedIp;
+
+    private final Socket rawSocket;
 
     public WorldcraftSocket(Socket rawSocket) throws IOException {
         channel = new WorldCraftPacketIO(rawSocket.getInputStream(),rawSocket.getOutputStream());
+        connectedIp = rawSocket.getInetAddress().toString();
         this.rawSocket = rawSocket;
     }
 
@@ -22,5 +25,9 @@ public class WorldcraftSocket implements Closeable {
 
     public WorldCraftPacketIO getChannel() {
         return channel;
+    }
+
+    public String getConnectedIp() {
+        return connectedIp;
     }
 }

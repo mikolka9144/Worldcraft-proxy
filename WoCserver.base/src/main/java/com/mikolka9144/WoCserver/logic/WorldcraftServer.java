@@ -4,11 +4,13 @@ import com.mikolka9144.WoCserver.logic.http.HttpServer;
 import com.mikolka9144.WoCserver.logic.http.HttpWorldRecever;
 import com.mikolka9144.WoCserver.logic.http.HttpWorldUploader;
 import com.mikolka9144.WoCserver.logic.socket.SocketServer;
-import com.mikolka9144.WoCserver.model.ServerConfig;
-import com.mikolka9144.WoCserver.model.HttpInterceptor;
+import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
+import com.mikolka9144.WoCserver.model.HttpDownloadInterceptor;
+import com.mikolka9144.WoCserver.model.HttpUploadInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.Interceptors.ClientInterceptorFunc;
 import com.mikolka9144.WoCserver.model.Packet.PacketServer;
-import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
+import com.mikolka9144.WoCserver.model.ServerConfig;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-
+@Slf4j
 public class WorldcraftServer implements Closeable {
 
     private SocketServer socketServer;
@@ -25,13 +27,13 @@ public class WorldcraftServer implements Closeable {
 
     public static WorldcraftServer configure(ServerConfig config) throws IOException {
         WorldcraftServer server = new WorldcraftServer();
-
+        log.info(String.format("Creating Server: httpHost %d socketHost %d",config.getHostingHttpPort(),config.getHostingSocketPort()));
         var httpUploaders = new ArrayList<>(config.getHttpDownloadInterceptors());
         Collections.reverse(httpUploaders);
         server.createHttpServer(
                 config.getHostingHttpPort(),
                 config.getHttpDownloadInterceptors(),
-                httpUploaders
+                config.getHttpUploadInterceptors()
         );
         server.createSocketServer(
                 config.getHostingSocketPort(),
@@ -45,11 +47,10 @@ public class WorldcraftServer implements Closeable {
         socketServer = new SocketServer(port,interceptors,server);
     }
 
-    public void createHttpServer(int port, List<HttpInterceptor> receivers, List<HttpInterceptor> uploaders) throws IOException {
-        HttpWorldRecever httpDownloader = new HttpWorldRecever();
-        httpDownloader.getDownloadInterceptors().addAll(receivers);
-        HttpWorldUploader httpUploaders = new HttpWorldUploader();
-        httpUploaders.getUploadInterceptors().addAll(uploaders);
+    public void createHttpServer(int port, List<HttpDownloadInterceptor> receivers, List<HttpUploadInterceptor> uploaders) {
+        HttpWorldRecever httpDownloader = new HttpWorldRecever(receivers);
+        HttpWorldUploader httpUploaders = new HttpWorldUploader(uploaders);
+
         httpServer = new HttpServer(port,httpDownloader,httpUploaders);
     }
 
@@ -60,6 +61,7 @@ public class WorldcraftServer implements Closeable {
     }
 
     public void start() throws IOException {
+        httpServer.start();
         socketServer.start();
     }
 }

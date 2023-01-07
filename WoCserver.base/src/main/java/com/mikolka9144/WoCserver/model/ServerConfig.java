@@ -17,6 +17,7 @@ public class ServerConfig {
     private int HostingSocketPort;
     private int HostingHttpPort;
     private ClientInterceptorFunc reqInterceptors;
-    private List<HttpInterceptor> httpDownloadInterceptors;
+    private List<HttpDownloadInterceptor> httpDownloadInterceptors;
+    private List<HttpUploadInterceptor> httpUploadInterceptors;
     private Function<WorldCraftPacketIO,PacketServer> packetServer;
 }
