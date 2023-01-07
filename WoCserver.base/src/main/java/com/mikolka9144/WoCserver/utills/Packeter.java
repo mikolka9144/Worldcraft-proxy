@@ -23,9 +23,9 @@ public class Packeter {
 
     public void println(String text) {
         if(clientProto.isWorldOfCraft()){
-            text = "[FFFFFF]"+text;
+            text = "[D7EF00]>"+text;
         }
-        var chatMsg = new ChatMessage(text, text, ChatMessage.MsgType.PLAYER_JOINED);
+        var chatMsg = new ChatMessage(text, text, ChatMessage.MsgType.STANDARD);
         try {
             client.send(new Packet(PacketProtocol.SERVER, 0, PacketCommand.SB_CHAT_MSG, "", (byte) 0,
                     PacketContentSerializer.encodeChatMessage(chatMsg)));

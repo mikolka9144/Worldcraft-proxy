@@ -5,10 +5,11 @@ import com.mikolka9144.WoCserver.logic.socket.WorldCraftPacketIO;
 import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.Packet;
 import com.mikolka9144.WoCserver.model.Packet.PacketServer;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
-
+@Slf4j
 public class PacketOffitialInterceptor extends PacketServer {
 
     private final String hostname;
@@ -22,14 +23,16 @@ public class PacketOffitialInterceptor extends PacketServer {
     }
     public void setInterceptors(List<PacketInterceptor> interceptors){
         try {
+            log.info(String.format("Attempting to connect to %s:%d",hostname,port));
             client = new WorldcraftClient(hostname,port,
                     s -> {
                         interceptors.add(new WritebackInterceptor(s, connectionIO));
                         return interceptors;
                     });
-
+            log.info(String.format("Connected to %s:%d",hostname,port));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.info(String.format("Couldn't connect to %s:%d",hostname,port));
+            log.debug(e.getMessage());
         }
     }
     @Override

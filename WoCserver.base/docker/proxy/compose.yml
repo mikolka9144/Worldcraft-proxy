@@ -1,0 +1,13 @@
+services:
+  server-legacy:
+    image: mikolka9144/worldcraft-legacy-proxy
+    tty: true
+    ports:
+      - "8080:8080"
+      - "12530:12530"
+  server-official:
+    image: mikolka9144/worldcraft-official-proxy
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"

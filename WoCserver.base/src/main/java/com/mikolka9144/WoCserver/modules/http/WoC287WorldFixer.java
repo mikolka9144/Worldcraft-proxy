@@ -1,11 +1,11 @@
 package com.mikolka9144.WoCserver.modules.http;
 
-import com.mikolka9144.WoCserver.model.HttpInterceptor;
+import com.mikolka9144.WoCserver.model.HttpDownloadInterceptor;
 import com.mikolka9144.WoCserver.utills.level.World;
 
 import java.io.IOException;
 
-public class WoC287WorldFixer implements HttpInterceptor {
+public class WoC287WorldFixer implements HttpDownloadInterceptor {
     @Override
     public byte[] getWorld(int worldId, byte[] worldBin) {
         try {
@@ -21,11 +21,4 @@ public class WoC287WorldFixer implements HttpInterceptor {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public byte[] uploadWorld(byte[] worldBin, String ContentType) {
-        return worldBin;
-    }
-
-
 }

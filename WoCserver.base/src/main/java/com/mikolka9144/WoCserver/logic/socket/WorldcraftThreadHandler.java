@@ -4,12 +4,13 @@ import com.mikolka9144.WoCserver.model.Packet.Packet;
 import com.mikolka9144.WoCserver.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.WoCserver.model.Packet.WorldcraftSocket;
 import com.mikolka9144.WoCserver.utills.PacketAlreadyInterceptedException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.util.List;
-
+@Slf4j
 public abstract class WorldcraftThreadHandler {
     protected void attachToThread(WorldcraftSocket socket, List<PacketInterceptor> socketInter){
         new Thread(() -> worldcraftClientHandler(socket,socketInter)).start();
@@ -28,11 +29,12 @@ public abstract class WorldcraftThreadHandler {
             }
         }
         catch (SocketException x){
-            System.out.println("Thread died");
+            log.warn(socket.getConnectedIp()+" closed connection");
+            log.debug(x.getMessage());
         }
         catch (BufferUnderflowException ignore){}
         catch (IOException x) {
-            System.out.println(x);
+            log.error(x.getMessage());
         }
         finally {
             try {
@@ -41,7 +43,7 @@ public abstract class WorldcraftThreadHandler {
                 }
             }
             catch (IOException y){
-                System.out.println(y);
+                log.error("Failed to close socket for "+socket.getConnectedIp());
             }
         }
     }
