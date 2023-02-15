@@ -1,0 +1,19 @@
+
+`	java:S112>"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+a	java:S112†"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+a
+java:S1301B"KReplace this "switch" statement by "if" statements to increase readability.(‚¹îƒ
+{
+java:S1488¤"_Immediately return this expression instead of assigning it to the temporary variable "message".(Þ•ÍÈøÿÿÿÿ
+C
+java:S5411&"(Use a primitive boolean expression here.(‹àïÅùÿÿÿÿ
+>
+java:S5411d"(Use a primitive boolean expression here.(½ý”™
+h
+java:S3776$"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ô´Œ§
+t
+java:S2142="^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+7	java:S131B""Add a default case to this switch.(‚¹îƒ
+V	java:S125u"<This block of commented-out lines of code should be removed.(‘ƒü„ÿÿÿÿÿ
+R	java:S125Š"<This block of commented-out lines of code should be removed.(ê¢Æˆ
+R	java:S125­"<This block of commented-out lines of code should be removed.(œË­

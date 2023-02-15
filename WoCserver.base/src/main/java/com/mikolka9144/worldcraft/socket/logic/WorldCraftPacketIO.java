@@ -3,8 +3,8 @@ package com.mikolka9144.worldcraft.socket.logic;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.PacketDataBuilder;
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.PacketDataReader;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketDataBuilder;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketDataReader;
 
 import java.io.IOException;
 import java.io.InputStream;

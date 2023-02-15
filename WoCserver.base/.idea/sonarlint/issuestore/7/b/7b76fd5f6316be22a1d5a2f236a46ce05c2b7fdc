@@ -1,0 +1,6 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÿãÄ
+^
+java:S1610"AConvert the abstract class "PacketInterceptor" into an interface.(³ùà‘8‹±ç£ç0
+c	java:S100
+"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±–Ò

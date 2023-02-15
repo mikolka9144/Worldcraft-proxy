@@ -1,0 +1,12 @@
+
+`	java:S112*"FDefine and throw a dedicated exception instead of using a generic one.(¯åÕøÿÿÿÿ
+`	java:S112J"FDefine and throw a dedicated exception instead of using a generic one.(¯åÕøÿÿÿÿ
+a
+java:S1301"KReplace this "switch" statement by "if" statements to increase readability.(š«¸
+F
+java:S16115"0Remove the parentheses around the "io" parameter(ÂÆ
+o	java:S115S"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¨ç´Ñ
+t	java:S115T"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ìá‹Æıÿÿÿÿ
+o	java:S115U"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ïŒÒË
+t	java:S115X"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(±Ìïÿÿÿÿÿ
+t	java:S115Y"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ğˆ¢›ùÿÿÿÿ
