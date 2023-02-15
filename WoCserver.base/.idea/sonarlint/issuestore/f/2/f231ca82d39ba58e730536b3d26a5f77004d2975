@@ -1,8 +1,0 @@
-
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‹¤›ñ
-l	java:S116"RRename this field "ProtoId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·ßßíûÿÿÿÿ
-h	java:S116"SRename this field "PlayerId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²Öù¦
-f	java:S116"RRename this field "Command" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö°óe
-f	java:S116"RRename this field "Message" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Âóy
-e	java:S116"PRename this field "Error" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ßÿ²«
-i	java:S116"ORename this field "Data" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†åÑ˜øÿÿÿÿ

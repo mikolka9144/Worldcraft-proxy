@@ -1,15 +1,0 @@
-
-A
-java:S4524
-"+Move this default to the end of the switch.(üØô
-N	java:S106"9Replace this use of System.out or System.err by a logger.(“™Ñî
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ĞŸ£ß
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ƒŸ©úÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(áÀå›şÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ÂÇÂ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ƒĞßçúÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ıôêÛ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ƒŸ©úÿÿÿÿ
-N	java:S106*"9Replace this use of System.out or System.err by a logger.(ˆæù—
-N	java:S106+"9Replace this use of System.out or System.err by a logger.(ĞŸ£ß
-N	java:S106,"9Replace this use of System.out or System.err by a logger.(ÂÇÂ
