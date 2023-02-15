@@ -1,0 +1,11 @@
+
+X
+java:S1128"BRemove this unused import 'org.springframework.amqp.core.Binding'.(ύ„ϊΎ
+_
+java:S1128"IRemove this unused import 'org.springframework.amqp.core.BindingBuilder'.(μ›κ
+_
+java:S1128"IRemove this unused import 'org.springframework.amqp.core.FanoutExchange'.(ύ»§—
+4
+java:S1128"Remove this duplicated import.(‚ξ‰ή
+9
+java:S1128"Remove this duplicated import.(¬²Ϊδώÿÿÿÿ

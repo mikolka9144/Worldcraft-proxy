@@ -1,16 +1,18 @@
 package com.mikolka9144.worldcraft.socket.model.Packet.Interceptors;
-import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.ContentParsers.PacketContentDeserializer;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentDeserializer;
+import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 
 public abstract class FullPacketInterceptor extends PacketInterceptor {
-    public FullPacketInterceptor(WorldCraftPacketIO connectionIO) {
-        super(connectionIO);
+    private PacketsFormula formula;
+
+    protected FullPacketInterceptor(PacketsFormula baseFormula) {
+        this.formula = baseFormula;
     }
 
     @Override
-    public void InterceptRawPacket(Packet packet) {
+    public PacketsFormula InterceptRawPacket(Packet packet) {
         switch (packet.getCommand()){
             case C_LOGIN_REQ -> this.interceptLogin(packet,PacketContentDeserializer.decodeLogin(packet.getData()));
             case S_ROOM_LIST_RESP -> this.interceptRoomsPacket(packet,
@@ -28,6 +30,7 @@ public abstract class FullPacketInterceptor extends PacketInterceptor {
             case C_ROOM_LIST_REQ -> this.interceptRoomsReq(packet,PacketContentDeserializer.decodeRoomsReq(packet.getData()));
             case S_ENEMY_ACTION -> this.interceptEnemyAction(packet,PacketContentDeserializer.decodeEnemyAction(packet.getData()));
         }
+        return formula;
     }
 
     public void interceptLogin(Packet packet, LoginInfo data) {

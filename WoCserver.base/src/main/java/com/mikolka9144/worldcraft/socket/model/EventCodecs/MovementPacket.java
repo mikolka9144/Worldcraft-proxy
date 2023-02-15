@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.socket.model.EventCodecs;
 
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.Vector3;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

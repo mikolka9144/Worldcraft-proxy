@@ -4,7 +4,7 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentSerializer;
 
 import java.util.Random;
 

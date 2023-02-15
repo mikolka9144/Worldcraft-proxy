@@ -6,7 +6,7 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterce
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
-import com.mikolka9144.worldcraft.socket.logic.PacketParsers.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentSerializer;
 
 import java.io.IOException;
 
