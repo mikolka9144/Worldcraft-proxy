@@ -75,7 +75,7 @@
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
-                                    <mainClass>com.mikolka9144.WoCserver.Main</mainClass>
+                                    <mainClass>com.mikolka9144.worldcraft.Main</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
