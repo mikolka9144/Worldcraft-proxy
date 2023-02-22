@@ -1,66 +1,49 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
+import com.mikolka9144.worldcraft.socket.logic.Packeter;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.PacketAlreadyInterceptedException;
-import com.mikolka9144.worldcraft.socket.logic.Packeter;
-import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
+import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 
 import java.io.IOException;
 import java.util.Arrays;
-
+//FIXME rewrite this to use formula
 public class ChatCommandsInterceptor extends FullPacketInterceptor {
-    private PacketInterceptor serverInterceptor;
+
     private Boolean isChatEnabled = false;
     private Boolean isFeedEnabled = true;
     private Integer blockId = null;
     private Integer blockData = null;
     private Packeter packager;
 
-    public ChatCommandsInterceptor(WorldCraftPacketIO connectionIO, PacketInterceptor serverInterceptor) {
-        super(connectionIO);
-        this.serverInterceptor = serverInterceptor;
-
+    @Override
+    public PacketsFormula InterceptRawPacket(Packet packet) {
+        if(packager == null) packager = new Packeter(packet.getProtoId());
+        return super.InterceptRawPacket(packet);
     }
 
     @Override
-    public void InterceptRawPacket(Packet packet) {
-        if(packager == null) packager = new Packeter(connectionIO ,serverInterceptor,packet.getProtoId());
-        super.InterceptRawPacket(packet);
-    }
-
-    @Override
-    public void interceptPlayerMessage(Packet packet, String message) {
+    public void interceptPlayerMessage(Packet packet, String message, PacketsFormula formula) {
         if (!message.contains("/")) {
             if(isChatEnabled) return;
             else {
                 packager.println("CHAT IS DISABLED");
                 packager.println("You can enable it with '/chat on'");
-                throw new PacketAlreadyInterceptedException();
+                //formula.getUpstreamPackets()
             }
         }
         new Thread(() -> {
             String[] command = message.split("/", 2)[1].split(" ");
             switch (command[0]) {
                 case "moto" -> {
-                    try {
-                        packager.println("In the notepad");
-                        Thread.sleep(500);
-                        packager.println("fates are written");
-                        Thread.sleep(500);
-                        packager.println("cus Pandora didn't listen");
-                        Thread.sleep(1000);
-                        packager.println("Time will march");
-                        Thread.sleep(500);
-                        packager.println("and here with me");
-                        Thread.sleep(1800);
-                        packager.println("THIS SCREEN IS LAST YOU WILL EVER SEE");
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                        formula.addWriteback(packager.println("In the notepad"));
+                        formula.addWriteback(packager.println("fates are written"));
+                        formula.addWriteback(packager.println("cus Pandora didn't listen"));
+                        formula.addWriteback(packager.println("Time will march"));
+                        formula.addWriteback(packager.println("and here with me"));
+                        formula.addWriteback(packager.println("THIS SCREEN IS LAST YOU WILL EVER SEE"));
                 }
                 case "chat" -> {
                     switch (command[1]) {
@@ -92,16 +75,16 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                 default -> packager.println("Unknown command: " + Arrays.toString(command));
             }
         }).start();
-        throw new PacketAlreadyInterceptedException();
+        //throw new PacketAlreadyInterceptedException();
     }
 
     @Override
-    public void interceptChatMessage(Packet packet, ChatMessage data) {
-        if (!isFeedEnabled) throw new PacketAlreadyInterceptedException();
+    public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {
+       // if (!isFeedEnabled) throw new PacketAlreadyInterceptedException();
     }
 
     @Override
-    public void interceptPlaceBlockReq(Packet packet, BlockData data) {
+    public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
 
         try {
             if(data.getBlockType() == 7) {
@@ -115,7 +98,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                 );
 
                 //nuke(data);
-                throw new PacketAlreadyInterceptedException();
+               // throw new PacketAlreadyInterceptedException();
             }
             if(blockId != null && blockData != null){
                 packager.setBlock(

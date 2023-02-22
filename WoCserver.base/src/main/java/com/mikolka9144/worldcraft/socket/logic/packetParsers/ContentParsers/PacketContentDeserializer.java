@@ -2,6 +2,7 @@ package com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers;
 
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketDataReader;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -35,7 +36,13 @@ public class PacketContentDeserializer{
             throw new RuntimeException(e);
         }
     }
-
+    @SneakyThrows
+    public static ClientVersion decodeVersionCheckReq(byte[] data){
+        PacketDataReader reader = new PacketDataReader(data);
+        return new ClientVersion(
+                reader.getString(),
+                reader.getInt());
+    }
     public static PurchaseValidationReq decodeValidatePurchaseReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PurchaseValidationReq(
@@ -79,9 +86,10 @@ public class PacketContentDeserializer{
         }
     }
 
+    @SneakyThrows
     public static BlockData decodePlaceBlockReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
-        try {
+
             return new BlockData(reader.getShort(),
                     reader.getShort(),
                     reader.getShort(),
@@ -91,9 +99,7 @@ public class PacketContentDeserializer{
                     reader.getByte(),
                     reader.getByte(),
                     reader.getByte());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public static ServerBlockData decodeServerBlocks(byte[] data) {
