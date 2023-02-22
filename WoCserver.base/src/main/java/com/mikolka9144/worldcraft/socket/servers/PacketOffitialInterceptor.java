@@ -5,6 +5,7 @@ import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketServer;
+import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class PacketOffitialInterceptor extends PacketServer {
     private final int port;
     private WorldcraftClient client;
 
-    public PacketOffitialInterceptor(WorldCraftPacketIO connectionIO,String hostname,int port) {
-        super(connectionIO);
+    public PacketOffitialInterceptor(WorldCraftPacketIO client,String hostname,int port) {
+        super(client);
         this.hostname = hostname;
         this.port = port;
     }
@@ -26,7 +27,7 @@ public class PacketOffitialInterceptor extends PacketServer {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
             client = new WorldcraftClient(hostname,port,
                     s -> {
-                        interceptors.add(new WritebackInterceptor(s, connectionIO));
+                        interceptors.add(new WritebackInterceptor(s));
                         return interceptors;
                     });
             log.info(String.format("Connected to %s:%d",hostname,port));
@@ -36,32 +37,17 @@ public class PacketOffitialInterceptor extends PacketServer {
         }
     }
     @Override
-    public void InterceptRawPacket(Packet packet) {
+    public PacketsFormula InterceptRawPacket(Packet packet) {
         try {
             client.send(packet);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return new PacketsFormula();
     }
     @Override
     public void close() throws IOException {
         client.close();
     }
-    private static class WritebackInterceptor extends PacketInterceptor{
-        private final WorldCraftPacketIO out;
 
-        public WritebackInterceptor(WorldCraftPacketIO in, WorldCraftPacketIO out){
-            super(in);
-            this.out = out;
-        }
-
-        @Override
-        public void InterceptRawPacket(Packet packet) {
-            try {
-                out.send(packet);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }

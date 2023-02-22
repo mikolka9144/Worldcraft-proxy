@@ -1,9 +1,7 @@
 package com.mikolka9144.worldcraft.socket.logic.packetParsers;
 
-import com.mikolka9144.worldcraft.common.exceptions.LoggedException;
 
 import java.io.ByteArrayInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +19,7 @@ public class PacketDataReader {
             byte[] strAsBytes = data.readNBytes(strSize);
             return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(strAsBytes)).toString();
         } catch (IOException e) {
-            throw new LoggedException("Reading string from packet bytes failed.",e);
+            throw new RuntimeException("Reading string from packet bytes failed.",e);
         }
     }
 
