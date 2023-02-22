@@ -19,13 +19,7 @@ public class WorldcraftClient extends WorldcraftThreadHandler implements Closeab
         socket = new WorldcraftSocket(new Socket(hostname,port));
         List<PacketInterceptor> interceptors1 = interceptors.apply(socket.getChannel());
 
-        attachToThread(socket, interceptors1,() -> {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        attachToThread(socket, interceptors1,socket);
     }
     public void send(Packet packet) throws IOException {
         socket.getChannel().send(packet);
