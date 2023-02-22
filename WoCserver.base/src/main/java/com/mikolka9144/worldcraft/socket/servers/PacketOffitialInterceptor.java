@@ -15,19 +15,21 @@ public class PacketOffitialInterceptor extends PacketServer {
 
     private final String hostname;
     private final int port;
-    private WorldcraftClient client;
+    private WorldcraftClient wocClient;
+
 
     public PacketOffitialInterceptor(WorldCraftPacketIO client,String hostname,int port) {
         super(client);
         this.hostname = hostname;
         this.port = port;
     }
-    public void setInterceptors(List<PacketInterceptor> interceptors){
+    @Override
+    public void startWritebackConnection(List<PacketInterceptor> interceptors){
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
-            client = new WorldcraftClient(hostname,port,
+            wocClient = new WorldcraftClient(hostname,port,
                     s -> {
-                        interceptors.add(new WritebackInterceptor(s));
+                        interceptors.add(new WritebackInterceptor(client));
                         return interceptors;
                     });
             log.info(String.format("Connected to %s:%d",hostname,port));
@@ -39,7 +41,7 @@ public class PacketOffitialInterceptor extends PacketServer {
     @Override
     public PacketsFormula InterceptRawPacket(Packet packet) {
         try {
-            client.send(packet);
+            wocClient.send(packet);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +49,6 @@ public class PacketOffitialInterceptor extends PacketServer {
     }
     @Override
     public void close() throws IOException {
-        client.close();
+        wocClient.close();
     }
-
 }

@@ -2,10 +2,8 @@ package com.mikolka9144.worldcraft.socket.logic;
 
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketServer;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
-import com.mikolka9144.worldcraft.socket.model.PacketAlreadyInterceptedException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +12,6 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
-import static java.util.Optional.of;
 
 @Slf4j
 public abstract class WorldcraftThreadHandler {
@@ -30,17 +24,21 @@ public abstract class WorldcraftThreadHandler {
         try {
             while (true) { //TODO
                 Packet packet = socket.getChannel().recive();
+
                 PacketsFormula baseFormula = new PacketsFormula();
-                baseFormula.getServerPackets().add(packet);
+                baseFormula.getUpstreamPackets().add(packet);
+                baseFormula = executeInterceptors(socketInter, baseFormula);
 
-                for (PacketInterceptor interceptor : socketInter) {
-                    PacketsFormula previousFormulas = baseFormula;
-                    baseFormula = new PacketsFormula();
+                if (baseFormula.getWritebackPackets().isEmpty()) continue;
 
-                    for (Packet item : previousFormulas.getServerPackets()){
-                        Optional<PacketsFormula> resultingFormula = Optional.of((interceptor.InterceptRawPacket(item)));
-                        resultingFormula.ifPresentOrElse(s -> baseFormula.add(s),() -> baseFormula.getServerPackets().c.add(packet));
-                    }
+                PacketsFormula downstreamFormula = new PacketsFormula();
+                downstreamFormula.getUpstreamPackets().addAll(baseFormula.getWritebackPackets());
+                downstreamFormula = executeInterceptors(socketInter, downstreamFormula);
+
+                if (!downstreamFormula.getWritebackPackets().isEmpty()) {
+                    log.error("Downstream packets generated more upstream packets.");
+                    log.error("To avoid looping " + downstreamFormula.getWritebackPackets().size() + " pckets will be dropped");
+                    log.error("Make sure, that interceptors are working as intended.");
                 }
             }
         } catch (SocketException x) {
@@ -53,5 +51,23 @@ public abstract class WorldcraftThreadHandler {
             // if onClose throws an Exception, that will be his problem
             server.close();
         }
+    }
+
+    private PacketsFormula executeInterceptors(List<PacketInterceptor> socketInter, PacketsFormula formula) {
+        var currentFormula = formula;
+        for (PacketInterceptor interceptor : socketInter) {
+            var nextFormula = new PacketsFormula();
+
+            for (Packet item : currentFormula.getUpstreamPackets()) {
+                var resultingFormula = interceptor.InterceptRawPacket(item);
+                nextFormula.add(resultingFormula);
+            }
+            currentFormula = nextFormula;
+        }
+
+        if (!currentFormula.getUpstreamPackets().isEmpty()) {
+            log.warn("Packet furmula for client has remaining server packets. Did everything got sent?");
+        }
+        return currentFormula;
     }
 }

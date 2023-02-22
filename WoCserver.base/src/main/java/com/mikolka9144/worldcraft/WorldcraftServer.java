@@ -3,11 +3,11 @@ package com.mikolka9144.worldcraft;
 import com.mikolka9144.worldcraft.http.HttpServer;
 import com.mikolka9144.worldcraft.http.logic.HttpWorldRecever;
 import com.mikolka9144.worldcraft.http.logic.HttpWorldUploader;
-import com.mikolka9144.worldcraft.socket.SocketServer;
-import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.ClientInterceptorFunc;
+import com.mikolka9144.worldcraft.socket.SocketServer;
+import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
+import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketServer;
 import com.mikolka9144.worldcraft.socket.model.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Slf4j
 public class WorldcraftServer implements Closeable {
 
@@ -43,8 +45,8 @@ public class WorldcraftServer implements Closeable {
         return server;
     }
 
-    public void createSocketServer(int port, ClientInterceptorFunc interceptors, Function<WorldCraftPacketIO,PacketServer> server) throws IOException {
-        socketServer = new SocketServer(port,interceptors,server);
+    public void createSocketServer(int port, Supplier<List<PacketInterceptor>> interceptors, Function<WorldCraftPacketIO, PacketServer> socketServersProvider) throws IOException {
+        socketServer = new SocketServer(port,interceptors,socketServersProvider);
     }
 
     public void createHttpServer(int port, List<HttpDownloadInterceptor> receivers, List<HttpUploadInterceptor> uploaders) {

@@ -3,24 +3,24 @@ package com.mikolka9144.worldcraft.socket.modules;
 import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
-
+@Slf4j
 public class PacketLogger extends PacketInterceptor {
-    public PacketLogger(WorldCraftPacketIO connectionIO) {
-        super(connectionIO);
-    }
 
     @Override
-    public void InterceptRawPacket(Packet packet) {
-        System.out.println(Arrays.toString(packet.getData()));
-        System.out.println("Proto: "+packet.getProtoId());
-        System.out.println("Error code: "+packet.getError());
-        System.out.println("Command: "+packet.getCommand());
-        System.out.println("PlayerId: "+packet.getPlayerId());
-        System.out.println("Msg: "+packet.getMessage());
-        System.out.println("Data: "+ Arrays.toString(packet.getData()));
-        System.out.println();
+    public PacketsFormula InterceptRawPacket(Packet packet) {
+        log.info("--------------------------------");
+        log.info("Proto: "+packet.getProtoId());
+        log.info("Error code: "+packet.getError());
+        log.info("Command: "+packet.getCommand());
+        log.info("PlayerId: "+packet.getPlayerId());
+        log.info("Msg: "+packet.getMessage());
+        log.info("Data: "+ Arrays.toString(packet.getData()));
+        log.info("--------------------------------");
+        return super.InterceptRawPacket(packet);
     }
 
 }

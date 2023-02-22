@@ -107,6 +107,13 @@ public class PacketContentSerializer {
         writer.append(data.getMarketName());
         return writer.build();
     }
+    public static byte[] encodeVersionCheckReq(ClientVersion data){
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getMarket());
+        writer.append(data.getClientVersion());
+        return writer.build();
+
+    }
     public static byte[] decodeRoomsReq(RoomListRequest data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append((byte)data.getRoomsType().ordinal());

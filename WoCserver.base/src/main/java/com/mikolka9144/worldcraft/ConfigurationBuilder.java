@@ -7,7 +7,7 @@ import com.mikolka9144.worldcraft.http.modules.WoC287WorldFixer;
 import com.mikolka9144.worldcraft.http.servers.HttpOffictalInterceptor;
 import com.mikolka9144.worldcraft.socket.SocketServer;
 import com.mikolka9144.worldcraft.socket.logic.WorldCraftPacketIO;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.ClientInterceptorFunc;
+import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketServer;
 import com.mikolka9144.worldcraft.socket.model.ServerConfig;
 import com.mikolka9144.worldcraft.socket.modules.*;
@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Slf4j
 public class ConfigurationBuilder {
     public static ServerConfig configure(ServerPreset preset){
@@ -42,7 +44,7 @@ public class ConfigurationBuilder {
         throw new RuntimeException();
     }
     public static ServerConfig configure(ConfigPreset preset, String targetServer, int targetServerHttpPort, int targetServerSocketPort, int hostingHttpPort, int hostingSocketPort){
-        ClientInterceptorFunc socketPreset;
+        Supplier<List<PacketInterceptor>> socketPreset;
 
         List<HttpDownloadInterceptor> httpDownloadPreset = new ArrayList<>();
         httpDownloadPreset.add(new HttpOffictalInterceptor.Downloader(targetServer,targetServerHttpPort));
@@ -54,20 +56,22 @@ public class ConfigurationBuilder {
                 new PacketOffitialInterceptor(io,targetServer,targetServerSocketPort);
 
         switch (preset){
-            case Default -> socketPreset  = (client, server) -> List.of(
-                    new PurchaseFaker(client)
+            case Default -> socketPreset  = () -> List.of(
+                    new PurchaseFaker()
             );
             case Legacy -> {
-                socketPreset = (io,server) -> List.of(
-                  new PacketConverter.Early(io),
-                  new PacketConverter.Late(io)
+                socketPreset = () -> List.of(
+                  new PacketConverter.Early(),
+                  new GameVersionSpoofer(),
+                 new PacketLogger(),
+                 new PacketConverter.Late()
                 );
                 httpDownloadPreset.add(new WoC287WorldFixer());
             }
-            case Cmd -> socketPreset = (client, server) -> List.of(
-                    new ChatCommandsInterceptor(client,server),
-                    new PacketLogger(client),
-                    new DeviceSpoofer(client)
+            case Cmd -> socketPreset = () -> List.of(
+                    new ChatCommandsInterceptor(),
+                    new PacketLogger(),
+                    new DeviceSpoofer()
             );
             default -> {
                 log.error("Preset "+preset.name()+" is missing in configurations WTF!!!");
