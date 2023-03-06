@@ -1,12 +1,12 @@
 package com.mikolka9144.worldcraft.http.logic.level;
 
-import com.mikolka9144.worldcraft.http.logic.level.Chunks.ChunksMCR;
 import com.mikolka9144.worldcraft.http.logic.level.gzip.GZipConverter;
 import com.mikolka9144.worldcraft.http.logic.level.gzip.GzipEntry;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 //level.dat
 //region/r.0.0.mcr
@@ -24,10 +24,8 @@ public class World {
         levelEntry.setData(nbt.build());
     }
 
-    public void getRegion(Consumer<ChunksMCR> action) {
-        ChunksMCR mcr = new ChunksMCR(chunksEntry.getData());
-        action.accept(mcr);
-        chunksEntry.setData(mcr.build());
+    public void getRegion(Function<byte[],byte[]> action) {
+        chunksEntry.setData(action.apply(chunksEntry.getData()));
     }
 
     private final GzipEntry levelEntry;
