@@ -72,7 +72,7 @@ public class GZipConverter {
     }
     @SneakyThrows
     public static byte[] unZlib(byte[] data){
-        byte[] output = new byte[data.length+200]; //TODO might break
+        byte[] output = new byte[1000000]; // 1Mb buffer should be enough
         Inflater decompresser = new Inflater();
         decompresser.setInput(data);
         int resultLength = decompresser.inflate(output);
