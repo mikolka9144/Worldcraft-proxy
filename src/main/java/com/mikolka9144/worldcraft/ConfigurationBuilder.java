@@ -3,6 +3,7 @@ package com.mikolka9144.worldcraft;
 import com.mikolka9144.worldcraft.http.HttpServer;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
+import com.mikolka9144.worldcraft.http.modules.HttpDownloadLogger;
 import com.mikolka9144.worldcraft.http.modules.WoC287WorldFixer;
 import com.mikolka9144.worldcraft.http.servers.HttpOffictalInterceptor;
 import com.mikolka9144.worldcraft.socket.SocketServer;
@@ -68,6 +69,7 @@ public class ConfigurationBuilder {
                  new PacketConverter.Late()
                 );
                 httpDownloadPreset.add(new WoC287WorldFixer());
+                httpDownloadPreset.add(new HttpDownloadLogger());
             }
             case CMD -> socketPreset = () -> List.of(
                     new ChatCommandsInterceptor(),

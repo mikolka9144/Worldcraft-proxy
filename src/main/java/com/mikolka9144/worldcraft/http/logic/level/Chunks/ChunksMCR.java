@@ -50,7 +50,7 @@ public class ChunksMCR {
                 int sectorCount = (int) Math.ceil(  (double) sector.length / ChunksMCR.SECTOR_SIZE);
 
                 builder.append((byte) 0);
-                builder.append(sectorsWritten);
+                builder.append(sectorCount!=0 ? sectorsWritten : 0);
                 builder.append((byte) sectorCount);
 
                 chunksSectionBuilder.append(sector);
