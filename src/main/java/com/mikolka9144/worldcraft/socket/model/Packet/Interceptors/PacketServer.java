@@ -12,4 +12,5 @@ public abstract class PacketServer extends PacketInterceptor implements Closeabl
         this.client = client;
     }
     public abstract void startWritebackConnection(List<PacketInterceptor> interceptors);
+    public abstract List<PacketInterceptor> GetloopbackInterceptors();
 }

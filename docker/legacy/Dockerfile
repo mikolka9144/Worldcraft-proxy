@@ -1,2 +1,2 @@
 FROM mikolka9144/worldcraft
-CMD java -jar /app/server.jar Legacial
+CMD java -jar /app/server.jar LEGACIAL

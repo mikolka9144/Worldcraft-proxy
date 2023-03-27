@@ -29,12 +29,12 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
         if (!message.contains("/")) {
             if (isChatEnabled) {
                 formula.addUpstream(packet); // this restores message
-                return;
             }
             else {
-                packager.println("CHAT IS DISABLED");
-                packager.println("You can enable it with '/chat on'");
+                formula.addWriteback(packager.println("CHAT IS DISABLED"));
+                formula.addWriteback(packager.println("You can enable it with '/chat on'"));
             }
+            return;
         }
         String[] command = message.split("/", 2)[1].split(" ");
         switch (command[0]) {
@@ -77,7 +77,18 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     formula.addWriteback(packager.println("/setpointer <blockId> <blockData>"));
                 }
             }
-            default -> packager.println("Unknown command: " + Arrays.toString(command));
+            default -> formula.addWriteback(packager.println("Unknown command: " + Arrays.toString(command)));
+        }
+    }
+
+    @Override
+    public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
+        if (blockId != null && blockData != null) {
+            int x = data.getX() * data.getChunkX();
+            int y = data.getY();
+            int z = data.getZ() * data.getChunkZ();
+            formula.addUpstream( packager.setBlockServerPacket(x,y,z,blockId,blockData));
+            formula.addWriteback(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockType(), data.getPrevBlockData()));
         }
     }
 
@@ -86,39 +97,5 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
          if (!isFeedEnabled) formula.getUpstreamPackets().remove(packet);
     }
 
-    @Override
-    public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
-        formula.getUpstreamPackets().remove(packet);
 
-            if (data.getBlockType() == 7) {
-                packager.sendBlockClientPacket(
-                        data.getX() * data.getChunkX(),
-                        data.getY(),
-                        data.getZ() * data.getChunkZ(),
-                        0, 0,
-                        data.getPrevBlockType(),
-                        data.getPrevBlockData()
-                );
-
-            }
-            if (blockId != null && blockData != null) {
-                int x = data.getX() * data.getChunkX();
-                int y = data.getY();
-                int z = data.getZ() * data.getChunkZ();
-                formula.addUpstream( packager.setBlockServerPacket(x,y,z,blockId,blockData));
-                formula.addWriteback(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockType(), data.getPrevBlockData()));
-            }
-            String message = getBlockLog(data);
-            for (String line : message.split("\n")) {
-                formula.addWriteback(packager.println(line));
-            }
-    }
-
-    private static String getBlockLog(BlockData data) {
-        return String.format("Modify block:%n" +
-                        "at %d %d %d (Chunk %d,%d)\n" +
-                        "block %d:%d -> %d:%d",
-                data.getX(), data.getY(), data.getZ(), data.getChunkX(), data.getChunkZ(),
-                data.getPrevBlockType(), data.getPrevBlockData(), data.getBlockType(), data.getBlockData());
-    }
 }
