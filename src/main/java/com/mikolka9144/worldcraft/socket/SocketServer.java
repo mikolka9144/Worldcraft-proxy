@@ -42,7 +42,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
             connectionServer.startWritebackConnection(new ArrayList<>(connectionInterceptors));
 
             connectionInterceptors.add(connectionServer);
-            attachToThread(client,connectionInterceptors, connectionServer);
+            attachToThread(client,connectionInterceptors, connectionServer.GetloopbackInterceptors());
         }
     }
 

@@ -74,6 +74,8 @@ public class ConfigurationBuilder {
             case CMD -> socketPreset = () -> List.of(
                     new ChatCommandsInterceptor(),
                     new PacketLogger(),
+                    new BlockPeekInterceptor(),
+                    new HologramProjectionInterceptor(),
                     new DeviceSpoofer()
             );
             default -> {

@@ -7,7 +7,6 @@ import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
@@ -15,12 +14,12 @@ import java.util.List;
 
 @Slf4j
 public abstract class WorldcraftThreadHandler {
-    protected void attachToThread(WorldcraftSocket client, List<PacketInterceptor> socketInter, Closeable server) {
-        new Thread(() -> worldcraftClientHandler(client, socketInter, server)).start();
+    protected void attachToThread(WorldcraftSocket client, List<PacketInterceptor> socketInter, List<PacketInterceptor> loopbackInter) {
+        new Thread(() -> worldcraftClientHandler(client, socketInter, loopbackInter)).start();
     }
 
     @SneakyThrows
-    private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketInterceptor> socketInter, Closeable server) {
+    private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketInterceptor> socketInter, List<PacketInterceptor> server) {
         try {
             while (true) { //TODO
                 Packet packet = socket.getChannel().recive();
@@ -33,7 +32,7 @@ public abstract class WorldcraftThreadHandler {
 
                 PacketsFormula downstreamFormula = new PacketsFormula();
                 downstreamFormula.getUpstreamPackets().addAll(baseFormula.getWritebackPackets());
-                downstreamFormula = executeInterceptors(socketInter, downstreamFormula);
+                downstreamFormula = executeInterceptors(server, downstreamFormula);
 
                 if (!downstreamFormula.getWritebackPackets().isEmpty()) {
                     log.error("Downstream packets generated more upstream packets.");
@@ -49,7 +48,7 @@ public abstract class WorldcraftThreadHandler {
             log.error(x.getMessage());
         } finally {
             // if onClose throws an Exception, that will be his problem
-            server.close();
+            socket.close();
         }
     }
 
@@ -62,6 +61,7 @@ public abstract class WorldcraftThreadHandler {
                 var resultingFormula = interceptor.InterceptRawPacket(item);
                 nextFormula.add(resultingFormula);
             }
+            nextFormula.getWritebackPackets().addAll(currentFormula.getWritebackPackets());
             currentFormula = nextFormula;
         }
 

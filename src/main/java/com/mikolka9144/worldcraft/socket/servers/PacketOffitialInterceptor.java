@@ -9,6 +9,7 @@ import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 public class PacketOffitialInterceptor extends PacketServer {
@@ -16,6 +17,8 @@ public class PacketOffitialInterceptor extends PacketServer {
     private final String hostname;
     private final int port;
     private WorldcraftClient wocClient;
+    private List<PacketInterceptor> upstreamInterceptors;
+    private List<PacketInterceptor> loopbackInterceptors;
 
 
     public PacketOffitialInterceptor(WorldCraftPacketIO client,String hostname,int port) {
@@ -25,19 +28,26 @@ public class PacketOffitialInterceptor extends PacketServer {
     }
     @Override
     public void startWritebackConnection(List<PacketInterceptor> interceptors){
+        this.upstreamInterceptors = interceptors;
+        this.loopbackInterceptors = new ArrayList<>(interceptors);
+
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
-            wocClient = new WorldcraftClient(hostname,port,
-                    s -> {
-                        interceptors.add(new WritebackInterceptor(client));
-                        return interceptors;
-                    });
+            loopbackInterceptors.add(new WritebackInterceptor(client));
+            wocClient = new WorldcraftClient(hostname,port,this.loopbackInterceptors,this.upstreamInterceptors);
+
             log.info(String.format("Connected to %s:%d",hostname,port));
         } catch (IOException e) {
             log.info(String.format("Couldn't connect to %s:%d",hostname,port));
             log.debug(e.getMessage());
         }
     }
+
+    @Override
+    public List<PacketInterceptor> GetloopbackInterceptors() {
+        return this.loopbackInterceptors;
+    }
+
     @Override
     public PacketsFormula InterceptRawPacket(Packet packet) {
         try {
