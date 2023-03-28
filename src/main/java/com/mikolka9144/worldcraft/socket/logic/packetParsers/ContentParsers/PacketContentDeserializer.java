@@ -87,7 +87,7 @@ public class PacketContentDeserializer{
                     reader.getShort(),
                     reader.getShort(),
                     reader.getShort(),
-                    reader.getByte(),
+                    BlockData.BlockType.findBlockById(reader.getByte()),
                     reader.getByte(),
                     reader.getByte(),
                     reader.getByte());
@@ -105,7 +105,7 @@ public class PacketContentDeserializer{
                     reader.getShort(),
                     reader.getShort(),
                     reader.getShort(),
-                    reader.getByte(),
+                    BlockData.BlockType.findBlockById(reader.getByte()),
                     reader.getByte()));
             reader = new PacketDataReader(reader.getBytes());
         }
@@ -119,7 +119,7 @@ public class PacketContentDeserializer{
                 reader.getShort(),
                 reader.getShort(),
                 reader.getShort(),
-                reader.getByte(),
+                BlockData.BlockType.findBlockById(reader.getByte()),
                 reader.getByte());
     }
 

@@ -63,10 +63,10 @@ public class PacketContentSerializer {
         writer.append(data.getZ());
         writer.append(data.getChunkX());
         writer.append(data.getChunkZ());
-        writer.append(data.getBlockType());
+        writer.append(data.getBlockType().getId());
         writer.append(data.getBlockData());
-        writer.append(data.getPrevBlockType());
         writer.append(data.getPrevBlockData());
+        writer.append(data.getPrevBlockType());
         return writer.build();
     }
     public static byte[] encodeServerBlocks(ServerBlockData data) {
@@ -79,7 +79,7 @@ public class PacketContentSerializer {
             writer.append(block.getZ());
             writer.append(block.getChunkX());
             writer.append(block.getChunkZ());
-            writer.append(block.getBlockType());
+            writer.append(block.getBlockType().getId());
             writer.append(block.getBlockData());
         }
         return writer.build();
@@ -91,7 +91,7 @@ public class PacketContentSerializer {
         writer.append(data.getZ());
         writer.append(data.getChunkX());
         writer.append(data.getChunkZ());
-        writer.append(data.getBlockType());
+        writer.append(data.getBlockType().getId());
         writer.append(data.getBlockData());
         return writer.build();
     }
