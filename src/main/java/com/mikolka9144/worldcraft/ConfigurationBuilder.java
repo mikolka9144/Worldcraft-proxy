@@ -72,11 +72,11 @@ public class ConfigurationBuilder {
                 httpDownloadPreset.add(new HttpDownloadLogger());
             }
             case CMD -> socketPreset = () -> List.of(
-                    new ChatCommandsInterceptor(),
-                    new PacketLogger(),
-                    new BlockPeekInterceptor(),
+                    new ChatLogger(),
                     new HologramProjectionInterceptor(),
-                    new DeviceSpoofer()
+                    new ChatCommandsInterceptor(),
+                    new BlockPeekInterceptor(),
+            new DeviceSpoofer()
             );
             default -> {
                 log.error("Preset "+preset.name()+" is missing in configurations WTF!!!");

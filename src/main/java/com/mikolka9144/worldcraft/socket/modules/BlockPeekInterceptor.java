@@ -14,20 +14,14 @@ public class BlockPeekInterceptor extends FullPacketInterceptor {
         if (packager == null) packager = new Packeter(packet.getProtoId());
         return super.InterceptRawPacket(packet);
     }
+
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
 
 
-        if (data.getBlockType() == 7) {
+        if (data.getBlockType() == BlockData.BlockType.BEDROCK_ID) {
             formula.getUpstreamPackets().remove(packet);
-            formula.addWriteback(packager.sendBlockClientPacket(
-                    data.getX() * data.getChunkX(),
-                    data.getY(),
-                    data.getZ() * data.getChunkZ(),
-                    0, 0,
-                    data.getPrevBlockType(),
-                    data.getPrevBlockData()
-            ));
+            formula.addWriteback(packager.sendBlockClientPacket(data.getX() * data.getChunkX(), data.getY(), data.getZ() * data.getChunkZ(), BlockData.BlockType.AIR, 0, data.getPrevBlockData(), data.getPrevBlockType()));
 
         }
         String message = getBlockLog(data);
@@ -37,10 +31,15 @@ public class BlockPeekInterceptor extends FullPacketInterceptor {
     }
 
     private static String getBlockLog(BlockData data) {
-        return String.format("Modify block:%n" +
-                        "at %d %d %d (Chunk %d,%d)\n" +
-                        "block %d:%d -> %d:%d",
-                data.getX(), data.getY(), data.getZ(), data.getChunkX(), data.getChunkZ(),
-                data.getPrevBlockType(), data.getPrevBlockData(), data.getBlockType(), data.getBlockData());
+        return String.format("Modify block:%n" + "at %d %d %d (Chunk %d,%d)\n" + "block %s:%d -> %s:%d",
+                data.getX(),
+                data.getY(),
+                data.getZ(),
+                data.getChunkX(),
+                data.getChunkZ(),
+                BlockData.BlockType.findBlockById(data.getPrevBlockType()).name(),
+                data.getPrevBlockData(),
+                data.getBlockType().name(),
+                data.getBlockData());
     }
 }

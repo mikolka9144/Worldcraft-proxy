@@ -27,7 +27,7 @@ public class Packeter {
 
     }
 
-    public Packet setBlockServerPacket(int x, int y, int z, int blockType, int blockData){
+    public Packet setBlockServerPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData){
         return new Packet(PacketProtocol.SERVER, 0,
                 PacketCommand.S_SET_BLOCK_TYPE, "", (byte) 0,
                 PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
@@ -36,14 +36,14 @@ public class Packeter {
                         (short) (z % 16),
                         (short) (x / 16),
                         (short) (z / 16),
-                        (byte) blockType,
+                         blockType,
                         (byte) blockData
                 )));
 
 
     }
 
-    public Packet sendBlockClientPacket(int x, int y, int z, int blockType, int blockData, int blockTypePrev, int blockDataPrev) {
+    public Packet sendBlockClientPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData, int blockTypePrev, int blockDataPrev) {
         return new Packet(clientProto, 0,
                 PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
                 PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
@@ -52,7 +52,7 @@ public class Packeter {
                         (short) (z % 16),
                         (short) (x / 16),
                         (short) (z / 16),
-                        (byte) blockType,
+                         blockType,
                         (byte) blockData,
                         (byte) blockTypePrev,
                         (byte) blockDataPrev

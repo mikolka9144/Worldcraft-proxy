@@ -13,7 +13,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
 
     private Boolean isChatEnabled = false;
     private Boolean isFeedEnabled = true;
-    private Integer blockId = null;
+    private BlockData.BlockType blockId = null;
     private Integer blockData = null;
     private Packeter packager;
 
@@ -69,7 +69,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                         blockId = null;
                         formula.addWriteback(packager.println("block pointer resetted"));
                     }
-                    blockId = Integer.parseInt(command[1]);
+                    blockId = BlockData.BlockType.findBlockById(Byte.parseByte(command[1]));
                     blockData = Integer.parseInt(command[2]);
                     formula.addWriteback(packager.println("Block pointer changed to " + blockId + ":" + blockData));
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
@@ -88,7 +88,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
             int y = data.getY();
             int z = data.getZ() * data.getChunkZ();
             formula.addUpstream( packager.setBlockServerPacket(x,y,z,blockId,blockData));
-            formula.addWriteback(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockType(), data.getPrevBlockData()));
+            formula.addWriteback(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockData(), data.getPrevBlockType()));
         }
     }
 
