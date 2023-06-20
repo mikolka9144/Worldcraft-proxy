@@ -1,25 +1,22 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
-import com.mikolka9144.worldcraft.socket.logic.Packeter;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.Vector3;
+import com.mikolka9144.worldcraft.socket.model.Vector3;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component("holo-projector")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class HologramProjectionInterceptor extends FullPacketInterceptor {
     private List<Vector3> holographicBlocks = new ArrayList<>();
     private String template = "";
-    private Packeter packager;
 
-    @Override
-    public PacketsFormula InterceptRawPacket(Packet packet) {
-        if (packager == null) packager = new Packeter(packet.getProtoId());
-        return super.InterceptRawPacket(packet);
-    }
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
         int origin_x = data.getX()+(16*data.getChunkX());
@@ -79,9 +76,10 @@ public class HologramProjectionInterceptor extends FullPacketInterceptor {
         if (!message.contains("/")) {
             return;
         }
-        formula.getUpstreamPackets().remove(packet); // this removes packet from sending queue
         String[] command = message.split("/", 2)[1].split(" ");
         if(command[0].equals("holo")){
+            formula.getUpstreamPackets().remove(packet); // this removes packet from sending queue
+
             template = command[1];
             formula.addWriteback(packager.println("Template set"));
         }

@@ -1,9 +1,11 @@
 package com.mikolka9144.worldcraft.http.modules;
 
-import com.mikolka9144.worldcraft.http.logic.level.World;
+import com.mikolka9144.worldcraft.common.level.World;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
+@Component("WoC287-world-patch")
 public class WoC287WorldFixer implements HttpDownloadInterceptor {
     @SneakyThrows
     @Override

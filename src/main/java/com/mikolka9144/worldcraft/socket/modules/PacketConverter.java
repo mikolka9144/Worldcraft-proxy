@@ -6,16 +6,19 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomsPacket;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 @Slf4j
 public class PacketConverter  {
     private PacketConverter(){}
-    public static class Early extends PacketInterceptor {
+    @Component("packet-conv-early")
+    public static class Early extends PacketAlteringModule {
 
         @Override
         public PacketsFormula InterceptRawPacket(Packet packet) {
@@ -33,6 +36,7 @@ public class PacketConverter  {
             return super.InterceptRawPacket(packet);
         }
     }
+    @Component("packet-conv-late")
     public static class Late extends FullPacketInterceptor{
 
         @Override

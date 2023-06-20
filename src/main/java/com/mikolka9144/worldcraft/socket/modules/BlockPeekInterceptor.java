@@ -1,19 +1,18 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
-import com.mikolka9144.worldcraft.socket.logic.Packeter;
+import com.mikolka9144.worldcraft.socket.logic.PacketBuilder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component("block-peek")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BlockPeekInterceptor extends FullPacketInterceptor {
-    private Packeter packager;
-
-    @Override
-    public PacketsFormula InterceptRawPacket(Packet packet) {
-        if (packager == null) packager = new Packeter(packet.getProtoId());
-        return super.InterceptRawPacket(packet);
-    }
+    private PacketBuilder packager;
 
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {

@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.socket.logic;
 
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
@@ -11,34 +11,29 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.util.List;
-
+/**
+ * Blob-like abstract class containing logic for sending packets.
+ * This class is responsible for handling {@link PacketsFormula}
+ */
 @Slf4j
 public abstract class WorldcraftThreadHandler {
-    protected void attachToThread(WorldcraftSocket client, List<PacketInterceptor> socketInter, List<PacketInterceptor> loopbackInter) {
+    protected void attachToThread(WorldcraftSocket client, List<PacketAlteringModule> socketInter, List<PacketAlteringModule> loopbackInter) {
         new Thread(() -> worldcraftClientHandler(client, socketInter, loopbackInter)).start();
     }
 
+    /**
+     * This method starts packet receving and interpretation from given socket.
+     * This method is a blocking one, so it's recomended to create a seperate thread for it or use {@code attachToThread()} method.
+     * @param socket connection to handle
+     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
+     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
+     */
     @SneakyThrows
-    private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketInterceptor> socketInter, List<PacketInterceptor> server) {
+    private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
         try {
             while (true) { //TODO
-                Packet packet = socket.getChannel().recive();
-
-                PacketsFormula baseFormula = new PacketsFormula();
-                baseFormula.getUpstreamPackets().add(packet);
-                baseFormula = executeInterceptors(socketInter, baseFormula);
-
-                if (baseFormula.getWritebackPackets().isEmpty()) continue;
-
-                PacketsFormula downstreamFormula = new PacketsFormula();
-                downstreamFormula.getUpstreamPackets().addAll(baseFormula.getWritebackPackets());
-                downstreamFormula = executeInterceptors(server, downstreamFormula);
-
-                if (!downstreamFormula.getWritebackPackets().isEmpty()) {
-                    log.error("Downstream packets generated more upstream packets.");
-                    log.error("To avoid looping " + downstreamFormula.getWritebackPackets().size() + " pckets will be dropped");
-                    log.error("Make sure, that interceptors are working as intended.");
-                }
+                Packet initialPacket = socket.getChannel().recive();
+                sendPacket(initialPacket,upstreamInterceptors,downstreamInterceptors);
             }
         } catch (SocketException x) {
             log.warn(socket.getConnectedIp() + " closed connection");
@@ -51,10 +46,35 @@ public abstract class WorldcraftThreadHandler {
             socket.close();
         }
     }
+    /**
+     * This method sends given packet as if it was sent by a client.
+     * @param packet packet to send
+     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code target}
+     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code target}
+     */
+    protected void sendPacket(Packet packet,List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors){
+        PacketsFormula baseFormula = executeComunication(upstreamInterceptors, List.of(packet));
 
-    private PacketsFormula executeInterceptors(List<PacketInterceptor> socketInter, PacketsFormula formula) {
+        if (baseFormula.getWritebackPackets().isEmpty()) return;
+
+        PacketsFormula downstreamFormula = executeComunication(downstreamInterceptors,baseFormula.getWritebackPackets());
+
+        if (!downstreamFormula.getWritebackPackets().isEmpty()) {
+            log.error("Downstream packets generated more upstream packets.");
+            log.error("To avoid looping " + downstreamFormula.getWritebackPackets().size() + " packets will be dropped");
+            log.error("Make sure, that interceptors are working as intended.");
+        }
+    }
+    private PacketsFormula executeComunication(List<PacketAlteringModule> socketInter, List<Packet> packets) {
+        PacketsFormula baseFormula = new PacketsFormula();
+        baseFormula.getUpstreamPackets().addAll(packets);
+        baseFormula = executeInterceptors(socketInter, baseFormula);
+        return baseFormula;
+    }
+
+    private PacketsFormula executeInterceptors(List<PacketAlteringModule> socketInter, PacketsFormula formula) {
         var currentFormula = formula;
-        for (PacketInterceptor interceptor : socketInter) {
+        for (PacketAlteringModule interceptor : socketInter) {
             var nextFormula = new PacketsFormula();
 
             for (Packet item : currentFormula.getUpstreamPackets()) {
@@ -66,7 +86,7 @@ public abstract class WorldcraftThreadHandler {
         }
 
         if (!currentFormula.getUpstreamPackets().isEmpty()) {
-            log.warn("Packet furmula for client has remaining server packets. Did everything got sent?");
+            log.warn("Packet formula for client has remaining server packets. Did everything got sent?");
         }
         return currentFormula;
     }

@@ -1,8 +1,8 @@
-package com.mikolka9144.worldcraft.http.logic.level;
+package com.mikolka9144.worldcraft.common.level;
 
-import com.mikolka9144.worldcraft.http.logic.level.Chunks.ChunksMCR;
-import com.mikolka9144.worldcraft.http.logic.level.gzip.GZipConverter;
-import com.mikolka9144.worldcraft.http.logic.level.gzip.GzipEntry;
+import com.mikolka9144.worldcraft.common.level.Chunks.ChunksMCR;
+import com.mikolka9144.worldcraft.common.level.gzip.GZipConverter;
+import com.mikolka9144.worldcraft.common.level.gzip.GzipEntry;
 
 import java.io.IOException;
 import java.util.List;

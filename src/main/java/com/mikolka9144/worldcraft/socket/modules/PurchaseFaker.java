@@ -5,7 +5,9 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInt
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import org.springframework.stereotype.Component;
 
+@Component("purchase-faker")
 public class PurchaseFaker extends FullPacketInterceptor {
     @Override
     public void interceptPurchaseValidationResponse(Packet packet, PurchaseValidationResp data, PacketsFormula formula) {

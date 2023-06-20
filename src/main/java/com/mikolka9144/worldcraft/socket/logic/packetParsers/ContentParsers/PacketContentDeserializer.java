@@ -4,7 +4,6 @@ import com.mikolka9144.worldcraft.common.PacketDataReader;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import lombok.SneakyThrows;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -67,15 +66,11 @@ public class PacketContentDeserializer{
 
     public static MovementPacket decodeMovementPacket(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
-        try {
-            return new MovementPacket(reader.getInt(),
-                    reader.getVector3(),
-                    reader.getVector3(),
-                    reader.getVector3()
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return new MovementPacket(reader.getInt(),
+                reader.getVector3(),
+                reader.getVector3(),
+                reader.getVector3()
+        );
     }
 
     @SneakyThrows
@@ -142,5 +137,10 @@ public class PacketContentDeserializer{
     public static PlayerAction decodeEnemyAction(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PlayerAction(reader.getInt(), PlayerAction.ActionType.values()[reader.getByte()]);
+    }
+
+    public static LoginResponse decodeLoginResponse(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        return new LoginResponse(reader.getInt(), reader.getString(), reader.getBoolean());
     }
 }

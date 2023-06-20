@@ -5,12 +5,19 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInt
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component("chat-logger")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ChatLogger extends FullPacketInterceptor {
     @Override
     public void interceptPlayerMessage(Packet packet, String message, PacketsFormula formula) {
-        log.info("$ "+message);
+        //Sonarlint suggests to log chat message instead of whrowing it to the console
+        //But this way it looks better
+        System.out.println("$ "+message);
         super.interceptPlayerMessage(packet, message, formula);
     }
 

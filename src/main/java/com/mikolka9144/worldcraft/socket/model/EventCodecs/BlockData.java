@@ -1,5 +1,6 @@
 package com.mikolka9144.worldcraft.socket.model.EventCodecs;
 
+import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.Optional;
 @Setter
 @AllArgsConstructor
 public class BlockData {
+    private static final int CHUNK_SIZE = 16;
     private short x;
     private short y;
     private short z;
@@ -21,8 +23,19 @@ public class BlockData {
     private byte blockData;
     private byte prevBlockType;
     private byte prevBlockData;
-
-
+    public Vector3Short getPosition(){
+        return new Vector3Short(
+                (short)(x*chunkX),
+                y,
+                (short) (z*chunkZ));
+    }
+    public void setPosition(Vector3Short position){
+        x = (short) (position.getX()%CHUNK_SIZE);
+        y = position.getY();
+        z = (short) (position.getZ()%CHUNK_SIZE);
+        chunkX = (short) (position.getX()/CHUNK_SIZE);
+        chunkZ = (short) (position.getZ()/CHUNK_SIZE);
+    }
     public BlockData(short x, short y, short z, short chunkX, short chunkZ, BlockType blockType, byte blockData) {
         this.x = x;
         this.y = y;
@@ -31,6 +44,18 @@ public class BlockData {
         this.chunkZ = chunkZ;
         this.blockType = blockType;
         this.blockData = blockData;
+    }
+    public BlockData(Vector3Short position, BlockType blockType, byte blockData) {
+        setPosition(position);
+        this.blockType = blockType;
+        this.blockData = blockData;
+    }
+    public BlockData(Vector3Short position, BlockType blockType, byte blockData,byte prevBlockType,byte prevBlockData) {
+        setPosition(position);
+        this.blockType = blockType;
+        this.blockData = blockData;
+        this.prevBlockType = prevBlockType;
+        this.prevBlockData = prevBlockData;
     }
 
     public enum BlockType {
