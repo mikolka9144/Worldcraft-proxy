@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class WorldCraftPacketIO {
+/**
+ * Low-level class used to receiving and sending Packets.
+ */
+public class WorldcraftSocket {
     private InputStream inputStream;
     private OutputStream outputStream;
 
-    public WorldCraftPacketIO(InputStream in, OutputStream out){
+    public WorldcraftSocket(InputStream in, OutputStream out){
 
         this.inputStream = in;
         this.outputStream = out;

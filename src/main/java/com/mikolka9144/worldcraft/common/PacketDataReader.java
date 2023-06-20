@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.common;
 
 
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.Vector3;
+import com.mikolka9144.worldcraft.socket.model.Vector3;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayInputStream;
@@ -56,7 +56,7 @@ public class PacketDataReader {
         return Float.intBitsToFloat(getInt());
     }
 
-    public Vector3 getVector3() throws IOException {
+    public Vector3 getVector3() {
         return new Vector3(getFloat(), getFloat(), getFloat());
     }
 }

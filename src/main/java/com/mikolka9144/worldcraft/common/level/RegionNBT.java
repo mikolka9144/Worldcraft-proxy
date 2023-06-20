@@ -1,9 +1,9 @@
-package com.mikolka9144.worldcraft.http.logic.level;
+package com.mikolka9144.worldcraft.common.level;
 
 import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.common.PacketDataReader;
-import com.mikolka9144.worldcraft.http.logic.level.Chunks.ChunksMCR;
-import com.mikolka9144.worldcraft.http.logic.level.gzip.GZipConverter;
+import com.mikolka9144.worldcraft.common.level.Chunks.ChunksMCR;
+import com.mikolka9144.worldcraft.common.level.gzip.GZipConverter;
 import dev.dewy.nbt.Nbt;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class RegionNBT {
     public RegionNBT(byte[] chunkBlob)  {
         PacketDataReader reader = new PacketDataReader(chunkBlob);
         int lenght = reader.getInt();
-        assert reader.getByte() == 2; // gets compression, which is always 2
+        reader.getByte(); // gets compression, which is always 2
         byte[] compressedNbt = new ByteArrayInputStream(reader.getBytes()).readNBytes(lenght-1);
 
         var decompressedNBT = GZipConverter.unZlib(compressedNbt);

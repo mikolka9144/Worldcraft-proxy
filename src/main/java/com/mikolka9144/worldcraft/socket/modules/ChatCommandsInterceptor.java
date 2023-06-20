@@ -1,27 +1,26 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
-import com.mikolka9144.worldcraft.socket.logic.Packeter;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-
+@Component("chat-commands")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Slf4j
 public class ChatCommandsInterceptor extends FullPacketInterceptor {
 
     private Boolean isChatEnabled = false;
     private Boolean isFeedEnabled = true;
     private BlockData.BlockType blockId = null;
     private Integer blockData = null;
-    private Packeter packager;
 
-    @Override
-    public PacketsFormula InterceptRawPacket(Packet packet) {
-        if (packager == null) packager = new Packeter(packet.getProtoId());
-        return super.InterceptRawPacket(packet);
-    }
 
     @Override
     public void interceptPlayerMessage(Packet packet, String message, PacketsFormula formula) {
@@ -62,6 +61,22 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     }
                 }
             }
+            case "feed" -> {
+                switch (command[1]) {
+                    case "off" -> {
+                        isFeedEnabled = false;
+                        formula.addWriteback(packager.println("Feed was disabled"));
+                    }
+                    case "on" -> {
+                        isFeedEnabled = true;
+                        formula.addWriteback(packager.println("Feed was enabled"));
+                    }
+                    default -> {
+                        formula.addWriteback(packager.println("Command synax:"));
+                        formula.addWriteback(packager.println("/feed <on/off>"));
+                    }
+                }
+            }
             case "setpointer" -> {
                 try {
                     if (command[1].equals("clear")) {
@@ -77,18 +92,26 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     formula.addWriteback(packager.println("/setpointer <blockId> <blockData>"));
                 }
             }
-            default -> formula.addWriteback(packager.println("Unknown command: " + Arrays.toString(command)));
+            case "help" -> {
+                formula.addWriteback(packager.println("Avaliable commands:"));
+                formula.addWriteback(packager.println("chat,feed,moto,help,setpointer"));
+            }
+            default -> formula.addWriteback(packager.println(String.format("Unknown command: %s. use /help for command list", Arrays.toString(command))));
         }
     }
 
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
-        if (blockId != null && blockData != null) {
+        if (blockId != null && blockData != null && !packet.getMessage().equals("tained")) {
+            formula.getUpstreamPackets().remove(packet);
             int x = data.getX() * data.getChunkX();
             int y = data.getY();
             int z = data.getZ() * data.getChunkZ();
-            formula.addUpstream( packager.setBlockServerPacket(x,y,z,blockId,blockData));
-            formula.addWriteback(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockData(), data.getPrevBlockType()));
+            var serverBlockPlace = packager.setBlockServerPacket(x,y,z,blockId,blockData);
+            //serverBlockPlace.setMessage("tained");
+            formula.addUpstream(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockData(), data.getPrevBlockType()));
+            formula.addWriteback(serverBlockPlace);
+            log.info(String.format("Replacing block %s with %s",data.getBlockType(),blockId));
         }
     }
 

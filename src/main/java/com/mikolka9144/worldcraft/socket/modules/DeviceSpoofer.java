@@ -5,9 +5,13 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
-
+@Component("device-spoofer")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DeviceSpoofer extends FullPacketInterceptor {
     private static Random random = new Random();
     @Override

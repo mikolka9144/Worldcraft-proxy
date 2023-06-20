@@ -6,14 +6,20 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
+import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 
-public class Packeter {
+/**
+ * This class contains methods for building packets.
+ */
+public class PacketBuilder {
 
     private final PacketProtocol clientProto;
+    private final int playerId;
 
-    public Packeter(PacketProtocol clientProto) {
+    public PacketBuilder(PacketProtocol clientProto,int playerId) {
 
         this.clientProto = clientProto;
+        this.playerId = playerId;
     }
 
     public Packet println(String text) {
@@ -27,15 +33,12 @@ public class Packeter {
 
     }
 
-    public Packet setBlockServerPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData){
+    public Packet
+    setBlockServerPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData){
         return new Packet(PacketProtocol.SERVER, 0,
                 PacketCommand.S_SET_BLOCK_TYPE, "", (byte) 0,
                 PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
-                        (short) (x % 16),
-                        (short) y,
-                        (short) (z % 16),
-                        (short) (x / 16),
-                        (short) (z / 16),
+                        new Vector3Short((short) x, (short) y, (short) z),
                          blockType,
                         (byte) blockData
                 )));
@@ -44,14 +47,10 @@ public class Packeter {
     }
 
     public Packet sendBlockClientPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData, int blockTypePrev, int blockDataPrev) {
-        return new Packet(clientProto, 0,
+        return new Packet(clientProto, playerId,
                 PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
                 PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
-                        (short) (x % 16),
-                        (short) y,
-                        (short) (z % 16),
-                        (short) (x / 16),
-                        (short) (z / 16),
+                        new Vector3Short((short) x, (short) y, (short) z),
                          blockType,
                         (byte) blockData,
                         (byte) blockTypePrev,
@@ -59,5 +58,10 @@ public class Packeter {
                 )));
 
 
+    }
+
+    public Packet writeln(String line) {
+        return new Packet(clientProto,playerId,
+                PacketCommand.C_CHAT_MSG,"", (byte) 0, PacketContentSerializer.encodePlayerMessage(line));
     }
 }

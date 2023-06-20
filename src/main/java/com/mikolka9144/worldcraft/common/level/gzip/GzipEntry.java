@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.http.logic.level.gzip;
+package com.mikolka9144.worldcraft.common.level.gzip;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 

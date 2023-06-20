@@ -1,6 +1,6 @@
-package com.mikolka9144.worldcraft.http.logic.level;
+package com.mikolka9144.worldcraft.common.level;
 
-import com.mikolka9144.worldcraft.http.logic.level.gzip.GZipConverter;
+import com.mikolka9144.worldcraft.common.level.gzip.GZipConverter;
 import dev.dewy.nbt.Nbt;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import lombok.SneakyThrows;

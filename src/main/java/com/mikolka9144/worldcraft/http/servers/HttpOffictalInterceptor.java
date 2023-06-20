@@ -1,7 +1,9 @@
 package com.mikolka9144.worldcraft.http.servers;
 
+import com.mikolka9144.worldcraft.common.ServerConfigManifest;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,14 +12,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class HttpOffictalInterceptor{
+    @Component("http-official-upload")
     public static class Uploader implements HttpUploadInterceptor{
         private final String hostname;
         private final int port;
 
-        public Uploader(String hostname, int port){
+        public Uploader(ServerConfigManifest manifest){
 
-            this.hostname = hostname;
-            this.port = port;
+            this.hostname = manifest.getTargetServer();
+            this.port = manifest.getTargetHttpPort();
         }
         @Override
         public byte[] uploadWorld(byte[] worldBin, String contentType) {
@@ -35,6 +38,7 @@ public class HttpOffictalInterceptor{
             }
         }
     }
+    @Component("http-official-download")
     public static class Downloader implements HttpDownloadInterceptor{
         @Override
         public byte[] getWorld(int worldId,byte[] worldBin) {
@@ -53,10 +57,10 @@ public class HttpOffictalInterceptor{
         private final String hostname;
         private final int port;
 
-        public Downloader(String hostname, int port){
+        public Downloader(ServerConfigManifest manifest){
 
-            this.hostname = hostname;
-            this.port = port;
+            this.hostname = manifest.getTargetServer();
+            this.port = manifest.getTargetHttpPort();
         }
     }
 }

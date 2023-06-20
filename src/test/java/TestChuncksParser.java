@@ -1,4 +1,6 @@
-import com.mikolka9144.worldcraft.http.logic.level.Chunks.ChunksMCR;
+import com.mikolka9144.worldcraft.common.level.Chunks.ChunkData;
+import com.mikolka9144.worldcraft.common.level.Chunks.ChunksMCR;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,14 +16,17 @@ public class TestChuncksParser {
         byte[] mcr = Files.readAllBytes(Path.of("region.mcr"));
         // act
         ChunksMCR chunks = new ChunksMCR(mcr);
-        chunks.getChunks()[3][1].execute(s -> s.getNbt().putString("Name","Level"));
+        chunks.getChunks()[3][1].setBlock(5,5,5, BlockData.BlockType.CROPS_BLOCK_ID);
         byte[] mcrOut = chunks.build();
         //debug
         Files.write(Path.of("./reg.mcr"),mcrOut);
         // assert
         ChunksMCR newRegion = new ChunksMCR(mcrOut);
-        newRegion.getChunks()[3][1].execute(s -> {
-            assertEquals("Level", s.getNbt().getString("Name").getValue());
-        });
+        ChunkData chunkData = chunks.getChunks()[3][1];
+        ChunkData chunkData1 = newRegion.getChunks()[3][1];
+
+        assertEquals(BlockData.BlockType.CROPS_BLOCK_ID, chunkData.getBlock(5,5,5));
+        assertEquals(BlockData.BlockType.CROPS_BLOCK_ID, chunkData1.getBlock(5,5,5));
+
     }
 }

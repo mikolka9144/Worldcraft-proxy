@@ -1,8 +1,8 @@
 package com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers;
 
+import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
-import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 
 public class PacketContentSerializer {
     public static byte[] encodeRoomsData(RoomsPacket packet, PacketProtocol protoFormat){
@@ -48,7 +48,7 @@ public class PacketContentSerializer {
     public static byte[] encodePlayerMessage(String data) {
         return data.getBytes();
     }
-    public static byte[] encodeMovementPacket(MovementPacket data) {
+    public static byte[] encodeEnemyMovementPacket(MovementPacket data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getPlayerId());
         writer.append(data.getPosition());
@@ -114,7 +114,7 @@ public class PacketContentSerializer {
         return writer.build();
 
     }
-    public static byte[] decodeRoomsReq(RoomListRequest data) {
+    public static byte[] encodeRoomsReq(RoomListRequest data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append((byte)data.getRoomsType().ordinal());
         writer.append(data.getStartingIndex());
@@ -126,4 +126,12 @@ public class PacketContentSerializer {
         writer.append((byte) data.getActionType().ordinal());
         return writer.build();
     }
+    public static byte[] encodeLoginResponse(LoginResponse data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getPlayerId());
+        writer.append(data.getPlayerName());
+        writer.append(data.isPurchaseValidated());
+        return writer.build();
+    }
+
 }
