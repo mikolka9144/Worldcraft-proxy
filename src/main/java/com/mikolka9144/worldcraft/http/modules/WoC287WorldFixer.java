@@ -9,16 +9,13 @@ import org.springframework.stereotype.Component;
 public class WoC287WorldFixer implements HttpDownloadInterceptor {
     @SneakyThrows
     @Override
-    public byte[] getWorld(int worldId, byte[] worldBin) {
-        World world = World.fromTarGzBin(worldBin);
-        world.getLevel(s -> {
-            // Modify
-            if (!s.getNbt().getCompound("Data").contains("LastPlayed")) {
-                s.getNbt().getCompound("Data").putLong("LastPlayed", 0);
-            }
-        });
+    public World getWorld(int worldId, World world) {
+        //Modifying
+        if (!world.getLevel().getData().contains("LastPlayed")) {
+            world.getLevel().getData().putLong("LastPlayed", 0);
+        }
         //Saving
-        return world.toTarGzBin();
+        return world;
 
     }
 }

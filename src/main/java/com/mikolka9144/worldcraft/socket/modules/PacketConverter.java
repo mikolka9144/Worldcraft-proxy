@@ -4,6 +4,7 @@ import com.mikolka9144.worldcraft.common.PacketDataReader;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.PopupMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomsPacket;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketAlteringModule;
@@ -47,6 +48,11 @@ public class PacketConverter  {
         @Override
         public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {
             packet.setData(data.getMessage().getBytes());
+        }
+
+        @Override
+        public void interceptPopupMessage(Packet packet, PopupMessage popupMessage, PacketsFormula formula) {
+            packet.setData(popupMessage.getBaseMessage().getBytes());
         }
     }
 

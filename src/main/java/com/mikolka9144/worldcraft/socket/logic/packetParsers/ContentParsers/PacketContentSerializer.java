@@ -133,5 +133,24 @@ public class PacketContentSerializer {
         writer.append(data.isPurchaseValidated());
         return writer.build();
     }
-
+    public static byte[] encodePlayerDisconnect(int playerid){
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(playerid);
+        return writer.build();
+    }
+    public static byte[] encodeJoinRoomRequest(JoinRoomRequest data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getRoomName());
+        writer.append(data.getPassword());
+        writer.append(data.isReadOlny());
+        return writer.build();
+    }
+    public static byte[] encodePopupMessage(PopupMessage data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getMessagePreset().getValue());
+        writer.append(data.getTimeParameter());
+        writer.append(data.getTextParameter());
+        writer.append(data.getBaseMessage());
+        return writer.build();
+    }
 }

@@ -143,4 +143,18 @@ public class PacketContentDeserializer{
         PacketDataReader reader = new PacketDataReader(data);
         return new LoginResponse(reader.getInt(), reader.getString(), reader.getBoolean());
     }
+    public static int decodePlayerDisconnect(byte[] data){
+        PacketDataReader reader = new PacketDataReader(data);
+        return reader.getInt();
+    }
+
+    public static JoinRoomRequest decodeJoinRoomRequest(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        return new JoinRoomRequest(reader.getString(), reader.getString(), reader.getBoolean());
+    }
+
+    public static PopupMessage decodePopupMessage(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        return new PopupMessage(PopupMessage.PopupMessageType.findByValue(reader.getByte()), reader.getLong(), reader.getString(), reader.getString());
+    }
 }

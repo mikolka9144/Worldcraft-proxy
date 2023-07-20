@@ -1,5 +1,6 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginResponse;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.MovementPacket;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PlayerAction;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
@@ -42,5 +43,10 @@ public class PacketLogger extends FullPacketInterceptor {
     public void interceptPlayerActionReq(Packet packet, PlayerAction playerAction, PacketsFormula formula) {
         log.info(String.format("%d:player %d did %s",packet.getPlayerId(),playerAction.getPlayerId(),playerAction.getActionType().toString()));
         super.interceptPlayerActionReq(packet, playerAction, formula);
+    }
+
+    @Override
+    public void interceptLoginResp(Packet packet, LoginResponse loginResponse, PacketsFormula formula) {
+        super.interceptLoginResp(packet, loginResponse, formula);
     }
 }

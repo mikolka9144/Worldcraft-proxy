@@ -10,14 +10,11 @@ import org.springframework.stereotype.Component;
 public class HttpWorldTest implements HttpDownloadInterceptor {
     @SneakyThrows
     @Override
-    public byte[] getWorld(int worldId, byte[] worldBin) {
-        World world = World.fromTarGzBin(worldBin);
-        world.getRegion(reg -> {
-            reg.setBlock(5,50,2, BlockData.BlockType.BRICK_BLOCK_ID);
-            reg.setBlock(3,50,9, BlockData.BlockType.DIAMOND_BLOCK_ID);
-            reg.setBlock(0,50,0, BlockData.BlockType.GLASS_ID);
-            reg.setBlock(15,50,15, BlockData.BlockType.GOLD_BLOCK_ID);
-        });
-        return world.toTarGzBin();
+    public World getWorld(int worldId, World world) {
+        world.getChunks().setBlock(5,55,2, BlockData.BlockType.BRICK_BLOCK_ID);
+        world.getChunks().setBlock(3,55,9, BlockData.BlockType.DIAMOND_BLOCK_ID);
+        world.getChunks().setBlock(0,55,0, BlockData.BlockType.GLASS_ID);
+        world.getChunks().setBlock(15,55,15, BlockData.BlockType.GOLD_BLOCK_ID);
+        return world;
     }
 }
