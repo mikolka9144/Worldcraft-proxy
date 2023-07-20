@@ -29,7 +29,12 @@ public class PacketDataBuilder {
         out.write(ByteBuffer.allocate(4).putInt(value).array());
         return this;
     }
+    @SneakyThrows
+    public PacketDataBuilder append(long value) {
 
+        out.write(ByteBuffer.allocate(8).putLong(value).array());
+        return this;
+    }
     public PacketDataBuilder append(byte value) {
         out.write(value);
         return this;

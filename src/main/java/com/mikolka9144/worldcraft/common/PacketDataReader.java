@@ -30,6 +30,10 @@ public class PacketDataReader {
     public int getInt() {
         return ByteBuffer.wrap(this.data.readNBytes(Integer.BYTES)).getInt();
     }
+    @SneakyThrows
+    public int getLong() {
+        return ByteBuffer.wrap(this.data.readNBytes(Long.BYTES)).getInt();
+    }
 
     @SneakyThrows
     public short getShort()  {

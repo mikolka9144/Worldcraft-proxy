@@ -1,6 +1,7 @@
 package com.mikolka9144.worldcraft.http.servers;
 
 import com.mikolka9144.worldcraft.common.ServerConfigManifest;
+import com.mikolka9144.worldcraft.common.level.World;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
 import org.springframework.stereotype.Component;
@@ -23,16 +24,16 @@ public class HttpOffictalInterceptor{
             this.port = manifest.getTargetHttpPort();
         }
         @Override
-        public byte[] uploadWorld(byte[] worldBin, String contentType) {
+        public byte[] uploadWorld(byte[] world, String contentType) {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofByteArray(worldBin))
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(world))
                     .setHeader("Content-type", contentType)
                     .uri(URI.create(String.format("http://%s:%d/worldcraft-web/upload",hostname,port)))
                     .build();
             try {
                 client.send(request, HttpResponse.BodyHandlers.ofByteArray());
-                return worldBin;
+                return world;
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -41,7 +42,7 @@ public class HttpOffictalInterceptor{
     @Component("http-official-download")
     public static class Downloader implements HttpDownloadInterceptor{
         @Override
-        public byte[] getWorld(int worldId,byte[] worldBin) {
+        public World getWorld(int worldId, World world) {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
@@ -49,7 +50,7 @@ public class HttpOffictalInterceptor{
                     .build();
             try {
                 HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
-                return response.body();
+                return World.fromTarGzBin(response.body());
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }

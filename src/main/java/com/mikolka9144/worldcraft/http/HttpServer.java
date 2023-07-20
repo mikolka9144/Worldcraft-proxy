@@ -1,5 +1,6 @@
 package com.mikolka9144.worldcraft.http;
 
+import com.mikolka9144.worldcraft.common.level.World;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
 import com.mikolka9144.worldcraft.socket.model.ServerConfig;
@@ -17,19 +18,20 @@ public class HttpServer {
     private ServerConfig configuration;
     @GetMapping("rooms/{roomId}/game.tar.gz")
     public ResponseEntity<byte[]> getWorld(@PathVariable int roomId){
-        byte[] worldBin = new byte[0];
+        World world = null;
 
         for (HttpDownloadInterceptor interceptor : configuration.getHttpDownloadInterceptors()) {
-            worldBin = interceptor.getWorld(roomId,worldBin);
+            world = interceptor.getWorld(roomId,world);
         }
         return ResponseEntity.ok()
                 .header("Content-Type","application/x-gzip")
-                .body(worldBin);
+                .body(world.toTarGzBin());
     }
 
     @PostMapping("upload")
     public ResponseEntity<byte[]> uploadWorld(RequestEntity<byte[]> request){
         byte[] data = request.getBody();
+
         String contentType = request.getHeaders().getFirst("Content-type");
         for (HttpUploadInterceptor interceptor : configuration.getHttpUploadInterceptors()) {
             data = interceptor.uploadWorld(data,contentType);

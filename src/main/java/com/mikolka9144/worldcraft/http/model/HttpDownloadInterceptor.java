@@ -1,5 +1,7 @@
 package com.mikolka9144.worldcraft.http.model;
 
+import com.mikolka9144.worldcraft.common.level.World;
+
 public interface HttpDownloadInterceptor {
-    byte[] getWorld(int worldId,byte[] worldBin);
+    World getWorld(int worldId, World world);
 }

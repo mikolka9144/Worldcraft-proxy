@@ -31,20 +31,45 @@ public abstract class FullPacketInterceptor extends PacketAlteringModule {
             case SB_CHAT_MSG -> this.interceptChatMessage(packet,PacketContentDeserializer.decodeChatMessage(packet.getData()),formula);
             case C_CHAT_MSG -> this.interceptPlayerMessage(packet,PacketContentDeserializer.decodePlayerMessage(packet.getData()),formula);
             case C_PLAYER_MOVE_REQ -> this.interceptPlayerPositionReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
-            case S_PLAYER_MOVE_RESP -> this.interceptPlayerPositionResp(packet,formula);
             case C_SET_BLOCK_TYPE_REQ -> this.interceptPlaceBlockReq(packet,PacketContentDeserializer.decodePlaceBlockReq(packet.getData()),formula);
-            case S_SET_BLOCK_TYPE_RESP -> this.interceptPlaceBlockResp(packet,formula);
             case S_MODIFIED_BLOCKS -> this.interceptServerBlocks(packet,PacketContentDeserializer.decodeServerBlocks(packet.getData()),formula);
             case S_SET_BLOCK_TYPE -> this.interceptServerPlaceBlock(packet,PacketContentDeserializer.decodeServerPlaceBlock(packet.getData()),formula);
             case S_ENEMY_ACTION -> this.interceptEnemyAction(packet,PacketContentDeserializer.decodeEnemyAction(packet.getData()),formula);
             case C_PLAYER_ACTION_REQ -> this.interceptPlayerActionReq(packet,PacketContentDeserializer.decodeEnemyAction(packet.getData()),formula);
-            case S_PLAYER_ACTION_RESP -> this.interceptPlayerActionResp(packet,formula);
             case C_CHECK_VERSION_REQ -> this.interceptVersionCheckReq(packet,PacketContentDeserializer.decodeVersionCheckReq(packet.getData()),formula);
-            case S_CHECK_VERSION_RESP -> this.interceptVersionCheckResponse(packet,formula);
             case S_ENEMY_MOVE -> this.interceptEnemyPosition(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
+            case S_PLAYER_DISCONNECTED -> this.interceptPlayerDisconnect(packet,PacketContentDeserializer.decodePlayerDisconnect(packet.getData()),formula);
+            case C_JOIN_ROOM_REQ -> this.interceptJoinRoomReq(packet,PacketContentDeserializer.decodeJoinRoomRequest(packet.getData()),formula);
+            case S_POPUP_MESSAGE -> this.interceptPopupMessage(packet,PacketContentDeserializer.decodePopupMessage(packet.getData()),formula);
+            case S_PLAYER_MOVE_RESP -> this.interceptPlayerPositionResp(packet,formula);
+            case S_SET_BLOCK_TYPE_RESP -> this.interceptPlaceBlockResp(packet,formula);
+            case S_PLAYER_ACTION_RESP -> this.interceptPlayerActionResp(packet,formula);
+            case S_CHECK_VERSION_RESP -> this.interceptVersionCheckResponse(packet,formula);
+            case S_PLAYER_GRAPHICS_INITED_RESP -> this.interceptGraphicsInitalizationResp(packet,formula);
+            case C_PLAYER_GRAPHICS_INITED_REQ -> this.interceptGraphicsInitalizationReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
             default -> interceptUnknownPacket(packet,formula);
         }
         return formula;
+    }
+
+    public void interceptPopupMessage(Packet packet, PopupMessage popupMessage, PacketsFormula formula) {
+
+    }
+
+    public void interceptJoinRoomReq(Packet packet, JoinRoomRequest joinRoomRequest, PacketsFormula formula) {
+
+    }
+
+    public void interceptPlayerDisconnect(Packet packet, int playerId, PacketsFormula formula) {
+
+    }
+
+    public void interceptGraphicsInitalizationReq(Packet packet, MovementPacket initPos, PacketsFormula formula) {
+
+    }
+
+    public void interceptGraphicsInitalizationResp(Packet packet, PacketsFormula formula) {
+
     }
 
     public void interceptPlayerActionResp(Packet packet, PacketsFormula formula) {
