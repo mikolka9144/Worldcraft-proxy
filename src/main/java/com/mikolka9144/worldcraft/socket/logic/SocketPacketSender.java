@@ -19,6 +19,11 @@ public class SocketPacketSender extends WorldcraftThreadHandler{
 
         this.serverInterceptors = serverInterceptors;
     }
+
+    /**
+     * Sends packet to connected client
+     * @param packet packet to send
+     */
     public void sendToClient(Packet packet){
         try {
             sendPacket(packet,serverInterceptors,clientInterceptors);
@@ -27,6 +32,10 @@ public class SocketPacketSender extends WorldcraftThreadHandler{
             log.error("Exception was thrown when attempting to send packet by interceptor to client:",x);
         }
     }
+    /**
+     * Sends packet to server as connected client
+     * @param packet packet to send
+     */
     public void sendToServer(Packet packet){
         try {
             sendPacket(packet,clientInterceptors,serverInterceptors);

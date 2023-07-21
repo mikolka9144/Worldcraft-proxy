@@ -1,8 +1,7 @@
 package com.mikolka9144.worldcraft.socket.modules;
 
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginResponse;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.MovementPacket;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.PlayerAction;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
@@ -17,11 +16,24 @@ import java.util.Arrays;
 public class PacketLogger extends FullPacketInterceptor {
 
     @Override
+    public PacketsFormula InterceptRawPacket(Packet packet) {
+        log.info("--------------------------------");
+        log.info("Proto: "+packet.getProtoId() +"("+packet.getProtoId().getProto()+")");
+        log.info("Error code: "+packet.getError());
+        log.info("Command: "+packet.getCommand()+" ("+packet.getCommand().getCommand()+")");
+        log.info("PlayerId: "+packet.getPlayerId());
+        log.info("Msg: "+packet.getMessage());
+        log.info("Data: "+ Arrays.toString(packet.getData()));
+        log.info("--------------------------------");
+        return super.InterceptRawPacket(packet);
+    }
+
+    @Override
     public void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
         log.info("--------------------------------");
-        log.info("Proto: "+packet.getProtoId());
+        log.info("Proto: "+packet.getProtoId() +"("+packet.getProtoId().getProto()+")");
         log.info("Error code: "+packet.getError());
-        log.info("Command: "+packet.getCommand());
+        log.info("Command: "+packet.getCommand()+" ("+packet.getCommand().getCommand()+")");
         log.info("PlayerId: "+packet.getPlayerId());
         log.info("Msg: "+packet.getMessage());
         log.info("Data: "+ Arrays.toString(packet.getData()));
@@ -35,8 +47,18 @@ public class PacketLogger extends FullPacketInterceptor {
 
     @Override
     public void interceptEnemyPosition(Packet packet, MovementPacket data, PacketsFormula formula) {
-        //System.out.println(data.toString());
         super.interceptEnemyPosition(packet, data, formula);
+    }
+
+
+    @Override
+    public void interceptVersionCheckReq(Packet packet, ClientVersion clientVersion, PacketsFormula formula) {
+        log.info("Connected client ver: "+clientVersion.getClientVersion());
+    }
+
+    @Override
+    public void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {
+        super.interceptLogin(packet, data, formula);
     }
 
     @Override
@@ -47,6 +69,9 @@ public class PacketLogger extends FullPacketInterceptor {
 
     @Override
     public void interceptLoginResp(Packet packet, LoginResponse loginResponse, PacketsFormula formula) {
-        super.interceptLoginResp(packet, loginResponse, formula);
+        log.info(packet.getProtoId().toString());
+        loginResponse.setPurchaseValidated(true);
+
+        packet.setData(PacketContentSerializer.encodeLoginResponse(loginResponse));
     }
 }

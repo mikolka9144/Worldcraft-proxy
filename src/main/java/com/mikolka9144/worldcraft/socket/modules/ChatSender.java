@@ -31,7 +31,7 @@ public class ChatSender extends FullPacketInterceptor {
     private static Optional<Thread> consoleChatThread = Optional.empty();
     private static SocketPacketSender clientPipeline;
     private static OutputStream output;
-    private boolean showedWarning = false;
+    private boolean showedWarning = true;
     @Override
     public void setupSockets(SocketPacketSender io) {
         this.clientPipeline = io;

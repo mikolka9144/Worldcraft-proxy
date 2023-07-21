@@ -8,8 +8,8 @@ import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Abstract class containing basic packet recognition for use as a base for Modules.
- * In addition, it also initialises packager, but only after it receives playerId from one of packets.
+ * Abstract class containing basic packet recognition for use as a base for {@code interceptors}.
+ * In addition, it also initialises {@link PacketBuilder packager}, but only after it receives playerId from one of packets.
  */
 @Slf4j
 public abstract class FullPacketInterceptor extends PacketAlteringModule {
