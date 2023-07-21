@@ -34,7 +34,7 @@ public class ChatSender extends FullPacketInterceptor {
     private boolean showedWarning = true;
     @Override
     public void setupSockets(SocketPacketSender io) {
-        this.clientPipeline = io;
+        clientPipeline = io;
         log.info("Refreshed interceptors for the console");
         if(consoleChatThread.isEmpty()){
             consoleChatThread = Optional.of(new Thread(() -> {
@@ -78,7 +78,7 @@ public class ChatSender extends FullPacketInterceptor {
     }
 
     @Override
-    public void interceptGraphicsInitalizationResp(Packet packet, PacketsFormula formula) {
+    public void interceptGraphicsInitializationResp(Packet packet, PacketsFormula formula) {
         if (!showedWarning){
             Packet message = new Packet(PacketProtocol.SERVER,0, PacketCommand.S_POPUP_MESSAGE,"", (byte) 0,
                     PacketContentSerializer.encodePopupMessage(

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class PurchaseFaker extends FullPacketInterceptor {
     @Override
     public void interceptPurchaseValidationResponse(Packet packet, PurchaseValidationResp data, PacketsFormula formula) {
-        data.setStatus(PurchaseValidationResp.Status.Sucsess);
+        data.setStatus(PurchaseValidationResp.Status.SUCSESS);
         packet.setData(PacketContentSerializer.encodeValidatePurchaseResp(data));
     }
 }

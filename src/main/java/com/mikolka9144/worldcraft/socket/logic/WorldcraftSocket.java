@@ -14,8 +14,8 @@ import java.io.OutputStream;
  * Low-level class used to receiving and sending Packets.
  */
 public class WorldcraftSocket {
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private final InputStream inputStream;
+    private final OutputStream outputStream;
 
     public WorldcraftSocket(InputStream in, OutputStream out){
 
@@ -23,7 +23,7 @@ public class WorldcraftSocket {
         this.outputStream = out;
 
     }
-    public Packet recive() throws IOException {
+    public Packet receive() throws IOException {
         // Loading Early metadata
         PacketDataReader headerReader = new PacketDataReader(inputStream.readNBytes(8));
 

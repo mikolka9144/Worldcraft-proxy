@@ -13,7 +13,7 @@ import java.util.Random;
 @Component("device-spoofer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DeviceSpoofer extends FullPacketInterceptor {
-    private static Random random = new Random();
+    private static final Random random = new Random();
     @Override
     public void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {
         data.setDeviceId(String.valueOf(random.nextInt()));

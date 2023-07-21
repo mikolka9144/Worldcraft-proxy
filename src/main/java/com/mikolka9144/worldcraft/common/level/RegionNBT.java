@@ -19,9 +19,9 @@ public class RegionNBT {
     @SneakyThrows
     public RegionNBT(byte[] chunkBlob)  {
         PacketDataReader reader = new PacketDataReader(chunkBlob);
-        int lenght = reader.getInt();
+        int length = reader.getInt();
         reader.getByte(); // gets compression, which is always 2
-        byte[] compressedNbt = new ByteArrayInputStream(reader.getBytes()).readNBytes(lenght-1);
+        byte[] compressedNbt = new ByteArrayInputStream(reader.getBytes()).readNBytes(length-1);
 
         var decompressedNBT = GZipConverter.unZlib(compressedNbt);
         nbt = new Nbt().fromByteArray(decompressedNBT);

@@ -10,9 +10,9 @@ import lombok.Setter;
 public class PurchaseValidationResp {
     public enum Status{
         NULL,
-        Sucsess,
-        Fail,
-        Retry
+        SUCSESS,
+        FAIL,
+        RETRY
     }
     private Status status;
     private String receipt;

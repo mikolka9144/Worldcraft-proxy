@@ -33,6 +33,6 @@ public class RoomsPacket {
         private short roomCapacity;
         private int numberOfEntrances;
         private int likes;
-        private boolean isReadOlny;
+        private boolean isReadOnly;
     }
 }

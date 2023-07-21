@@ -62,7 +62,7 @@ public enum PacketCommand {
     C_VALIDATE_PURCHASE_REQ(62),
     S_VALIDATE_PURCHASE_RES(63);
 
-    private byte command;
+    private final byte command;
 
 
     public byte getCommand() {

@@ -45,8 +45,8 @@ public abstract class FullPacketInterceptor extends PacketAlteringModule {
             case S_SET_BLOCK_TYPE_RESP -> this.interceptPlaceBlockResp(packet,formula);
             case S_PLAYER_ACTION_RESP -> this.interceptPlayerActionResp(packet,formula);
             case S_CHECK_VERSION_RESP -> this.interceptVersionCheckResponse(packet,formula);
-            case S_PLAYER_GRAPHICS_INITED_RESP -> this.interceptGraphicsInitalizationResp(packet,formula);
-            case C_PLAYER_GRAPHICS_INITED_REQ -> this.interceptGraphicsInitalizationReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
+            case S_PLAYER_GRAPHICS_INITED_RESP -> this.interceptGraphicsInitializationResp(packet,formula);
+            case C_PLAYER_GRAPHICS_INITED_REQ -> this.interceptGraphicsInitializationReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
             default -> interceptUnknownPacket(packet,formula);
         }
         return formula;
@@ -64,11 +64,11 @@ public abstract class FullPacketInterceptor extends PacketAlteringModule {
 
     }
 
-    public void interceptGraphicsInitalizationReq(Packet packet, MovementPacket initPos, PacketsFormula formula) {
+    public void interceptGraphicsInitializationReq(Packet packet, MovementPacket initPos, PacketsFormula formula) {
 
     }
 
-    public void interceptGraphicsInitalizationResp(Packet packet, PacketsFormula formula) {
+    public void interceptGraphicsInitializationResp(Packet packet, PacketsFormula formula) {
 
     }
 

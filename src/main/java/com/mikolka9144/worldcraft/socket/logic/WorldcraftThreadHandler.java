@@ -22,8 +22,8 @@ public abstract class WorldcraftThreadHandler {
     }
 
     /**
-     * This method starts packet receving and interpretation from given socket.
-     * This method is a blocking one, so it's recomended to create a seperate thread for it or use {@code attachToThread()} method.
+     * This method starts packet receiving and interpretation from given socket.
+     * This method is a blocking one, so it's recommended to create a separate thread for it or use {@code attachToThread()} method.
      * @param socket connection to handle
      * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
      * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
@@ -32,7 +32,7 @@ public abstract class WorldcraftThreadHandler {
     private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
         try {
             while (true) { //TODO
-                Packet initialPacket = socket.getChannel().recive();
+                Packet initialPacket = socket.getChannel().receive();
                 sendPacket(initialPacket,upstreamInterceptors,downstreamInterceptors);
             }
         } catch (SocketException x) {

@@ -356,7 +356,7 @@ public class BlockData {
         CocoaBeans(235),
         Mushroom(236);
 
-        private byte id;
+        private final byte id;
 
 
         BlockType(int blockId) {
