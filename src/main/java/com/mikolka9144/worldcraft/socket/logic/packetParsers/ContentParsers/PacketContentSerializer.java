@@ -2,10 +2,12 @@ package com.mikolka9144.worldcraft.socket.logic.packetParsers.ContentParsers;
 
 import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
-import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 
 public class PacketContentSerializer {
-    public static byte[] encodeRoomsData(RoomsPacket packet, PacketProtocol protoFormat){
+    public static byte[] encodeRoomsData(RoomsPacket packet){
+        return encodeRoomsData(packet,true);
+    }
+    public static byte[] encodeRoomsData(RoomsPacket packet,boolean encodeReadOlnyStatus){
         PacketDataBuilder builder = new PacketDataBuilder()
                 .append(packet.getPacketIndex())
                 .append(packet.getAllPackets())
@@ -19,7 +21,7 @@ public class PacketContentSerializer {
                     .append(room.getRoomCapacity())
                     .append(room.getNumberOfEntrances())
                     .append(room.getLikes());
-            if(protoFormat.isWorldOfCraft()){
+            if(encodeReadOlnyStatus){
                 builder.append(room.isReadOlny());
             }
         }

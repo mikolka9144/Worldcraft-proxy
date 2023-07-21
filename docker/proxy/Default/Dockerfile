@@ -1,2 +1,3 @@
 FROM mikolka9144/worldcraft
-CMD java -jar /app/server.jar DEFAULT 10.10.50.144 1234 9144 80 443
+ENV SPRING_PROFILES_ACTIVE="proxy"
+CMD java -jar /app/server.jar

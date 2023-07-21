@@ -14,16 +14,17 @@ import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 public class PacketBuilder {
 
     private final PacketProtocol clientProto;
+    private final VersionFlags flags;
     private final int playerId;
 
     public PacketBuilder(PacketProtocol clientProto,int playerId) {
-
+        flags = new VersionFlags(clientProto);
         this.clientProto = clientProto;
         this.playerId = playerId;
     }
 
     public Packet println(String text) {
-        if (clientProto.isWorldOfCraft()) {
+        if (!flags.simplifyChat) {
             text = "[D7EF00]>" + text;
         }
         var chatMsg = new ChatMessage(text, text, ChatMessage.MsgType.STANDARD);
