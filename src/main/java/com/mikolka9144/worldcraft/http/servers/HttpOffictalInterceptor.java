@@ -11,8 +11,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
+@SuppressWarnings("HttpUrlsUsage")
+// As a game server I don't need to create a certificate JUST to send a world over a http
 public class HttpOffictalInterceptor{
+    private HttpOffictalInterceptor(){}
     @Component("http-official-upload")
     public static class Uploader implements HttpUploadInterceptor{
         private final String hostname;

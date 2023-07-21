@@ -56,7 +56,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                         formula.addWriteback(packager.println("Chat was enabled"));
                     }
                     default -> {
-                        formula.addWriteback(packager.println("Command synax:"));
+                        formula.addWriteback(packager.println("Command syntax:"));
                         formula.addWriteback(packager.println("/chat <on/off>"));
                     }
                 }
@@ -72,7 +72,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                         formula.addWriteback(packager.println("Feed was enabled"));
                     }
                     default -> {
-                        formula.addWriteback(packager.println("Command synax:"));
+                        formula.addWriteback(packager.println("Command syntax:"));
                         formula.addWriteback(packager.println("/feed <on/off>"));
                     }
                 }
@@ -82,7 +82,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     if (command[1].equals("clear")) {
                         blockData = null;
                         blockId = null;
-                        formula.addWriteback(packager.println("block pointer resetted"));
+                        formula.addWriteback(packager.println("block pointer was reset"));
                     }
                     blockId = BlockData.BlockType.findBlockById(Byte.parseByte(command[1]));
                     blockData = Integer.parseInt(command[2]);
@@ -93,7 +93,7 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                 }
             }
             case "help" -> {
-                formula.addWriteback(packager.println("Avaliable commands:"));
+                formula.addWriteback(packager.println("Available commands:"));
                 formula.addWriteback(packager.println("chat,feed,moto,help,setpointer"));
             }
             default -> formula.addWriteback(packager.println(String.format("Unknown command: %s. use /help for command list", Arrays.toString(command))));
@@ -108,7 +108,6 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
             int y = data.getY();
             int z = data.getZ() * data.getChunkZ();
             var serverBlockPlace = packager.setBlockServerPacket(x,y,z,blockId,blockData);
-            //serverBlockPlace.setMessage("tained");
             formula.addUpstream(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockData(), data.getPrevBlockType()));
             formula.addWriteback(serverBlockPlace);
             log.info(String.format("Replacing block %s with %s",data.getBlockType(),blockId));

@@ -14,7 +14,7 @@ import java.util.List;
 @Component("holo-projector")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class HologramProjectionInterceptor extends FullPacketInterceptor {
-    private List<Vector3> holographicBlocks = new ArrayList<>();
+    private final List<Vector3> holographicBlocks = new ArrayList<>();
     private String template = "";
 
     @Override
@@ -24,27 +24,25 @@ public class HologramProjectionInterceptor extends FullPacketInterceptor {
 
         formula.getUpstreamPackets().remove(packet);
         if(data.getBlockType() == BlockData.BlockType.BEDROCK_ID){
-            switch (template){
-                case "flower":
-                    registerPacket(formula,origin_x, (short)(data.getY()-1), origin_z, BlockData.BlockType.GLASS_ID);
-                    registerPacket(formula,origin_x+1, (short)(data.getY()-1), origin_z, BlockData.BlockType.GLASS_ID);
-                    registerPacket(formula,origin_x-1, (short)(data.getY()-1), origin_z, BlockData.BlockType.GLASS_ID);
-                    registerPacket(formula,origin_x, (short)(data.getY()-1), origin_z+1, BlockData.BlockType.GLASS_ID);
-                    registerPacket(formula,origin_x, (short)(data.getY()-1), origin_z-1, BlockData.BlockType.GLASS_ID);
-                    registerPacket(formula,origin_x, data.getY(), origin_z, BlockData.BlockType.WOOD_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+1), origin_z, BlockData.BlockType.WOOD_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+2), origin_z, BlockData.BlockType.WOOD_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+3), origin_z, BlockData.BlockType.WOOD_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+4), origin_z, BlockData.BlockType.GLOW_STONE_ID);
-                    registerPacket(formula,origin_x+1, (short) (data.getY()+4), origin_z, BlockData.BlockType.LEAVES_ID);
-                    registerPacket(formula,origin_x-1,(short) (data.getY()+4), origin_z, BlockData.BlockType.LEAVES_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+4), origin_z+1, BlockData.BlockType.LEAVES_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+4), origin_z-1, BlockData.BlockType.LEAVES_ID);
-                    registerPacket(formula,origin_x, (short) (data.getY()+5), origin_z, BlockData.BlockType.SLAB_ID);
-                    return;
-                default:
-                    formula.addWriteback(packager.println("Template is invalid"));
-                    formula.addWriteback(packager.setBlockServerPacket(origin_x, data.getY(), origin_z, BlockData.BlockType.AIR,0));
+            if (template.equals("flower")) {
+                registerPacket(formula, origin_x, (short) (data.getY() - 1), origin_z, BlockData.BlockType.GLASS_ID);
+                registerPacket(formula, origin_x + 1, (short) (data.getY() - 1), origin_z, BlockData.BlockType.GLASS_ID);
+                registerPacket(formula, origin_x - 1, (short) (data.getY() - 1), origin_z, BlockData.BlockType.GLASS_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() - 1), origin_z + 1, BlockData.BlockType.GLASS_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() - 1), origin_z - 1, BlockData.BlockType.GLASS_ID);
+                registerPacket(formula, origin_x, data.getY(), origin_z, BlockData.BlockType.WOOD_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 1), origin_z, BlockData.BlockType.WOOD_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 2), origin_z, BlockData.BlockType.WOOD_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 3), origin_z, BlockData.BlockType.WOOD_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 4), origin_z, BlockData.BlockType.GLOW_STONE_ID);
+                registerPacket(formula, origin_x + 1, (short) (data.getY() + 4), origin_z, BlockData.BlockType.LEAVES_ID);
+                registerPacket(formula, origin_x - 1, (short) (data.getY() + 4), origin_z, BlockData.BlockType.LEAVES_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 4), origin_z + 1, BlockData.BlockType.LEAVES_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 4), origin_z - 1, BlockData.BlockType.LEAVES_ID);
+                registerPacket(formula, origin_x, (short) (data.getY() + 5), origin_z, BlockData.BlockType.SLAB_ID);
+            } else {
+                formula.addWriteback(packager.println("Template is invalid"));
+                formula.addWriteback(packager.setBlockServerPacket(origin_x, data.getY(), origin_z, BlockData.BlockType.AIR, 0));
             }
 
         } else if (data.getBlockType() == BlockData.BlockType.AIR) {

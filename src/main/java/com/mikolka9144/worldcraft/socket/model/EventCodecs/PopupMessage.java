@@ -24,7 +24,7 @@ public class PopupMessage {
         PLAYER_WILL_BE_BANNED(4),
         ABUSE_TOO_OFTEN(5),
         ABUSE_TEXT_IS_TOO_LONG(6);
-        private byte value;
+        private final byte value;
 
 
         public byte getValue() {

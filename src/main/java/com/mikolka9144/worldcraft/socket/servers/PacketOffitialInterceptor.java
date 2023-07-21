@@ -20,7 +20,6 @@ public class PacketOffitialInterceptor extends PacketServer {
     private final String hostname;
     private final int port;
     private WorldcraftClient wocClient;
-    private List<PacketAlteringModule> upstreamInterceptors;
     private List<PacketAlteringModule> loopbackInterceptors;
 
 
@@ -30,13 +29,14 @@ public class PacketOffitialInterceptor extends PacketServer {
     }
     @Override
     public void startWritebackConnection(List<PacketAlteringModule> interceptors){
-        this.upstreamInterceptors = interceptors;
+        List<PacketAlteringModule> upstreamInterceptors;
+        upstreamInterceptors = interceptors;
         this.loopbackInterceptors = new ArrayList<>(interceptors);
 
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
             loopbackInterceptors.add(new WritebackModule(client));
-            wocClient = new WorldcraftClient(hostname,port,this.loopbackInterceptors,this.upstreamInterceptors);
+            wocClient = new WorldcraftClient(hostname,port,this.loopbackInterceptors,upstreamInterceptors);
 
             log.info(String.format("Connected to %s:%d",hostname,port));
         } catch (IOException e) {

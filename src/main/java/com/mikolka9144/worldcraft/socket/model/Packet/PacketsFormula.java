@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 public class PacketsFormula {
-    private List<Packet> upstreamPackets = new ArrayList<>();
-    private List<Packet> writebackPackets = new ArrayList<>();
+    private final List<Packet> upstreamPackets = new ArrayList<>();
+    private final List<Packet> writebackPackets = new ArrayList<>();
 
     public void add(PacketsFormula s) {
         upstreamPackets.addAll(s.getUpstreamPackets());

@@ -15,8 +15,8 @@ import java.util.List;
 // Y: 0-127
 public class ChunksMCR {
     private static final int CHUNK_SIZE = 16;
-    public static int SECTOR_SIZE = 4096;
-    private ChunkData[][] chunks = new ChunkData[32][32];
+    public static final int SECTOR_SIZE = 4096;
+    private final ChunkData[][] chunks = new ChunkData[32][32];
     private byte[] timeStamps;
 
     public ChunksMCR(byte[] data){

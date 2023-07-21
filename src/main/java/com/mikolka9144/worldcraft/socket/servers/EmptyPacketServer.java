@@ -5,7 +5,6 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 @Slf4j
@@ -24,7 +23,7 @@ public class EmptyPacketServer extends PacketServer {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         log.info("Closing fake server");
     }
 }

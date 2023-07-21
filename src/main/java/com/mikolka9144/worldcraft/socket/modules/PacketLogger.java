@@ -17,14 +17,7 @@ public class PacketLogger extends FullPacketInterceptor {
 
     @Override
     public PacketsFormula InterceptRawPacket(Packet packet) {
-        log.info("--------------------------------");
-        log.info("Proto: "+packet.getProtoId() +"("+packet.getProtoId().getProto()+")");
-        log.info("Error code: "+packet.getError());
-        log.info("Command: "+packet.getCommand()+" ("+packet.getCommand().getCommand()+")");
-        log.info("PlayerId: "+packet.getPlayerId());
-        log.info("Msg: "+packet.getMessage());
-        log.info("Data: "+ Arrays.toString(packet.getData()));
-        log.info("--------------------------------");
+        interceptUnknownPacket(packet,new PacketsFormula());
         return super.InterceptRawPacket(packet);
     }
 
