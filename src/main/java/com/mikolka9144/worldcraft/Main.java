@@ -1,8 +1,9 @@
 package com.mikolka9144.worldcraft;
 
-import com.mikolka9144.worldcraft.common.ServerConfigManifest;
+import com.mikolka9144.worldcraft.common.config.ConfigurationBuilder;
+import com.mikolka9144.worldcraft.common.config.ServerConfigManifest;
 import com.mikolka9144.worldcraft.socket.SocketServer;
-import com.mikolka9144.worldcraft.socket.model.ServerConfig;
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +22,6 @@ public class Main {
             log.info(String.format("Creating Server:  socketHost %d", config.getHostingSocketPort()));
             server.start();
         } catch (Exception e) {
-            log.error("Server crashed!!!");
             log.error("Server crashed!!!", e);
         }
     }

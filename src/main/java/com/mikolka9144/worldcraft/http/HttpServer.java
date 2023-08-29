@@ -1,14 +1,18 @@
 package com.mikolka9144.worldcraft.http;
 
-import com.mikolka9144.worldcraft.common.level.World;
+import com.mikolka9144.worldcraft.common.World;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
-import com.mikolka9144.worldcraft.socket.model.ServerConfig;
+import com.mikolka9144.worldcraft.http.model.WorldUploadRequest;
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
 @Slf4j
 @RestController()
 @RequestMapping("/worldcraft-web")
@@ -29,13 +33,12 @@ public class HttpServer {
     }
 
     @PostMapping("upload")
-    public ResponseEntity<byte[]> uploadWorld(RequestEntity<byte[]> request){
-        byte[] data = request.getBody();
+    public ResponseEntity<byte[]> uploadWorld(@RequestPart("file") MultipartFile worldBin, @RequestPart("uploadToken") String token) throws IOException {
 
-        String contentType = request.getHeaders().getFirst("Content-type");
+        WorldUploadRequest world = new WorldUploadRequest(token,worldBin.getBytes());
         for (HttpUploadInterceptor interceptor : configuration.getHttpUploadInterceptors()) {
-            data = interceptor.uploadWorld(data,contentType);
+            interceptor.uploadWorld(world);
         }
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok("OK".getBytes());
     }
 }

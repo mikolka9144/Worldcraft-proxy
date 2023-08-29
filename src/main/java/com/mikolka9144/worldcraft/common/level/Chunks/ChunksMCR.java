@@ -3,6 +3,7 @@ package com.mikolka9144.worldcraft.common.level.Chunks;
 import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.common.PacketDataReader;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayInputStream;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ChunksMCR {
     private static final int CHUNK_SIZE = 16;
     public static final int SECTOR_SIZE = 4096;
+    @Getter
     private final ChunkData[][] chunks = new ChunkData[32][32];
     private byte[] timeStamps;
 

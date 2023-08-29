@@ -1,8 +1,8 @@
 package com.mikolka9144.worldcraft.socket.logic;
 
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketAlteringModule;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,15 @@ import java.util.List;
  */
 @Slf4j
 public abstract class WorldcraftThreadHandler {
-    protected void attachToThread(WorldcraftSocket client, List<PacketAlteringModule> socketInter, List<PacketAlteringModule> loopbackInter) {
-        new Thread(() -> worldcraftClientHandler(client, socketInter, loopbackInter)).start();
+    /**
+     * Attaches {@code handleClientSocket} to a runnable thread
+     * @param socket connection to handle
+     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
+     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
+     * @return A thread to execute {@code handleClientSocket}
+     */
+    protected Thread attachToThread(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
+        return new Thread(() -> handleClientSocket(socket, upstreamInterceptors, downstreamInterceptors), socket.getConnectedIp());
     }
 
     /**
@@ -29,16 +36,20 @@ public abstract class WorldcraftThreadHandler {
      * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
      */
     @SneakyThrows
-    private void worldcraftClientHandler(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
+    protected void handleClientSocket(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
         try {
-            while (true) { //TODO
-                Packet initialPacket = socket.getChannel().receive();
-                sendPacket(initialPacket,upstreamInterceptors,downstreamInterceptors);
+            //Before someone whines at this loop:
+            // "socket.getChannel().receive()" is a blocking method, that either
+            // 1. Returns a packet
+            // 2. yeets an exception
+            while (true) {
+                    Packet initialPacket = socket.getChannel().receive();
+                    sendPacket(initialPacket,upstreamInterceptors,downstreamInterceptors);
             }
         } catch (SocketException x) {
             log.warn(socket.getConnectedIp() + " closed connection");
             log.debug(x.getMessage());
-        } catch (BufferUnderflowException ignore) {
+        } catch (BufferUnderflowException ignore) { // Duplicate exception
         } catch (IOException x) {
             log.error(x.getMessage());
         } finally {

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ChatMessage {
-    private String msgTypeArg;
+    private String playerNicknameArg;
     private String message;
     private MsgType type;
 
