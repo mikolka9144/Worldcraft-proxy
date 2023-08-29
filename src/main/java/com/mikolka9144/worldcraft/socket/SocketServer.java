@@ -1,11 +1,12 @@
 package com.mikolka9144.worldcraft.socket;
 
-import com.mikolka9144.worldcraft.socket.logic.SocketPacketSender;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftThreadHandler;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.model.Packet.Interceptors.PacketServer;
-import com.mikolka9144.worldcraft.socket.model.ServerConfig;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
+import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,12 @@ import java.util.function.Supplier;
 public class SocketServer extends WorldcraftThreadHandler implements Closeable {
     private final ServerSocket serverSocket;
     private final Supplier<List<PacketAlteringModule>> interceptors;
-    private final Function<WorldcraftSocket, PacketServer> socketServersProvider;
+    private final Function<WorldcraftPacketIO, PacketServer> socketServersProvider;
     @Autowired
     public SocketServer(ServerConfig config) throws IOException {
         this(config.getHostingSocketPort(), config.getReqInterceptors(), config.getPacketServer());
     }
-    public SocketServer(int port, Supplier<List<PacketAlteringModule>> interceptors, Function<WorldcraftSocket, PacketServer> socketServersProvider) throws IOException {
+    public SocketServer(int port, Supplier<List<PacketAlteringModule>> interceptors, Function<WorldcraftPacketIO, PacketServer> socketServersProvider) throws IOException {
         serverSocket = new ServerSocket(port);
         this.interceptors = interceptors;
         this.socketServersProvider = socketServersProvider;
@@ -38,7 +39,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
 
         while (true){
             // this is thread-locking
-            com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket client = new com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket(serverSocket.accept());
+            WorldcraftSocket client = new WorldcraftSocket(serverSocket.accept());
             log.info("New client to server connected: "+client.getConnectedIp());
 
             List<PacketAlteringModule> clientInterceptors = new ArrayList<>(interceptors.get());
@@ -47,7 +48,7 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
             connectionServer.startWritebackConnection(new ArrayList<>(clientInterceptors));
             setupAlteringModules(clientInterceptors,connectionServer);
 
-            attachToThread(client,clientInterceptors, connectionServer.GetloopbackInterceptors());
+            attachToThread(client,clientInterceptors, connectionServer.GetloopbackInterceptors()).start();
         }
     }
 

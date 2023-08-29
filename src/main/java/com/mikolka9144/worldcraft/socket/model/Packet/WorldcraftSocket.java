@@ -1,19 +1,26 @@
 package com.mikolka9144.worldcraft.socket.model.Packet;
 
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
+
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class WorldcraftSocket implements Closeable {
-    private final com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket channel;
+    private final WorldcraftPacketIO channel;
     private final String connectedIp;
 
-    private final Socket rawSocket;
+    private final Closeable rawSocket;
 
     public WorldcraftSocket(Socket rawSocket) throws IOException {
-        channel = new com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket(rawSocket.getInputStream(),rawSocket.getOutputStream());
-        connectedIp = rawSocket.getInetAddress().toString();
-        this.rawSocket = rawSocket;
+        this(rawSocket.getInputStream(),rawSocket.getOutputStream(),rawSocket.getInetAddress().toString(),rawSocket);
+    }
+    public WorldcraftSocket(InputStream input, OutputStream output,String clientName,Closeable lifecycleObject) { //NOTE remove lifecycleObject
+        channel = new WorldcraftPacketIO(input,output);
+        connectedIp = clientName;
+        this.rawSocket = lifecycleObject;
     }
 
     @Override
@@ -21,7 +28,7 @@ public class WorldcraftSocket implements Closeable {
         rawSocket.close();
     }
 
-    public com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket getChannel() {
+    public WorldcraftPacketIO getChannel() {
         return channel;
     }
 

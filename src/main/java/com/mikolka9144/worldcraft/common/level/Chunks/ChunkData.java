@@ -34,7 +34,7 @@ public class ChunkData {
     }
     public byte getData(int x, int y, int z){
         int index = calculatePosition(x,y,z);
-        return rawNBT.getNbt().getCompound("Level").getByteArray("Blocks").get(index);
+        return rawNBT.getNbt().getCompound("Level").getByteArray("Data").get(index);
     }
     private int calculatePosition(int x,int y,int z){
         int position = 0;
