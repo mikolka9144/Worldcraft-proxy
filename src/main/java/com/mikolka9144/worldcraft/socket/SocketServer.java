@@ -1,11 +1,11 @@
 package com.mikolka9144.worldcraft.socket;
 
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftThreadHandler;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
-import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 
 @Slf4j
 @Service
-public class SocketServer extends WorldcraftThreadHandler implements Closeable {
+public class SocketServer implements Closeable {
     private final ServerSocket serverSocket;
     private final Supplier<List<PacketAlteringModule>> interceptors;
     private final Function<WorldcraftPacketIO, PacketServer> socketServersProvider;
@@ -48,7 +48,8 @@ public class SocketServer extends WorldcraftThreadHandler implements Closeable {
             connectionServer.startWritebackConnection(new ArrayList<>(clientInterceptors));
             setupAlteringModules(clientInterceptors,connectionServer);
 
-            attachToThread(client,clientInterceptors, connectionServer.GetloopbackInterceptors()).start();
+            WorldcraftThread clientThread = new WorldcraftThread(client, clientInterceptors, connectionServer.GetloopbackInterceptors());
+            clientThread.attachToThread().start();
         }
     }
 

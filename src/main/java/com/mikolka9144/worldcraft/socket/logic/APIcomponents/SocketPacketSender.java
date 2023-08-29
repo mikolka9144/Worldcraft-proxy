@@ -1,17 +1,18 @@
 package com.mikolka9144.worldcraft.socket.logic.APIcomponents;
 
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftThreadHandler;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static com.mikolka9144.worldcraft.socket.logic.WorldcraftThread.sendPacket;
+
 /**
  * Class used to communicate with client and server alike.
  */
 @Slf4j
-public class SocketPacketSender extends WorldcraftThreadHandler {
+public class SocketPacketSender {
     private final List<PacketAlteringModule> clientInterceptors;
     private final List<PacketAlteringModule> serverInterceptors;
 

@@ -27,7 +27,7 @@ public abstract class PacketServer extends PacketAlteringModule implements Close
     /**
      * This method will provide you with list of interceptors used by the server to send packets
      * allowing you to send packets on server behalf.
-     * @return list of interceptors (probably with {@link com.mikolka9144.worldcraft.socket.logic.WritebackModule WritebackModule} too)
+     * @return list of interceptors (probably with {@link SendToSocketInterceptor WritebackModule} too)
      */
     public abstract List<PacketAlteringModule> GetloopbackInterceptors();
 
@@ -35,7 +35,7 @@ public abstract class PacketServer extends PacketAlteringModule implements Close
      * @deprecated this method is NEVER called for {@code PacketServer}
      */
     @Override
-    @Deprecated(forRemoval = false)
+    @Deprecated()
     public void setupSockets(SocketPacketSender io) {
         //IMPORTANT NOTE
         //Server will never have this method called ene

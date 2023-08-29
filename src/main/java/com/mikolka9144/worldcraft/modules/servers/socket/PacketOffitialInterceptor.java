@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.servers.socket;
 
 import com.mikolka9144.worldcraft.common.config.ServerConfigManifest;
 import com.mikolka9144.worldcraft.socket.WorldcraftClient;
-import com.mikolka9144.worldcraft.socket.logic.WritebackModule;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.SendToSocketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
@@ -30,12 +30,12 @@ public class PacketOffitialInterceptor extends PacketServer {
     @Override
     public void startWritebackConnection(List<PacketAlteringModule> interceptors){
         List<PacketAlteringModule> upstreamInterceptors;
-        upstreamInterceptors = interceptors;
+        upstreamInterceptors = new ArrayList<>(interceptors);
         this.loopbackInterceptors = new ArrayList<>(interceptors);
 
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
-            loopbackInterceptors.add(new WritebackModule(client));
+            loopbackInterceptors.add(new SendToSocketInterceptor(client));
             wocClient = new WorldcraftClient(hostname,port,this.loopbackInterceptors,upstreamInterceptors);
 
             log.info(String.format("Connected to %s:%d",hostname,port));
@@ -53,7 +53,7 @@ public class PacketOffitialInterceptor extends PacketServer {
     @Override
     public PacketsFormula InterceptRawPacket(Packet packet) {
         try {
-            wocClient.send(packet);
+            wocClient.getSocket().getChannel().send(packet);
         } catch (IOException e) {
             log.error(String.format("Sending packet %s to %s failed",packet.getCommand().name(),hostname));
         }
