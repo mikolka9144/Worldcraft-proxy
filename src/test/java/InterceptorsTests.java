@@ -1,5 +1,5 @@
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftThreadHandler;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
@@ -16,9 +16,9 @@ import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InterceptorsTests extends WorldcraftThreadHandler {
+public class InterceptorsTests {
 
-    class TestInterceptor extends PacketAlteringModule{
+    static class TestInterceptor extends PacketAlteringModule{
         private final Function<Packet,PacketsFormula>  test;
         public TestInterceptor(Function<Packet,PacketsFormula> command){this.test = command;}
         @Override
@@ -61,7 +61,8 @@ public class InterceptorsTests extends WorldcraftThreadHandler {
 
         // act
         socket.getChannel().send(packet);
-        handleClientSocket(socket,upstreamInterceptors,downstreamInterceptors);
+        WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
+        thread.sendPacket(packet);
     }
     @Test
     public void Interceptors_testPacketRemove() throws IOException {
@@ -78,10 +79,7 @@ public class InterceptorsTests extends WorldcraftThreadHandler {
         WorldcraftSocket socket = new WorldcraftSocket(input,output,"XD",output);
 
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
-        upstreamInterceptors.add(new TestInterceptor((s) -> {
-            PacketsFormula formula = new PacketsFormula();
-            return formula;
-        }));
+        upstreamInterceptors.add(new TestInterceptor((s) -> new PacketsFormula()));
         upstreamInterceptors.add(new TestInterceptor((s) -> {
             throw new RuntimeException("This shouldn't be executed");
         }));
@@ -91,7 +89,8 @@ public class InterceptorsTests extends WorldcraftThreadHandler {
 
         // act
         socket.getChannel().send(packet);
-        handleClientSocket(socket,upstreamInterceptors,downstreamInterceptors);
+        WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
+        thread.sendPacket(packet);
     }
     @Test
     public void Interceptors_testPacketLoopback() throws IOException {
@@ -132,7 +131,8 @@ public class InterceptorsTests extends WorldcraftThreadHandler {
 
         // act
         socket.getChannel().send(packet);
-        handleClientSocket(socket,upstreamInterceptors,downstreamInterceptors);
+        WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
+        thread.handleThread();
         // assert
         assertThat(executed).isTrue();
     }

@@ -12,39 +12,46 @@ import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.util.List;
 /**
- * Blob-like abstract class containing logic for sending packets.
+ * Blob-like class containing logic for sending packets.
  * This class is responsible for handling {@link PacketsFormula}
  */
 @Slf4j
-public abstract class WorldcraftThreadHandler {
+public class WorldcraftThread {
+    private final WorldcraftSocket socket;
+    private final List<PacketAlteringModule> upstreamInterceptors;
+    private final List<PacketAlteringModule> downstreamInterceptors;
+    private boolean haltThread = false;
+
     /**
-     * Attaches {@code handleClientSocket} to a runnable thread
+     *
      * @param socket connection to handle
      * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
      * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
+     */
+    public WorldcraftThread(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
+        this.socket = socket;
+        this.upstreamInterceptors = upstreamInterceptors;
+        this.downstreamInterceptors = downstreamInterceptors;
+    }
+    /**
+     * Attaches {@code handleClientSocket} to a runnable thread
      * @return A thread to execute {@code handleClientSocket}
      */
-    protected Thread attachToThread(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
-        return new Thread(() -> handleClientSocket(socket, upstreamInterceptors, downstreamInterceptors), socket.getConnectedIp());
+    public Thread attachToThread() {
+        return new Thread(this::handleThread, socket.getConnectedIp());
     }
 
     /**
      * This method starts packet receiving and interpretation from given socket.
      * This method is a blocking one, so it's recommended to create a separate thread for it or use {@code attachToThread()} method.
-     * @param socket connection to handle
-     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
-     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
+
      */
     @SneakyThrows
-    protected void handleClientSocket(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
+    public void handleThread(){
         try {
-            //Before someone whines at this loop:
-            // "socket.getChannel().receive()" is a blocking method, that either
-            // 1. Returns a packet
-            // 2. yeets an exception
-            while (true) {
+            while (!haltThread) {
                     Packet initialPacket = socket.getChannel().receive();
-                    sendPacket(initialPacket,upstreamInterceptors,downstreamInterceptors);
+                    sendPacket(initialPacket);
             }
         } catch (SocketException x) {
             log.warn(socket.getConnectedIp() + " closed connection");
@@ -57,13 +64,16 @@ public abstract class WorldcraftThreadHandler {
             socket.close();
         }
     }
+    public void stopThread(){
+        haltThread = true;
+    }
     /**
      * This method sends given packet as if it was sent by a client.
      * @param packet packet to send
-     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code target}
-     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code target}
+     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
+     * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
      */
-    protected void sendPacket(Packet packet,List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors){
+    public static void sendPacket(Packet packet,List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors){
         PacketsFormula baseFormula = executeComunication(upstreamInterceptors, List.of(packet));
 
         if (baseFormula.getWritebackPackets().isEmpty()) return;
@@ -76,14 +86,17 @@ public abstract class WorldcraftThreadHandler {
             log.error("Make sure, that interceptors are working as intended.");
         }
     }
-    private PacketsFormula executeComunication(List<PacketAlteringModule> socketInter, List<Packet> packets) {
+    public void sendPacket(Packet packet){
+        sendPacket(packet,upstreamInterceptors,downstreamInterceptors);
+    }
+    private static PacketsFormula executeComunication(List<PacketAlteringModule> socketInter, List<Packet> packets) {
         PacketsFormula baseFormula = new PacketsFormula();
         baseFormula.getUpstreamPackets().addAll(packets);
         baseFormula = executeInterceptors(socketInter, baseFormula);
         return baseFormula;
     }
 
-    private PacketsFormula executeInterceptors(List<PacketAlteringModule> socketInter, PacketsFormula formula) {
+    private static PacketsFormula executeInterceptors(List<PacketAlteringModule> socketInter, PacketsFormula formula) {
         var currentFormula = formula;
         for (PacketAlteringModule interceptor : socketInter) {
             var nextFormula = new PacketsFormula();
