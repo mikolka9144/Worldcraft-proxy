@@ -1,11 +1,19 @@
+import com.mikolka9144.worldcraft.modules.interceptors.socket.ChatCommandsInterceptor;
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
+import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
+import com.mikolka9144.worldcraft.socket.model.Vector3Short;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.*;
@@ -15,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Slf4j
 public class InterceptorsTests {
 
     static class TestInterceptor extends PacketAlteringModule{
@@ -135,5 +143,63 @@ public class InterceptorsTests {
         thread.handleThread();
         // assert
         assertThat(executed).isTrue();
+    }
+    @Test
+    public void Interceptors_testcommands() throws IOException {
+        //given
+
+
+        PacketBuilder builder = new PacketBuilder(PacketProtocol.SERVER,10);
+        var block = new BlockData(
+                        new Vector3Short((short) 100, (short) 50, (short) 12),
+                        BlockData.BlockType.GRASS_ID,
+                        (byte) 0,
+                        (byte) 0,
+                        (byte) 0
+                );
+
+        Packet commandSetBlock = builder.writeln("/setpointer 10 0");
+        Packet setBlock = new Packet(PacketProtocol.SERVER, 10,
+                PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0, PacketContentSerializer.encodeServerPlaceBlock(block));
+
+        List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
+        List<PacketAlteringModule> downstreamInterceptors = new ArrayList<>();
+
+        ChatCommandsInterceptor commands = new ChatCommandsInterceptor();
+        upstreamInterceptors.add(commands);
+        downstreamInterceptors.add(commands);
+
+        // tests
+        upstreamInterceptors.add(new FullPacketInterceptor() {
+            @Override
+            public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
+                assertThat(data.getY()).isEqualTo(block.getY());
+                assertThat(data.getX()).isEqualTo(block.getX());
+                assertThat(data.getZ()).isEqualTo(block.getZ());
+                assertThat(data.getBlockType()).isEqualTo(BlockData.BlockType.LAVA_ID);
+                assertThat(data.getChunkX()).isEqualTo(block.getChunkX());
+                assertThat(data.getChunkZ()).isEqualTo(block.getChunkZ());
+            }
+        });
+        downstreamInterceptors.add(new FullPacketInterceptor() {
+            @Override
+            public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {
+                log.info(data.getMessage());
+            }
+
+            @Override
+            public void interceptServerPlaceBlock(Packet packet, BlockData data, PacketsFormula formula) {
+                assertThat(data.getY()).isEqualTo(block.getY());
+                assertThat(data.getX()).isEqualTo(block.getX());
+                assertThat(data.getZ()).isEqualTo(block.getZ());
+                assertThat(data.getChunkX()).isEqualTo(block.getChunkX());
+                assertThat(data.getChunkZ()).isEqualTo(block.getChunkZ());
+                assertThat(data.getBlockType()).isEqualTo(BlockData.BlockType.LAVA_ID);
+            }
+        });
+
+        // act
+        WorldcraftThread.sendPacket(commandSetBlock,upstreamInterceptors,downstreamInterceptors);
+        WorldcraftThread.sendPacket(setBlock,upstreamInterceptors,downstreamInterceptors);
     }
 }

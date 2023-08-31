@@ -6,14 +6,22 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 @Slf4j
 public class SendToSocketInterceptor extends PacketAlteringModule {
     private final WorldcraftPacketIO destination;
+    private final Closeable connectionLifecycleHolder;
 
-    public SendToSocketInterceptor(WorldcraftPacketIO destination){
+    /**
+     * Creates a interceptors for sending packages to a socket
+     * @param destination destination socket
+     * @param connectionLifecycleHolder object to close once socket disconnects
+     */
+    public SendToSocketInterceptor(WorldcraftPacketIO destination, Closeable connectionLifecycleHolder){
         this.destination = destination;
+        this.connectionLifecycleHolder = connectionLifecycleHolder;
     }
 
     @SneakyThrows
@@ -22,7 +30,8 @@ public class SendToSocketInterceptor extends PacketAlteringModule {
         try{
             destination.send(packet);
         } catch (IOException e) {
-            log.error(String.format("Sending packet %s failed",packet.getCommand().name()));
+            log.error(String.format("Sending packet %s failed. Closing connection.",packet.getCommand().name()));
+            connectionLifecycleHolder.close();
         }
         return new PacketsFormula();
     }

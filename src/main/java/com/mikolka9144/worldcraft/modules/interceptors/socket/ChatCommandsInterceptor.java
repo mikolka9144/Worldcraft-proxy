@@ -32,34 +32,34 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                 formula.addUpstream(packet); // this restores message
             }
             else {
-                formula.addWriteback(packager.println("CHAT IS DISABLED"));
-                formula.addWriteback(packager.println("You can enable it with '/chat on'"));
+                println(formula,"CHAT IS DISABLED");
+                println(formula,"You can enable it with '/chat on'");
             }
             return;
         }
         String[] command = message.split("/", 2)[1].split(" ");
         switch (command[0]) {
             case "moto" -> {
-                formula.addWriteback(packager.println("In the notepad"));
-                formula.addWriteback(packager.println("fates are written"));
-                formula.addWriteback(packager.println("cus Pandora didn't listen"));
-                formula.addWriteback(packager.println("Time will march"));
-                formula.addWriteback(packager.println("and here with me"));
-                formula.addWriteback(packager.println("THIS SCREEN IS LAST YOU WILL EVER SEE"));
+                println(formula,"In the notepad");
+                println(formula,"fates are written");
+                println(formula,"cus Pandora didn't listen");
+                println(formula,"Time will march");
+                println(formula,"and here with me");
+                println(formula,"THIS SCREEN IS LAST YOU WILL EVER SEE");
             }
             case "chat" -> {
                 switch (command[1]) {
                     case "off" -> {
                         isChatEnabled = false;
-                        formula.addWriteback(packager.println("Chat was disabled"));
+                        println(formula,"Chat was disabled");
                     }
                     case "on" -> {
                         isChatEnabled = true;
-                        formula.addWriteback(packager.println("Chat was enabled"));
+                        println(formula,"Chat was enabled");
                     }
                     default -> {
-                        formula.addWriteback(packager.println("Command syntax:"));
-                        formula.addWriteback(packager.println("/chat <on/off>"));
+                        println(formula,"Command syntax:");
+                        println(formula,"/chat <on/off>");
                     }
                 }
             }
@@ -67,15 +67,15 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                 switch (command[1]) {
                     case "off" -> {
                         isFeedEnabled = false;
-                        formula.addWriteback(packager.println("Feed was disabled"));
+                        println(formula,"Feed was disabled");
                     }
                     case "on" -> {
                         isFeedEnabled = true;
-                        formula.addWriteback(packager.println("Feed was enabled"));
+                        println(formula,"Feed was enabled");
                     }
                     default -> {
-                        formula.addWriteback(packager.println("Command syntax:"));
-                        formula.addWriteback(packager.println("/feed <on/off>"));
+                        println(formula,"Command syntax:");
+                        println(formula,"/feed <on/off>");
                     }
                 }
             }
@@ -84,19 +84,38 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     if (command[1].equals("clear")) {
                         blockData = null;
                         blockId = null;
-                        formula.addWriteback(packager.println("block pointer was reset"));
+                        println(formula,"block pointer was reset");
                     }
                     blockId = BlockData.BlockType.findBlockById(Byte.parseByte(command[1]));
                     blockData = Integer.parseInt(command[2]);
-                    formula.addWriteback(packager.println("Block pointer changed to " + blockId + ":" + blockData));
+                    println(formula,"Block pointer changed to " + blockId + ":" + blockData);
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                    formula.addWriteback(packager.println("Command synax:"));
-                    formula.addWriteback(packager.println("/setpointer <blockId> <blockData>"));
+                    println(formula,"Command synax:");
+                    println(formula,"/setpointer <blockId> <blockData>");
                 }
             }
             case "help" -> {
-                formula.addWriteback(packager.println("Available commands:"));
-                formula.addWriteback(packager.println("chat,feed,moto,help,setpointer"));
+                println(formula,"Available commands:");
+                println(formula,"chat,feed,moto,help,setpointer");
+            }
+            case "repeat" ->{
+                if(command.length != 3){
+                    println(formula,"Command synax:");
+                    println(formula,"/repeat <sequence> <count>");
+                }
+                else {
+                    try {
+                        String seqence = command[1];
+                        int count = Integer.parseInt(command[2]);
+                        String line = new String(new char[count]).replace("\0", seqence);
+                        formula.addUpstream(packager.writeln(line));
+                    }
+                    catch (NumberFormatException x){
+                        println(formula,"Invalid count number");
+                        println(formula,"Command syntax:");
+                        println(formula,"/repeat <sequence> <count>");
+                    }
+                }
             }
             case "send" -> {
                 try {
@@ -111,23 +130,22 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
 
                     }
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                    formula.addWriteback(packager.println("Command synax:"));
-                    formula.addWriteback(packager.println("/send packet_num"));
+                    println(formula,"Command synax:");
+                    println(formula,"/send packet_num");
                 }
             }
-            default -> formula.addWriteback(packager.println(String.format("Unknown command: %s. use /help for command list", Arrays.toString(command))));
+            default -> println(formula,String.format("Unknown command: %s. use /help for command list", Arrays.toString(command)));
         }
     }
 
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
-        if (blockId != null && blockData != null && !packet.getMessage().equals("tained")) {
+        if (blockId != null && blockData != null && data.getBlockType() != BlockData.BlockType.AIR) {
             formula.getUpstreamPackets().remove(packet);
-            int x = data.getX() * data.getChunkX();
-            int y = data.getY();
-            int z = data.getZ() * data.getChunkZ();
-            var serverBlockPlace = packager.setBlockServerPacket(x,y,z,blockId,blockData);
-            formula.addUpstream(packager.sendBlockClientPacket(x,y,z,blockId,blockData,data.getPrevBlockData(), data.getPrevBlockType()));
+            data.setBlockType(blockId);
+            data.setBlockData(blockData.byteValue());
+            var serverBlockPlace = packager.setBlockServerPacket(data);
+            formula.addUpstream(packager.sendBlockClientPacket(data));
             formula.addWriteback(serverBlockPlace);
             log.info(String.format("Replacing block %s with %s",data.getBlockType(),blockId));
         }
@@ -137,6 +155,8 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
     public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {
          if (!isFeedEnabled) formula.getUpstreamPackets().remove(packet);
     }
-
+    private void println(PacketsFormula formula,String message){
+        formula.addWriteback(packager.println(message));
+    }
 
 }

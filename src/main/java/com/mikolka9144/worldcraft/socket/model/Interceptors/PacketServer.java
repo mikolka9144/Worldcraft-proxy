@@ -4,6 +4,7 @@ import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,12 +13,22 @@ import java.util.List;
  */
 public abstract class PacketServer extends PacketAlteringModule implements Closeable {
     protected WorldcraftPacketIO client;
+    private Closeable closeable;
 
     protected PacketServer() {}
     public void supplyIOConnection(WorldcraftPacketIO client){
         this.client = client;
     }
 
+    /**
+     * Bind this object's lifecycle to another object.
+     * (aka. If server gets closed, ti will also close {@literal closable})
+     * @param closeable An object to bind
+     */
+    public void bindToClosable(Closeable closeable){
+
+        this.closeable = closeable;
+    }
     /**
      * Initialise server's connection to client.
      * @param interceptors additional interceptors
@@ -39,5 +50,10 @@ public abstract class PacketServer extends PacketAlteringModule implements Close
     public void setupSockets(SocketPacketSender io) {
         //IMPORTANT NOTE
         //Server will never have this method called ene
+    }
+
+    @Override
+    public void close() throws IOException {
+        closeable.close();
     }
 }
