@@ -39,8 +39,7 @@ public class ChatSender extends FullPacketInterceptor {
         if(consoleChatThread.isEmpty()){
             consoleChatThread = Optional.of(new Thread(() -> {
 
-                try {
-                    ServerSocket server = new ServerSocket(10000);
+                try(ServerSocket server = new ServerSocket(10000)) {
                     Socket nc = server.accept();
                     var input = nc.getInputStream();
                     output = nc.getOutputStream();

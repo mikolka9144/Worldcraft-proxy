@@ -63,7 +63,6 @@ public class PacketLogger extends FullPacketInterceptor {
 
     @Override
     public void interceptLoginResp(Packet packet, LoginResponse loginResponse, PacketsFormula formula) {
-        log.info(packet.getProtoId().toString());
         loginResponse.setPurchaseValidated(true);
 
         packet.setData(PacketContentSerializer.encodeLoginResponse(loginResponse));

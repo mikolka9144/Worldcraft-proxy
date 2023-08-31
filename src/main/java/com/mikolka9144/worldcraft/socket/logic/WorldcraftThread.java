@@ -1,14 +1,14 @@
 package com.mikolka9144.worldcraft.socket.logic;
 
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Closeable;
 import java.io.IOException;
-import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.util.List;
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  * This class is responsible for handling {@link PacketsFormula}
  */
 @Slf4j
-public class WorldcraftThread {
+public class WorldcraftThread implements Closeable {
     private final WorldcraftSocket socket;
     private final List<PacketAlteringModule> upstreamInterceptors;
     private final List<PacketAlteringModule> downstreamInterceptors;
@@ -53,20 +53,19 @@ public class WorldcraftThread {
                     Packet initialPacket = socket.getChannel().receive();
                     sendPacket(initialPacket);
             }
-        } catch (SocketException x) {
-            log.warn(socket.getConnectedIp() + " closed connection");
+            log.info(String.format("Connection for %s was HALTED!",socket.getConnectedIp()));
+        } catch (IOException x) {
+            log.warn(socket.getConnectedIp() + " had IO Exception");
             log.debug(x.getMessage());
         } catch (BufferUnderflowException ignore) { // Duplicate exception
-        } catch (IOException x) {
-            log.error(x.getMessage());
+            log.warn(socket.getConnectedIp() + " had Buffer underflow");
         } finally {
             // if onClose throws an Exception, that will be his problem
             socket.close();
+            log.warn(socket.getConnectedIp() + " closed!");
         }
     }
-    public void stopThread(){
-        haltThread = true;
-    }
+
     /**
      * This method sends given packet as if it was sent by a client.
      * @param packet packet to send
@@ -86,6 +85,10 @@ public class WorldcraftThread {
             log.error("Make sure, that interceptors are working as intended.");
         }
     }
+/**
+ * This method sends given packet as if it was sent by a client.
+ * @param packet packet to send
+ */
     public void sendPacket(Packet packet){
         sendPacket(packet,upstreamInterceptors,downstreamInterceptors);
     }
@@ -113,5 +116,11 @@ public class WorldcraftThread {
             log.warn("Packet formula for client has remaining server packets. Did everything got sent?");
         }
         return currentFormula;
+    }
+
+    @Override
+    public void close() throws IOException {
+        haltThread = true;
+        socket.close();
     }
 }

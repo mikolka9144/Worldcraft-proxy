@@ -16,22 +16,27 @@ public class WorldcraftClient implements Closeable {
     @Getter
     private final WorldcraftSocket socket;
     private final WorldcraftThread thread;
+    private final List<PacketAlteringModule> upstreamInterceptors;
+    private final List<PacketAlteringModule> writebackInterceptors;
 
     public WorldcraftClient(String hostname, int port, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> writebackInterceptors) throws IOException {
         this(new WorldcraftSocket(new Socket(hostname,port)),upstreamInterceptors,writebackInterceptors);
+
     }
     public WorldcraftClient(WorldcraftSocket io, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> writebackInterceptors){
         socket = io;
-        writebackInterceptors.add(new SendToSocketInterceptor(io.getChannel()));
+        this.upstreamInterceptors = upstreamInterceptors;
+        this.writebackInterceptors = writebackInterceptors;
+        writebackInterceptors.add(new SendToSocketInterceptor(io.getChannel(), this));
         thread = new WorldcraftThread(socket, upstreamInterceptors,writebackInterceptors);
         thread.attachToThread().start();
     }
     public void send(Packet packet) {
-        thread.sendPacket(packet);
+        WorldcraftThread.sendPacket(packet,writebackInterceptors,upstreamInterceptors);
     }
     @Override
     public void close() throws IOException {
-        thread.stopThread();
+        thread.close();
         socket.close();
     }
 }

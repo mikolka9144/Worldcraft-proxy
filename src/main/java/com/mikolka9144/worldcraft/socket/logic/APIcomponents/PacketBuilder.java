@@ -47,17 +47,23 @@ public class PacketBuilder {
 
 
     }
+    public Packet
+    setBlockServerPacket(BlockData data){
+        return new Packet(PacketProtocol.SERVER, 0,
+                PacketCommand.S_SET_BLOCK_TYPE, "", (byte) 0,
+                PacketContentSerializer.encodeServerPlaceBlock(data));
+
+
+    }
 
     public Packet sendBlockClientPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData, int blockTypePrev, int blockDataPrev) {
-        return new Packet(clientProto, playerId,
-                PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
-                PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
+        return sendBlockClientPacket(new BlockData(
                         new Vector3Short((short) x, (short) y, (short) z),
                          blockType,
                         (byte) blockData,
                         (byte) blockTypePrev,
                         (byte) blockDataPrev
-                )));
+                ));
 
 
     }
@@ -65,5 +71,11 @@ public class PacketBuilder {
     public Packet writeln(String line) {
         return new Packet(clientProto,playerId,
                 PacketCommand.C_CHAT_MSG,"", (byte) 0, PacketContentSerializer.encodePlayerMessage(line));
+    }
+
+    public Packet sendBlockClientPacket(BlockData data) {
+        return new Packet(clientProto, playerId,
+                PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
+                PacketContentSerializer.encodePlaceBlockReq(data));
     }
 }

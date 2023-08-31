@@ -35,7 +35,7 @@ public class PacketOffitialInterceptor extends PacketServer {
 
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
-            loopbackInterceptors.add(new SendToSocketInterceptor(client));
+            loopbackInterceptors.add(new SendToSocketInterceptor(client,this));
             wocClient = new WorldcraftClient(hostname,port,this.loopbackInterceptors,upstreamInterceptors);
 
             log.info(String.format("Connected to %s:%d",hostname,port));
@@ -62,5 +62,6 @@ public class PacketOffitialInterceptor extends PacketServer {
     @Override
     public void close() throws IOException {
         wocClient.close();
+        super.close();
     }
 }

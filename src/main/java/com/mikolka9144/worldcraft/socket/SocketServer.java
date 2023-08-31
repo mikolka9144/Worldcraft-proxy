@@ -45,10 +45,12 @@ public class SocketServer implements Closeable {
             List<PacketAlteringModule> clientInterceptors = new ArrayList<>(interceptors.get());
             PacketServer connectionServer = socketServersProvider.apply(client.getChannel());
 
+
             connectionServer.startWritebackConnection(new ArrayList<>(clientInterceptors));
             setupAlteringModules(clientInterceptors,connectionServer);
 
             WorldcraftThread clientThread = new WorldcraftThread(client, clientInterceptors, connectionServer.GetloopbackInterceptors());
+            connectionServer.bindToClosable(clientThread);
             clientThread.attachToThread().start();
         }
     }
