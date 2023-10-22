@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PopupMessage;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @Slf4j
 @Component("chat-sender")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ChatSender extends FullPacketInterceptor {
+public class ChatSender extends CommandPacketInterceptor {
     private static Optional<Thread> consoleChatThread = Optional.empty();
     private static SocketPacketSender clientPipeline;
     private static OutputStream output;

@@ -11,8 +11,8 @@ public class RoomListRequest {
     private int startingIndex;
     public enum RoomsType{
         ROOM_SEARCH,
-        MOST_PLAYED,
-        REV1, // unknown for the time being
+        MOST_ACTIVE,
+        MOST_ENTERED,
         MOST_RATED,
         READ_ONLY
     }

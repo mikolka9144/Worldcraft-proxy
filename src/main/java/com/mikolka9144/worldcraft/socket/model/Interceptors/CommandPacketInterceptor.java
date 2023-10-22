@@ -1,10 +1,11 @@
 package com.mikolka9144.worldcraft.socket.model.Interceptors;
 
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentDeserializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
@@ -15,15 +16,16 @@ import java.util.List;
  * In addition, it also initialises {@link PacketBuilder packager}, but only after it receives playerId from one of packets.
  */
 @Slf4j
-public abstract class FullPacketInterceptor extends PacketAlteringModule {
+public abstract class CommandPacketInterceptor extends PacketAlteringModule {
 
     protected PacketBuilder packager = null;
 
     // first packet is added by default
     @Override
     public PacketsFormula InterceptRawPacket(Packet packet) {
-        if(packager == null) configurePacketer(packet);
+        configurePacketer(packet);
         PacketsFormula formula = super.InterceptRawPacket(packet);
+
         switch (packet.getCommand()){
             case C_LOGIN_REQ -> this.interceptLogin(packet,PacketContentDeserializer.decodeLogin(packet.getData()),formula);
             case S_LOGIN_RESP -> this.interceptLoginResp(packet,PacketContentDeserializer.decodeLoginResponse(packet.getData()),formula);
@@ -64,9 +66,26 @@ public abstract class FullPacketInterceptor extends PacketAlteringModule {
             case S_PLAYERS_INFO -> this.interceptPlayerList(packet,PacketContentDeserializer.decodePlayerList(packet.getData()),formula);
             case S_PLAYER_GRAPHICS_INITED_RESP -> this.interceptGraphicsInitializationResp(packet,formula);
             case C_PLAYER_GRAPHICS_INITED_REQ -> this.interceptGraphicsInitializationReq(packet,PacketContentDeserializer.decodeMovementPacket(packet.getData()),formula);
+            case C_ROOM_SEARCH_REQ -> this.interceptRoomsSearchReq(packet,PacketContentDeserializer.decodeRoomsSearchReq(packet.getData()),formula);
+            case C_CREATE_ROOM_REQ -> this.interceptCreateRoomReq(packet,PacketContentDeserializer.decodeRoomCreateReq(packet.getData()),formula);
+            case S_CREATE_ROOM_RESP -> this.interceptCreateRoomResp(packet,PacketContentDeserializer.decodeRoomCreateResp(packet.getData()),formula);
             default -> interceptUnknownPacket(packet,formula);
         }
         return formula;
+    }
+
+
+
+    public void interceptCreateRoomResp(Packet packet, String worldUploadToken, PacketsFormula formula) {
+
+    }
+
+    public void interceptCreateRoomReq(Packet packet, RoomCreateReq roomCreateReq, PacketsFormula formula) {
+
+    }
+
+    public void interceptRoomsSearchReq(Packet packet, RoomSearchReq roomSearchReq, PacketsFormula formula) {
+
     }
 
     public void interceptPurchaseSavingResp(Packet packet, PacketsFormula formula) {
@@ -145,8 +164,15 @@ public abstract class FullPacketInterceptor extends PacketAlteringModule {
     }
 
     private void configurePacketer(Packet packet) {
-        if(packet.getPlayerId() == 0) return;
-        this.packager = new PacketBuilder(packet.getProtoId(), packet.getPlayerId());
+        if (packager == null){
+            if (packet.getProtoId() != PacketProtocol.SERVER){
+                this.packager = new PacketBuilder(packet.getProtoId());
+            }
+            return;
+        }
+        if(packet.getPlayerId() != 0 && packager.getPlayerId() == 0) {
+            packager.setPlayerId(packet.getPlayerId());
+        }
     }
 
     public void interceptLoginResp(Packet packet, LoginResponse loginResponse, PacketsFormula formula) {

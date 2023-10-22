@@ -8,22 +8,48 @@ import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class contains methods for building packets.
  */
 public class PacketBuilder {
-
+    @Getter
     private final PacketProtocol clientProto;
+    @Getter
     private final VersionFlags flags;
-    private final int playerId;
+    @Getter
+    @Setter
+    private int playerId;
 
-    public PacketBuilder(PacketProtocol clientProto,int playerId) {
+    public PacketBuilder(PacketProtocol clientProto) {
         flags = new VersionFlags(clientProto);
         this.clientProto = clientProto;
-        this.playerId = playerId;
     }
-
+    public Packet serverPacket(PacketCommand command,byte[] data,byte error){
+        return new Packet(
+                PacketProtocol.SERVER,
+                0,
+                command,
+                "",
+                error,
+                data
+        );
+    }
+    public Packet serverPacket(PacketCommand command,byte[] data){
+        return serverPacket(command,data,(byte)0);
+    }
+    public Packet clientPacket(PacketCommand command,byte[] data){
+        return new Packet(
+                clientProto,
+                playerId,
+                command,
+                "",
+                (byte)0,
+                data
+        );
+    }
     public Packet println(String text) {
         if (!flags.simplifyChat) {
             text = "[D7EF00]>" + text;

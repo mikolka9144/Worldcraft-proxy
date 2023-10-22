@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.Vector3;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Component("holo-projector")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class HologramProjectionInterceptor extends FullPacketInterceptor {
+public class HologramProjectionInterceptor extends CommandPacketInterceptor {
     private final List<Vector3> holographicBlocks = new ArrayList<>();
     private String template = "";
 

@@ -7,7 +7,7 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PopupMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomsPacket;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
@@ -47,7 +47,7 @@ public class PacketConverter  {
     }
     @Component("packet-conv-late")
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public static class Late extends FullPacketInterceptor{
+    public static class Late extends CommandPacketInterceptor {
         private VersionFlags flags;
 
         @Override

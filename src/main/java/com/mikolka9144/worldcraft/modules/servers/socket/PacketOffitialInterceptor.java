@@ -62,6 +62,5 @@ public class PacketOffitialInterceptor extends PacketServer {
     @Override
     public void close() throws IOException {
         wocClient.close();
-        super.close();
     }
 }

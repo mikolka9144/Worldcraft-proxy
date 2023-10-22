@@ -209,4 +209,25 @@ public class PacketContentDeserializer{
             return null;
         }
     }
+
+    public static RoomSearchReq decodeRoomsSearchReq(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        RoomSearchReq searchReq = new RoomSearchReq();
+        searchReq.setQuery(reader.getString());
+        searchReq.setStartingIndex(reader.getInt());
+        return searchReq;
+    }
+
+    public static RoomCreateReq decodeRoomCreateReq(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        RoomCreateReq result = new RoomCreateReq();
+        result.setRoomName(reader.getString());
+        result.setRoomPassword(reader.getString());
+        result.setReadOnly(result.isReadOnly());
+        return result;
+    }
+
+    public static String decodeRoomCreateResp(byte[] data) {
+        return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data)).toString();
+    }
 }

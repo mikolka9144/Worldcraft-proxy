@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Component("chat-commands")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
-public class ChatCommandsInterceptor extends FullPacketInterceptor {
+public class ChatCommandsInterceptor extends CommandPacketInterceptor {
 
     private Boolean isChatEnabled = false;
     private Boolean isFeedEnabled = true;
@@ -88,15 +88,16 @@ public class ChatCommandsInterceptor extends FullPacketInterceptor {
                     }
                     blockId = BlockData.BlockType.findBlockById(Byte.parseByte(command[1]));
                     blockData = Integer.parseInt(command[2]);
+
                     println(formula,"Block pointer changed to " + blockId + ":" + blockData);
                 } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                    println(formula,"Command synax:");
+                    println(formula,"Command syntax:");
                     println(formula,"/setpointer <blockId> <blockData>");
                 }
             }
             case "help" -> {
                 println(formula,"Available commands:");
-                println(formula,"chat,feed,moto,help,setpointer");
+                println(formula,"chat,feed,moto,help,setpointer,send");
             }
             case "repeat" ->{
                 if(command.length != 3){

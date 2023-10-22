@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component("block-peek")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class BlockPeekInterceptor extends FullPacketInterceptor {
+public class BlockPeekInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {

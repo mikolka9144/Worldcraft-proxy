@@ -50,7 +50,6 @@ public class SocketServer implements Closeable {
             setupAlteringModules(clientInterceptors,connectionServer);
 
             WorldcraftThread clientThread = new WorldcraftThread(client, clientInterceptors, connectionServer.GetloopbackInterceptors());
-            connectionServer.bindToClosable(clientThread);
             clientThread.attachToThread().start();
         }
     }

@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 @Slf4j
 @Component("packet-logger")
-public class PacketLogger extends FullPacketInterceptor {
+public class PacketLogger extends CommandPacketInterceptor {
 
     @Override
     public void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
