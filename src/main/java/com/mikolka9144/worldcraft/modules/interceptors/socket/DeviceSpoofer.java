@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 @Component("device-spoofer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DeviceSpoofer extends FullPacketInterceptor {
+public class DeviceSpoofer extends CommandPacketInterceptor {
     private static final Random random = new Random();
     @Override
     public void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {

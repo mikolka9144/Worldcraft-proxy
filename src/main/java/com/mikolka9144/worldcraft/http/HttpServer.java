@@ -1,10 +1,10 @@
 package com.mikolka9144.worldcraft.http;
 
 import com.mikolka9144.worldcraft.common.World;
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
 import com.mikolka9144.worldcraft.http.model.WorldUploadRequest;
-import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,6 @@ public class HttpServer {
     @GetMapping("rooms/{roomId}/game.tar.gz")
     public ResponseEntity<byte[]> getWorld(@PathVariable int roomId){
         World world = null;
-
         for (HttpDownloadInterceptor interceptor : configuration.getHttpDownloadInterceptors()) {
             world = interceptor.getWorld(roomId,world);
         }

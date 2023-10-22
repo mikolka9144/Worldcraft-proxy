@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
@@ -170,7 +170,7 @@ public class InterceptorsTests {
         downstreamInterceptors.add(commands);
 
         // tests
-        upstreamInterceptors.add(new FullPacketInterceptor() {
+        upstreamInterceptors.add(new CommandPacketInterceptor() {
             @Override
             public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
                 assertThat(data.getY()).isEqualTo(block.getY());
@@ -181,7 +181,7 @@ public class InterceptorsTests {
                 assertThat(data.getChunkZ()).isEqualTo(block.getChunkZ());
             }
         });
-        downstreamInterceptors.add(new FullPacketInterceptor() {
+        downstreamInterceptors.add(new CommandPacketInterceptor() {
             @Override
             public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {
                 log.info(data.getMessage());

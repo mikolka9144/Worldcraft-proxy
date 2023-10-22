@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PurchaseValidationResp;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PurchasesList;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component("purchase-faker")
 @Slf4j
-public class PurchaseFaker extends FullPacketInterceptor {
+public class PurchaseFaker extends CommandPacketInterceptor {
     @Override
     public void interceptPurchaseValidationResponse(Packet packet, PurchaseValidationResp data, PacketsFormula formula) {
         data.setStatus(PurchaseValidationResp.Status.SUCSESS);

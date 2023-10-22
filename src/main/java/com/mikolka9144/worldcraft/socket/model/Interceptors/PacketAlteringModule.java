@@ -7,7 +7,7 @@ import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 /**
  * Base class for any {@code PacketInterceptor} in the server.
  * It is a very basic class and is recomended to use ONLY for low-level interceptors.
- * For everything else inherit from {@link FullPacketInterceptor}
+ * For everything else inherit from {@link CommandPacketInterceptor}
  */
 public abstract class PacketAlteringModule {
 

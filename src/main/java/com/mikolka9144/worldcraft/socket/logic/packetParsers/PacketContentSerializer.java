@@ -200,6 +200,19 @@ public class PacketContentSerializer {
         writer.append(data.getSkinId());
         return writer.build();
     }
+    public static byte[] decodeRoomsSearchReq(RoomSearchReq data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getQuery())
+                .append(data.getStartingIndex());
+        return writer.build();
+    }
+    public static byte[] decodeRoomCreateReq(RoomCreateReq data){
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getRoomName())
+                .append(data.getRoomPassword())
+                .append(data.isReadOnly());
+        return writer.build();
+    }
     @SneakyThrows
     public static byte[] encodePurchaseLoadResponse(@Nullable PurchasesList data) {
         PacketDataBuilder writer = new PacketDataBuilder();
@@ -210,5 +223,8 @@ public class PacketContentSerializer {
             writer.append("");
         }
         return writer.build();
+    }
+    public static byte[] encodeRoomCreateResp(String token) {
+        return token.getBytes();
     }
 }
