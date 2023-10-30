@@ -17,7 +17,7 @@ public class PacketContentDeserializer{
                 reader.getInt(),
                 reader.getInt(),
                 reader.getShort(),
-                reader.getByte());
+                RoomListRequest.RoomsType.findRoomTypeById(reader.getByte()));
         while (reader.hasNext(20)){
             RoomsPacket.Room room = new RoomsPacket.Room(
                     reader.getInt(),
@@ -132,7 +132,7 @@ public class PacketContentDeserializer{
 
     public static RoomListRequest decodeRoomsReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
-        return new RoomListRequest(RoomListRequest.RoomsType.values()[reader.getByte()], reader.getInt());
+        return new RoomListRequest(RoomListRequest.RoomsType.findRoomTypeById(reader.getByte()), reader.getInt());
     }
 
     public static PlayerAction decodeEnemyAction(byte[] data) {
