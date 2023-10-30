@@ -1,23 +1,29 @@
 package com.mikolka9144.worldcraft.socket.model.EventCodecs;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
+@NoArgsConstructor
 public class RoomsPacket {
+    /**
+     * Represents packet index in a list of packets for room list. (from 0 to allPackets-1)
+     */
     private int packetIndex;
+    /**
+     * Number of packets in a list of room packets
+     */
     private int allPackets;
+    /**
+     * Initial size of list for ALL room packages for specific list
+     */
     private short initialRoomListSize;
-    private byte roomType;
+    private RoomListRequest.RoomsType roomType;
     private List<Room> rooms = new ArrayList<>();
 
-    public RoomsPacket(int packetIndex, int allPackets, short initialRoomListSize, byte roomType) {
-
+    public RoomsPacket(int packetIndex, int allPackets, short initialRoomListSize,  RoomListRequest.RoomsType roomType) {
         this.packetIndex = packetIndex;
         this.allPackets = allPackets;
         this.initialRoomListSize = initialRoomListSize;
@@ -25,8 +31,8 @@ public class RoomsPacket {
     }
     @Getter
     @Setter
-    @ToString
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Room {
         private int Id;
         private String name;

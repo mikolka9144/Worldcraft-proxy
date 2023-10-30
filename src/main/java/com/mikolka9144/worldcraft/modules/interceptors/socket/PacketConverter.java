@@ -59,9 +59,9 @@ public class PacketConverter  {
         }
 
         @Override
-        public void interceptRoomsPacket(Packet packet, RoomsPacket data, PacketsFormula formula) {
+        public void interceptRoomsResp(Packet packet, RoomsPacket data, PacketsFormula formula) {
             if(!flags.shoudIncludeReadOlnyRoomStatus){
-                packet.setData(PacketContentSerializer.encodeRoomsData(data,false));
+                packet.setData(PacketContentSerializer.encodeRoomsQueryResponse(data,false));
             }
         }
 

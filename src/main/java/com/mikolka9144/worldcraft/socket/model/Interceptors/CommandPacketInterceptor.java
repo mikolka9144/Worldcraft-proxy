@@ -29,8 +29,8 @@ public abstract class CommandPacketInterceptor extends PacketAlteringModule {
         switch (packet.getCommand()){
             case C_LOGIN_REQ -> this.interceptLogin(packet,PacketContentDeserializer.decodeLogin(packet.getData()),formula);
             case S_LOGIN_RESP -> this.interceptLoginResp(packet,PacketContentDeserializer.decodeLoginResponse(packet.getData()),formula);
-            case C_ROOM_LIST_REQ -> this.interceptRoomsReq(packet,PacketContentDeserializer.decodeRoomsReq(packet.getData()),formula);
-            case S_ROOM_LIST_RESP -> this.interceptRoomsPacket(packet, PacketContentDeserializer.decodeRoomsData(packet.getData()),formula);
+            case C_ROOM_LIST_REQ -> this.interceptRoomsResp(packet,PacketContentDeserializer.decodeRoomsReq(packet.getData()),formula);
+            case S_ROOM_LIST_RESP -> this.interceptRoomsResp(packet, PacketContentDeserializer.decodeRoomsData(packet.getData()),formula);
             case C_VALIDATE_PURCHASE_REQ -> this.interceptPurchaseValidationRequest(packet, PacketContentDeserializer.decodeValidatePurchaseReq(packet.getData()),formula);
             case S_VALIDATE_PURCHASE_RES -> this.interceptPurchaseValidationResponse(packet, PacketContentDeserializer.decodeValidatePurchaseResp(packet.getData()),formula);
             case SB_CHAT_MSG -> this.interceptChatMessage(packet,PacketContentDeserializer.decodeChatMessage(packet.getData()),formula);
@@ -218,10 +218,10 @@ public abstract class CommandPacketInterceptor extends PacketAlteringModule {
 
     }
 
-    public void interceptRoomsPacket(Packet packet, RoomsPacket data, PacketsFormula formula) {
+    public void interceptRoomsResp(Packet packet, RoomsPacket data, PacketsFormula formula) {
 
     }
-    public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
+    public void interceptRoomsResp(Packet packet, RoomListRequest data, PacketsFormula formula) {
 
     }
     public void interceptUnknownPacket(Packet packet,PacketsFormula formula){

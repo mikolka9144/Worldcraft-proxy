@@ -149,7 +149,8 @@ public class InterceptorsTests {
         //given
 
 
-        PacketBuilder builder = new PacketBuilder(PacketProtocol.SERVER,10);
+        PacketBuilder builder = new PacketBuilder(PacketProtocol.SERVER);
+        builder.setPlayerId(10);
         var block = new BlockData(
                         new Vector3Short((short) 100, (short) 50, (short) 12),
                         BlockData.BlockType.GRASS_ID,

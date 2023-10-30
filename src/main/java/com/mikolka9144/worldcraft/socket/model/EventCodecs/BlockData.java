@@ -25,9 +25,9 @@ public class BlockData {
     private byte prevBlockData;
     public Vector3Short getPosition(){
         return new Vector3Short(
-                (short)(x*chunkX),
+                (short)(x+(chunkX*CHUNK_SIZE)),
                 y,
-                (short) (z*chunkZ));
+                (short)(z+(chunkZ*CHUNK_SIZE)));
     }
     public void setPosition(Vector3Short position){
         x = (short) (position.getX()%CHUNK_SIZE);
@@ -365,8 +365,7 @@ public class BlockData {
 
         public static BlockType findBlockById(byte Id) {
             Optional<BlockType> command = Arrays.stream(BlockType.values()).filter(s -> s.getId() == Id).findFirst();
-            if (command.isPresent()) return command.get();
-            throw new RuntimeException("Block " + Id + " is not declared");
+            return command.orElse(UNKNOWN);
         }
 
         public byte getId() {

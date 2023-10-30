@@ -1,6 +1,7 @@
 package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.JoinRoomResponse;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
@@ -20,6 +21,8 @@ public class ChatLogger extends CommandPacketInterceptor {
         System.out.println("$ "+message);
         super.interceptPlayerMessage(packet, message, formula);
     }
+
+
 
     @Override
     public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {

@@ -13,17 +13,17 @@ public class PacketContentSerializer {
     private PacketContentSerializer() {
     }
 
-    public static byte[] encodeRoomsData(RoomsPacket packet) {
-        return encodeRoomsData(packet, true);
+    public static byte[] encodeRoomsQueryResponse(RoomsPacket data) {
+        return encodeRoomsQueryResponse(data, true);
     }
 
-    public static byte[] encodeRoomsData(RoomsPacket packet, boolean encodeReadOnlyStatus) {
+    public static byte[] encodeRoomsQueryResponse(RoomsPacket data, boolean encodeReadOnlyStatus) {
         PacketDataBuilder builder = new PacketDataBuilder()
-                .append(packet.getPacketIndex())
-                .append(packet.getAllPackets())
-                .append(packet.getInitialRoomListSize())
-                .append(packet.getRoomType());
-        for (RoomsPacket.Room room : packet.getRooms()) {
+                .append(data.getPacketIndex())
+                .append(data.getAllPackets())
+                .append(data.getInitialRoomListSize())
+                .append(data.getRoomType().getId());
+        for (RoomsPacket.Room room : data.getRooms()) {
             builder.append(room.getId())
                     .append(room.getName())
                     .append(room.isProtected())

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component("experiments")
 public class PlayGroundInterceptor extends CommandPacketInterceptor {
     @Override
-    public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
+    public void interceptRoomsResp(Packet packet, RoomListRequest data, PacketsFormula formula) {
 //        if (data.getRoomsType() == RoomListRequest.RoomsType.MOST_RATED){
 //            RoomListRequest request = new RoomListRequest(RoomListRequest.RoomsType.REV1,0);
 //            formula.addUpstream(new Packet(
@@ -24,8 +24,8 @@ public class PlayGroundInterceptor extends CommandPacketInterceptor {
     }
 
     @Override
-    public void interceptRoomsPacket(Packet packet, RoomsPacket data, PacketsFormula formula) {
-        if (data.getRoomType() == (byte)2) {
+    public void interceptRoomsResp(Packet packet, RoomsPacket data, PacketsFormula formula) {
+        if (data.getRoomType() == RoomListRequest.RoomsType.MOST_ACTIVE) {
             System.out.println("2:   :");
             data.getRooms().forEach(System.out::println);
         }

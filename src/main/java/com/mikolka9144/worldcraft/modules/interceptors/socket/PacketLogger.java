@@ -16,6 +16,17 @@ import java.util.Arrays;
 public class PacketLogger extends CommandPacketInterceptor {
 
     @Override
+    public void interceptRoomsResp(Packet packet, RoomsPacket data, PacketsFormula formula) {
+        log.info("--------------------------------");
+        log.info("Room Type: "+data.getRoomType() +"("+data.getRoomType().ordinal()+")");
+        log.info("Packet Index: "+data.getPacketIndex());
+        log.info("Packet Count: "+data.getAllPackets());
+        log.info("Init Size: "+data.getInitialRoomListSize());
+        log.info("Rooms Count: "+data.getRooms().size());
+        log.info("--------------------------------");
+    }
+
+    @Override
     public void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
         log.info("--------------------------------");
         log.info("Proto: "+packet.getProtoId() +"("+packet.getProtoId().getProto()+")");
