@@ -18,6 +18,9 @@ public class MonikaCommandReader {
     public String readNext() throws NoSuchElementException {
         return input.next();
     }
+    public int readNextInt() throws NoSuchElementException {
+        return Integer.parseInt(input.next());
+    }
     public List<String> readNextCodeBlock() throws IllegalStateException {
         if (!input.next().equals("[")) throw new IllegalStateException("Input is not a code block!");
         List<String> code = new ArrayList<>();

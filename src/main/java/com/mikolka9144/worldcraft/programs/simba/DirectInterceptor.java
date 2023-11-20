@@ -6,9 +6,12 @@ import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("direct-interceptor")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DirectInterceptor extends CommandPacketInterceptor {
 
     @Override

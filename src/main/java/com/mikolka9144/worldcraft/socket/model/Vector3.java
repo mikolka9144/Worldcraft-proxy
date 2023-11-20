@@ -18,4 +18,5 @@ public class Vector3 {
 
     private float y;
     private float z;
+
 }
