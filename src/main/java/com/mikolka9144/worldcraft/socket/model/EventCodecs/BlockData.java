@@ -255,20 +255,6 @@ public class BlockData {
 
         CROPS_BLOCK_ID(154),
 
-        BucketEmpty(157),
-
-        BucketMilk(158),
-
-        BucketWater(159),
-
-        BucketLava(160),
-
-        RawChicken(161),
-
-        CookedChicken(162),
-
-        Feather(163),
-
         Egg(164),
 
         Bale(165),
@@ -291,7 +277,7 @@ public class BlockData {
 
         LightGrayBricks(179),
 
-        SteelPlate(180),
+        STEEL_PLATE(180),
 
         MetalContainer(181),
 
@@ -317,10 +303,6 @@ public class BlockData {
 
         PumpkinLantern(192),
 
-        PumpkinSeeds(193),
-
-        MelonSeeds(194),
-
         PumpkinStem(195),
 
         MelonStem(196),
@@ -345,15 +327,7 @@ public class BlockData {
 
         FenceGateItem(225),
 
-        Beetroot(228),
 
-        Bowl(229),
-        BeetrootSoup(230),
-        MushroomStew(231),
-        RabbitStew(232),
-        SuspiciousStew(233),
-        Cookie(234),
-        CocoaBeans(235),
         Mushroom(236);
 
         private final byte id;

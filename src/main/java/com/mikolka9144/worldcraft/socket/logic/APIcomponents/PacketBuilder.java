@@ -1,15 +1,22 @@
 package com.mikolka9144.worldcraft.socket.logic.APIcomponents;
 
-import com.mikolka9144.worldcraft.socket.model.VersionFlags;
 import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.ServerBlockData;
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
+import com.mikolka9144.worldcraft.socket.model.VersionFlags;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * This class contains methods for building packets.
@@ -103,5 +110,24 @@ public class PacketBuilder {
         return new Packet(clientProto, playerId,
                 PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
                 PacketContentSerializer.encodePlaceBlockReq(data));
+    }
+
+    public List<Packet> createBlockComp(List<BlockData> blocks,int blocksPerPacket) {
+        List<ServerBlockData> blockData = new ArrayList<>();
+        var chunks = prepareChunks(blocks,blocksPerPacket).stream().toList();
+
+        for (int i = 0; i < chunks.size(); i++) {
+            blockData.add(new ServerBlockData(i, chunks.size(), chunks.get(i)));
+        }
+
+        return blockData.stream()
+                .map(PacketContentSerializer::encodeServerBlocks)
+                .map(s -> serverPacket(PacketCommand.S_MODIFIED_BLOCKS,s))
+                .toList();
+
+    }
+    public static <T> Collection<List<T>> prepareChunks(List<T> inputList, int chunkSize) {
+        AtomicInteger counter = new AtomicInteger();
+        return inputList.stream().collect(Collectors.groupingBy(it -> counter.getAndIncrement() / chunkSize)).values();
     }
 }

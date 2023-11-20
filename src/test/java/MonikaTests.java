@@ -1,6 +1,7 @@
 import com.mikolka9144.worldcraft.programs.simba.Monika;
 import com.mikolka9144.worldcraft.programs.simba.MonikaCommandReader;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
+import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.socket.model.Vector3;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
@@ -92,5 +93,11 @@ public class MonikaTests {
         assertThat(monika.calculateAngle(0)).satisfies(isUp);
         assertThat(monika.calculateAngle(180)).satisfies(isUp);
         assertThat(monika.calculateAngle(270)).satisfies(isLeft);
+    }
+    @Test
+    public void DrawLine(){
+        Monika monika = new Monika(new Vector3Short((short) 0, (short) 0, (short) 0),new PacketBuilder(PacketProtocol.SERVER));
+        List<BlockData> blocks = monika.drawBlockLine(new Vector3(0,0,0),new Vector3(5.5f,0,2));
+        blocks.forEach(s -> System.out.println(s.getX()+" "+s.getY()+" "+s.getZ()));
     }
 }

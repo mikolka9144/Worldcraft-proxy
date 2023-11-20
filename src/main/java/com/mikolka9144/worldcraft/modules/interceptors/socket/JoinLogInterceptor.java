@@ -9,6 +9,8 @@ import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterce
 import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("join-log")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class JoinLogInterceptor extends CommandPacketInterceptor {
     private Map<Integer,String> cachePlayers = new HashMap<>();
