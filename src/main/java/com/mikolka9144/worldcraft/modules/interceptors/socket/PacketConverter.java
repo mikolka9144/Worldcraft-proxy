@@ -1,18 +1,19 @@
 package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
+import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.common.PacketDataReader;
-import com.mikolka9144.worldcraft.socket.model.VersionFlags;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.LoginInfo;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PopupMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomsPacket;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
+import com.mikolka9144.worldcraft.socket.model.VersionFlags;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -32,17 +33,21 @@ public class PacketConverter  {
                 VersionFlags flags = new VersionFlags(packet.getProtoId());
                 if (!flags.shoudFixLoginMarket) return super.InterceptRawPacket(packet);
 
-                PacketDataReader reader = new PacketDataReader(packet.getData());
-                LoginInfo ret = new LoginInfo(
-                        reader.getString(),
-                        reader.getShort(),
-                        reader.getString(),
-                        reader.getString(),
-                        reader.getString(), reader.getString(), reader.getString(),"play");
+                LoginInfo ret = pareLegacyLoginInfo(packet);
 
-                packet.setData(PacketContentSerializer.encodeLogin(ret));
+                packet.setData(PacketDataEncoder.login(ret));
             }
             return super.InterceptRawPacket(packet);
+        }
+
+        private static LoginInfo pareLegacyLoginInfo(Packet packet) {
+            PacketDataReader reader = new PacketDataReader(packet.getData());
+            return new LoginInfo(
+                    reader.getString(),
+                    reader.getShort(),
+                    reader.getString(),
+                    reader.getString(),
+                    reader.getString(), reader.getString(), reader.getString(),"play");
         }
     }
     @Component("packet-conv-late")
@@ -61,7 +66,21 @@ public class PacketConverter  {
         @Override
         public void interceptRoomsResp(Packet packet, RoomsPacket data, PacketsFormula formula) {
             if(!flags.shoudIncludeReadOlnyRoomStatus){
-                packet.setData(PacketContentSerializer.encodeRoomsQueryResponse(data,false));
+                PacketDataBuilder builder = new PacketDataBuilder()
+                        .append(data.getPacketIndex())
+                        .append(data.getAllPackets())
+                        .append(data.getInitialRoomListSize())
+                        .append(data.getRoomType().getId());
+                for (RoomsPacket.Room room : data.getRooms()) {
+                    builder.append(room.getId())
+                            .append(room.getName())
+                            .append(room.isProtected())
+                            .append(room.getActivePlayers())
+                            .append(room.getRoomCapacity())
+                            .append(room.getNumberOfEntrances())
+                            .append(room.getLikes()); // We skip read olny status in package
+                }
+                packet.setData(builder.build());
             }
         }
 

@@ -4,7 +4,7 @@ import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomListRequest;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.RoomsPacket;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PlayGroundInterceptor extends CommandPacketInterceptor {
     @Override
-    public void interceptRoomsResp(Packet packet, RoomListRequest data, PacketsFormula formula) {
+    public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
 //        if (data.getRoomsType() == RoomListRequest.RoomsType.MOST_RATED){
 //            RoomListRequest request = new RoomListRequest(RoomListRequest.RoomsType.REV1,0);
 //            formula.addUpstream(new Packet(

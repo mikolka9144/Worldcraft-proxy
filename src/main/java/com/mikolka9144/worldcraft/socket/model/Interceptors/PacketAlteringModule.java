@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.socket.model.Interceptors;
 
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 
 /**

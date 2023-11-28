@@ -1,5 +1,7 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.Monika;
 
+import com.mikolka9144.worldcraft.programs.simba.models.SimbaFunction;
+import com.mikolka9144.worldcraft.programs.simba.models.StepPacket;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.Vector3;
 import lombok.Getter;
@@ -9,10 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MonikasConsole {
@@ -29,38 +29,28 @@ public class MonikasConsole {
         this.lovePen = pen;
     }
     public List<StepPacket> processInput(String input){
-        MonikaCommandReader reader = new MonikaCommandReader(splitInputCommands(input).iterator());
+        return processInput(new MonikaCommandReader(input));
+    }
+
+    public List<StepPacket> processInput(MonikaCommandReader reader){
+        List<StepPacket> results = new ArrayList<>();
         try {
-            return processInput(reader);
+            while (reader.hasNext()){
+                results.addAll(processCommand(reader));
+            }
+            return results;
         }
         catch (Exception x){
             return List.of(new StepPacket("Error occured: "+x.getClass().getName()));
         }
-
-    }
-    public List<StepPacket> processInput(MonikaCommandReader reader){
-        List<StepPacket> results = new ArrayList<>();
-        while (reader.hasNext()){
-            results.addAll(processCommand(reader));
-        }
-        return results;
     }
 
     public List<StepPacket> processCommand(MonikaCommandReader reader){
         if (RedirectFunction != null){
-            while (reader.hasNext()){
-                String segment = reader.readNext();
-                if (segment.equals("już")){
-                    querents.add(RedirectFunction);
-                    RedirectFunction = null;
-                    return List.of();
-                }
-                RedirectFunction.getSegments().add(segment);
-            }
+            registerSimbaFunction(reader);
             return List.of();
         }
         String command = reader.readNext();
-        if (command.contains(";")){ return List.of();}
 
         switch (command.toLowerCase()) {
             case "np" -> {
@@ -112,6 +102,10 @@ public class MonikasConsole {
                 String name = reader.readNext();
                 RedirectFunction = new SimbaFunction(name,new ArrayList<>());
             }
+            case "pisz" -> {
+                String name = reader.readNext();
+                return List.of(new StepPacket(name));
+            }
             case "kolor","ukp" -> {
                 String colorName = reader.readNext().toLowerCase();
                 BlockData.BlockType penColor = switch (colorName){
@@ -127,11 +121,12 @@ public class MonikasConsole {
                     case "złocisty" -> BlockData.BlockType.GOLD_BLOCK_ID;
                     case "czerwony" -> BlockData.BlockType.WOOL_RED_ID;
                     case "błękit_paryski" -> BlockData.BlockType.DIAMOND_BLOCK_ID;
-                    case "siena_palona" -> BlockData.BlockType.BronzePlate;
+                    case "siena_palona" -> BlockData.BlockType.BRONZE_PLATE_ID;
                     case "bursztynowy" -> BlockData.BlockType.CHISELED_SANDSTONE_ID;
-                    case "chabrowy" -> BlockData.BlockType.MalachiteBlock;
+                    case "chabrowy" -> BlockData.BlockType.MALACHITE_BLOCK_ID;
                     case "szkarlatny" -> BlockData.BlockType.NETHER_BRICK_ID;
                     case "atramentowy" -> BlockData.BlockType.OBSIDIAN_ID;
+                    case "czerwień_wzrokowa" -> BlockData.BlockType.PUMPKIN_ID;
                     default -> BlockData.BlockType.UNKNOWN;
                 };
                 if(penColor.equals(BlockData.BlockType.UNKNOWN)){
@@ -154,6 +149,18 @@ public class MonikasConsole {
         return List.of();
     }
 
+    private void registerSimbaFunction(MonikaCommandReader reader) {
+        while (reader.hasNext()){
+            String segment = reader.readNext();
+            if (segment.equals("już")){
+                querents.add(RedirectFunction);
+                RedirectFunction = null;
+                return;
+            }
+            RedirectFunction.getSegments().add(segment);
+        }
+    }
+
     private List<StepPacket> moveMonikaWithPen(int steps) {
         Vector3 initPosition = monika.getCurrentPosition();
         monika.moveMonika(steps);
@@ -164,11 +171,5 @@ public class MonikasConsole {
         return List.of(new StepPacket(monika.getPositionData(), blocks));
     }
 
-    public List<String> splitInputCommands(String input){
-        return Arrays.stream(input.split(" "))
-                .flatMap(s -> s.startsWith("[")? Stream.of("[",s.substring(1)) : Stream.of(s))
-                .flatMap(s -> s.endsWith("]")? Stream.of(s.substring(0,s.length()-1),"]") : Stream.of(s))
-                .filter(s -> !s.isEmpty())
-                .toList();
-    }
+
 }

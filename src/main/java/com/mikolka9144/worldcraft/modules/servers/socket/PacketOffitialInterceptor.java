@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.socket.WorldcraftClient;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.SendToSocketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

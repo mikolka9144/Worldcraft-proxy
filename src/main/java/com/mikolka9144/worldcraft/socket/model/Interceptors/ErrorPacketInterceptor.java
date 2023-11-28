@@ -4,7 +4,7 @@ import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.Errors.CreateRoomErrorCode;
 import com.mikolka9144.worldcraft.socket.model.Errors.LoginErrorCode;
 import com.mikolka9144.worldcraft.socket.model.Errors.RoomJoinError;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 
 public abstract class ErrorPacketInterceptor extends CommandPacketInterceptor {
     @Override

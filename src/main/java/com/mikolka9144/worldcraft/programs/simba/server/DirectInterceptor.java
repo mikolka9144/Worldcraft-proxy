@@ -1,11 +1,11 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.server;
 
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class DirectInterceptor extends CommandPacketInterceptor {
         resp.setPurchaseValidated(false);
         addToFormula(formula,
                 PacketCommand.S_LOGIN_RESP,
-                PacketContentSerializer.encodeLoginResponse(resp)
+                PacketDataEncoder.loginResponse(resp)
         );
     }
 
@@ -43,11 +43,11 @@ public class DirectInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptJoinRoomReq(Packet packet, JoinRoomRequest joinRoomRequest, PacketsFormula formula) {
-        addToFormula(formula,PacketCommand.S_JOIN_ROOM_RESP,PacketContentSerializer.encodeJoinRoomResponse(new JoinRoomResponse(true,false)));
+        addToFormula(formula,PacketCommand.S_JOIN_ROOM_RESP, PacketDataEncoder.joinRoomResponse(new JoinRoomResponse(true,false)));
     }
 
     @Override
-    public void interceptRoomsResp(Packet packet, RoomListRequest data, PacketsFormula formula) {
+    public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
         RoomsPacket rooms = new RoomsPacket(0,1,(short)20,data.getRoomsType());
         RoomsPacket.Room room = new RoomsPacket.Room(
                 1,
@@ -60,7 +60,7 @@ public class DirectInterceptor extends CommandPacketInterceptor {
                 false
         );
         rooms.getRooms().add(room);
-        addToFormula(formula,PacketCommand.S_ROOM_LIST_RESP,PacketContentSerializer.encodeRoomsQueryResponse(rooms));
+        addToFormula(formula,PacketCommand.S_ROOM_LIST_RESP, PacketDataEncoder.roomsQueryResponse(rooms));
     }
 
     @Override

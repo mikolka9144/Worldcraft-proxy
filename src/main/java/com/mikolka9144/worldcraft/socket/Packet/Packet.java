@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.socket.model.Packet;
+package com.mikolka9144.worldcraft.socket.Packet;
 
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.Monika;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.Vector3;

@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.socket.model.Interceptors;
 
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 

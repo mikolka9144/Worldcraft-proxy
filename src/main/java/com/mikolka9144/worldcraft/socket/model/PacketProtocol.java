@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Optional;
 @Slf4j
 public enum PacketProtocol{
-    WORLDCRAFT_2_7_4(0),
+    LEGACY_VERSION(0),
     WORLDCRAFT_2_8_7(1),
     WORLD_OF_CRAFT(2),
     SERVER(7),

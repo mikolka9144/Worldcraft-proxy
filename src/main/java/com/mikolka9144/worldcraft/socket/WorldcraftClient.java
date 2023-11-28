@@ -3,8 +3,8 @@ package com.mikolka9144.worldcraft.socket;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.SendToSocketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
 import lombok.Getter;
 
 import java.io.Closeable;

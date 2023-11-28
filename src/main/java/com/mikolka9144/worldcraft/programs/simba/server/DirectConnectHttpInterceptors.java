@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.server;
 
 import com.mikolka9144.worldcraft.common.World;
 import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;

@@ -1,10 +1,10 @@
 package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -27,6 +27,19 @@ public class PacketLogger extends CommandPacketInterceptor {
         log.info("Init Size: "+data.getInitialRoomListSize());
         log.info("Rooms Count: "+data.getRooms().size());
         log.info("--------------------------------");
+    }
+
+    @Override
+    public PacketsFormula InterceptRawPacket(Packet packet) {
+//        log.info("--------------------------------");
+//        log.info("Proto: "+packet.getProtoId() +"("+packet.getProtoId().getProto()+")");
+//        log.info("Error code: "+packet.getError());
+//        log.info("Command: "+packet.getCommand()+" ("+packet.getCommand().getCommand()+")");
+//        log.info("PlayerId: "+packet.getPlayerId());
+//        log.info("Msg: "+packet.getMessage());
+//        log.info("Data: "+ Arrays.toString(packet.getData()));
+//        log.info("--------------------------------");
+        return super.InterceptRawPacket(packet);
     }
 
     @Override
@@ -66,19 +79,17 @@ public class PacketLogger extends CommandPacketInterceptor {
         log.info("Build source: "+data.getMarketName());
         log.info("Username: "+ data.getUsername());
         log.info("--------------------------------");
-        super.interceptLogin(packet, data, formula);
     }
 
     @Override
     public void interceptPlayerActionReq(Packet packet, PlayerAction playerAction, PacketsFormula formula) {
         log.info(String.format("%d:player %d did %s",packet.getPlayerId(),playerAction.getPlayerId(),playerAction.getActionType().toString()));
-        super.interceptPlayerActionReq(packet, playerAction, formula);
     }
 
     @Override
     public void interceptLoginResp(Packet packet, LoginResponse loginResponse, PacketsFormula formula) {
         loginResponse.setPurchaseValidated(true);
 
-        packet.setData(PacketContentSerializer.encodeLoginResponse(loginResponse));
+        packet.setData(PacketDataEncoder.loginResponse(loginResponse));
     }
 }

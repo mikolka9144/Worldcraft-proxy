@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

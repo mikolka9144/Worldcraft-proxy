@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.socket.model.Packet;
+package com.mikolka9144.worldcraft.socket.Packet;
 
 import java.util.Arrays;
 import java.util.Optional;

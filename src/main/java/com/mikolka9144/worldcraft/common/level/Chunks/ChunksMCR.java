@@ -17,6 +17,9 @@ import java.util.List;
 public class ChunksMCR {
     private static final int CHUNK_SIZE = 16;
     public static final int SECTOR_SIZE = 4096;
+    public static final int MAX_X_CANON = 8*CHUNK_SIZE;
+    public static final int MAX_Z_CANON = 8*CHUNK_SIZE;
+    public static final int MAX_Y_CANON = 127;
     @Getter
     private final ChunkData[][] chunks = new ChunkData[32][32];
     private byte[] timeStamps;
