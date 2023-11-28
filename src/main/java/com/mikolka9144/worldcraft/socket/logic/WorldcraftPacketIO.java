@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.socket.logic;
 
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.common.PacketDataReader;

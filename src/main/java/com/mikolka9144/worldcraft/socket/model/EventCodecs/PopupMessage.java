@@ -11,10 +11,19 @@ import java.util.Optional;
 @Setter
 @AllArgsConstructor
 public class PopupMessage {
+    public PopupMessage(PopupMessageType messagePreset, String textParameter,long timeParameter) {
+        this(messagePreset,timeParameter,textParameter,"Preset message. No legacy message");
+    }
+
+    public PopupMessage(String baseMessage) {
+        this(PopupMessageType.NONE,0,"",baseMessage);
+    }
+
     private PopupMessageType messagePreset;
     private long timeParameter;
     private String textParameter;
     private String baseMessage;
+    @Getter
     public enum PopupMessageType
     {
         NONE(0),
@@ -26,10 +35,6 @@ public class PopupMessage {
         ABUSE_TEXT_IS_TOO_LONG(6);
         private final byte value;
 
-
-        public byte getValue() {
-            return value;
-        }
 
         public static PopupMessageType findByValue(byte value){
             Optional<PopupMessageType> val = Arrays.stream(PopupMessageType.values()).filter(s -> s.getValue() == value).findFirst();

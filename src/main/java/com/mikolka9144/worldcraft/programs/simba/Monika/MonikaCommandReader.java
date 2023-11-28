@@ -1,9 +1,7 @@
-package com.mikolka9144.worldcraft.programs.simba;
+package com.mikolka9144.worldcraft.programs.simba.Monika;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class MonikaCommandReader {
     private final Iterator<String> input;
@@ -12,6 +10,11 @@ public class MonikaCommandReader {
 
         this.input = input;
     }
+
+    public MonikaCommandReader(String input) {
+        this(splitInputCommands(input).iterator());
+    }
+
     public boolean hasNext(){
         return input.hasNext();
     }
@@ -30,5 +33,12 @@ public class MonikaCommandReader {
             code.add(seg);
         }
         return code;
+    }
+    public static List<String> splitInputCommands(String input){
+        return Arrays.stream(input.split(" "))
+                .flatMap(s -> s.startsWith("[")? Stream.of("[",s.substring(1)) : Stream.of(s))
+                .flatMap(s -> s.endsWith("]")? Stream.of(s.substring(0,s.length()-1),"]") : Stream.of(s))
+                .filter(s -> !s.isEmpty())
+                .toList();
     }
 }

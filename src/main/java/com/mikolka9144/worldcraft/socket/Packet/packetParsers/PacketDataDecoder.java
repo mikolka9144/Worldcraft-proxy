@@ -1,7 +1,9 @@
-package com.mikolka9144.worldcraft.socket.logic.packetParsers;
+package com.mikolka9144.worldcraft.socket.Packet.packetParsers;
 
 import com.mikolka9144.worldcraft.common.PacketDataReader;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.*;
+import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketHook;
 import lombok.SneakyThrows;
 import org.springframework.lang.Nullable;
 
@@ -10,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketContentDeserializer{
+public class PacketDataDecoder {
+    private PacketDataDecoder(){}
+    @PacketHook(PacketCommand.S_ROOM_LIST_RESP)
     public static RoomsPacket decodeRoomsData(byte[] data){
         PacketDataReader reader = new PacketDataReader(data);
         RoomsPacket out = new RoomsPacket(
@@ -33,12 +37,14 @@ public class PacketContentDeserializer{
         return out;
     }
     @SneakyThrows
+    @PacketHook(PacketCommand.C_CHECK_VERSION_REQ)
     public static ClientVersion decodeVersionCheckReq(byte[] data){
         PacketDataReader reader = new PacketDataReader(data);
         return new ClientVersion(
                 reader.getString(),
                 reader.getInt());
     }
+    @PacketHook(PacketCommand.C_VALIDATE_PURCHASE_REQ)
     public static PurchaseValidationReq decodeValidatePurchaseReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PurchaseValidationReq(
@@ -46,12 +52,14 @@ public class PacketContentDeserializer{
                 reader.getString(),
                 reader.getString());
     }
+    @PacketHook(PacketCommand.S_VALIDATE_PURCHASE_RES)
     public static PurchaseValidationResp decodeValidatePurchaseResp(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PurchaseValidationResp(
                 PurchaseValidationResp.Status.values()[reader.getInt()],
                 reader.getString());
     }
+    @PacketHook(PacketCommand.SB_CHAT_MSG)
     public static ChatMessage decodeChatMessage(byte[] data){
         PacketDataReader reader = new PacketDataReader(data);
         byte msgTypeBit = reader.getByte();
@@ -60,36 +68,43 @@ public class PacketContentDeserializer{
                 reader.getString(),
                 ChatMessage.MsgType.values()[msgTypeBit]);
     }
-
+    @PacketHook(PacketCommand.C_CHAT_MSG)
     public static String decodePlayerMessage(byte[] data) {
         return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data)).toString();
     }
-
-    public static MovementPacket decodeMovementPacket(byte[] data) {
+    @PacketHook(PacketCommand.S_ENEMY_MOVE)
+    public static MovementPacket decodeEnemyMovementPacket(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
-        return new MovementPacket(reader.getInt(),
-                reader.getVector3(),
-                reader.getVector3(),
-                reader.getVector3()
-        );
+        MovementPacket result = new MovementPacket();
+        result.setPlayerId(reader.getInt());
+        result.setPosition(reader.getVector3());
+        result.setOrientation(reader.getVector3());
+        result.setBase(reader.getVector3());
+        return result;
+    }
+    @PacketHook(PacketCommand.C_PLAYER_MOVE_REQ)
+    public static MovementPacket decodePlayerMovementReq(byte[] data){
+        return decodeEnemyMovementPacket(data);
     }
 
     @SneakyThrows
+    @PacketHook(PacketCommand.C_SET_BLOCK_TYPE_REQ)
     public static BlockData decodePlaceBlockReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
-
-            return new BlockData(reader.getShort(),
-                    reader.getShort(),
-                    reader.getShort(),
-                    reader.getShort(),
-                    reader.getShort(),
-                    BlockData.BlockType.findBlockById(reader.getByte()),
-                    reader.getByte(),
-                    reader.getByte(),
-                    reader.getByte());
-
+        BlockData result = new BlockData();
+        result.setX(reader.getShort());
+        result.setY(reader.getShort());
+        result.setZ(reader.getShort());
+        result.setChunkX(reader.getShort());
+        result.setChunkZ(reader.getShort());
+        result.setBlockType(BlockData.BlockType.findBlockById(reader.getByte()));
+        result.setBlockData(reader.getByte());
+        result.setPrevBlockType(reader.getByte());
+        result.setPrevBlockData(reader.getByte());
+        result.setBlockData(reader.getByte());
+        return result;
     }
-
+    @PacketHook(PacketCommand.S_MODIFIED_BLOCKS)
     public static ServerBlockData decodeServerBlocks(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         int curPacket = reader.getInt();
@@ -107,7 +122,7 @@ public class PacketContentDeserializer{
         }
         return new ServerBlockData(curPacket,packetCount,blocks);
     }
-
+    @PacketHook(PacketCommand.S_SET_BLOCK_TYPE)
     public static BlockData decodeServerPlaceBlock(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new BlockData(reader.getShort(),
@@ -118,7 +133,7 @@ public class PacketContentDeserializer{
                 BlockData.BlockType.findBlockById(reader.getByte()),
                 reader.getByte());
     }
-
+    @PacketHook(PacketCommand.C_LOGIN_REQ)
     public static LoginInfo decodeLogin(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new LoginInfo(
@@ -129,41 +144,45 @@ public class PacketContentDeserializer{
                 reader.getString(), reader.getString(), reader.getString(), reader.getString());
 
     }
-
+    @PacketHook(PacketCommand.C_ROOM_LIST_REQ)
     public static RoomListRequest decodeRoomsReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new RoomListRequest(RoomListRequest.RoomsType.findRoomTypeById(reader.getByte()), reader.getInt());
     }
-
+    @PacketHook(PacketCommand.S_ENEMY_ACTION)
     public static PlayerAction decodeEnemyAction(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PlayerAction(reader.getInt(), PlayerAction.ActionType.values()[reader.getByte()]);
+    }@PacketHook(PacketCommand.C_PLAYER_ACTION_REQ)
+    public static PlayerAction decodePlayerActionReq(byte[] data) {
+        return decodeEnemyAction(data);
     }
-
+    @PacketHook(PacketCommand.S_LOGIN_RESP)
     public static LoginResponse decodeLoginResponse(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new LoginResponse(reader.getInt(), reader.getString(), reader.getBoolean());
     }
+    @PacketHook(PacketCommand.S_PLAYER_DISCONNECTED)
     public static int decodePlayerDisconnect(byte[] data){
         PacketDataReader reader = new PacketDataReader(data);
         return reader.getInt();
     }
-
+    @PacketHook(PacketCommand.C_JOIN_ROOM_REQ)
     public static JoinRoomRequest decodeJoinRoomRequest(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new JoinRoomRequest(reader.getString(), reader.getString(), reader.getBoolean());
     }
-
+    @PacketHook(PacketCommand.S_POPUP_MESSAGE)
     public static PopupMessage decodePopupMessage(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PopupMessage(PopupMessage.PopupMessageType.findByValue(reader.getByte()), reader.getLong(), reader.getString(), reader.getString());
     }
-
+    @PacketHook(PacketCommand.S_JOIN_ROOM_RESP)
     public static JoinRoomResponse decodeJoinRoomResponse(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new JoinRoomResponse(reader.getBoolean(), reader.getBoolean());
     }
-
+    @PacketHook(PacketCommand.S_PLAYERS_INFO)
     public static List<Player> decodePlayerList(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         List<Player> players = new ArrayList<>();
@@ -180,7 +199,7 @@ public class PacketContentDeserializer{
         }
         return players;
     }
-
+    @PacketHook(PacketCommand.C_UPDATE_PROFILE_REQ)
     public static Player decodePlayerInfo(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         Player player = new Player();
@@ -193,12 +212,17 @@ public class PacketContentDeserializer{
         player.setUp(reader.getVector3());
         return player;
     }
-
+    @PacketHook(PacketCommand.SB_PLAYER_JOINED_ROOM)
+    public static Player decodeEnemyInfo(byte[] data) {
+        return decodePlayerInfo(data);
+    }
+    @PacketHook(PacketCommand.SB_PLAYER_UPDATED)
     public static PlayerInfo decodePlayerUpdateInfo(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         return new PlayerInfo(reader.getInt(), reader.getString(), reader.getShort());
     }
     @SneakyThrows
+    @PacketHook(PacketCommand.S_LOAD_PURCHASES_RES)
     public static @Nullable PurchasesList decodePurchaseLoadResponse(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         String jsonData = reader.getString();
@@ -209,7 +233,11 @@ public class PacketContentDeserializer{
             return null;
         }
     }
-
+    @PacketHook(PacketCommand.C_SAVE_PURCHASES_REQ)
+    public static @Nullable PurchasesList decodePurchaseSaveReq(byte[] data) {
+        return decodePurchaseLoadResponse(data);
+    }
+    @PacketHook(PacketCommand.C_ROOM_SEARCH_REQ)
     public static RoomSearchReq decodeRoomsSearchReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         RoomSearchReq searchReq = new RoomSearchReq();
@@ -217,7 +245,7 @@ public class PacketContentDeserializer{
         searchReq.setStartingIndex(reader.getInt());
         return searchReq;
     }
-
+    @PacketHook(PacketCommand.C_CREATE_ROOM_REQ)
     public static RoomCreateReq decodeRoomCreateReq(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         RoomCreateReq result = new RoomCreateReq();
@@ -226,7 +254,7 @@ public class PacketContentDeserializer{
         result.setReadOnly(result.isReadOnly());
         return result;
     }
-
+    @PacketHook(PacketCommand.S_CREATE_ROOM_RESP)
     public static String decodeRoomCreateResp(byte[] data) {
         return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data)).toString();
     }

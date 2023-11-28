@@ -1,6 +1,6 @@
-package com.mikolka9144.worldcraft.socket.model.Packet;
+package com.mikolka9144.worldcraft.socket.logic;
 
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
+import lombok.Getter;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -9,7 +9,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class WorldcraftSocket implements Closeable {
+    @Getter
     private final WorldcraftPacketIO channel;
+    @Getter
     private final String connectedIp;
 
     private final Closeable rawSocket;
@@ -28,11 +30,4 @@ public class WorldcraftSocket implements Closeable {
         rawSocket.close();
     }
 
-    public WorldcraftPacketIO getChannel() {
-        return channel;
-    }
-
-    public String getConnectedIp() {
-        return connectedIp;
-    }
 }

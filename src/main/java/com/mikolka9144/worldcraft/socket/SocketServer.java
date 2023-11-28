@@ -6,7 +6,7 @@ import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
-import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

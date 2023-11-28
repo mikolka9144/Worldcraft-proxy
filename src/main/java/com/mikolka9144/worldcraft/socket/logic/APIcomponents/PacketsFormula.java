@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.socket.logic.APIcomponents;
 
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import lombok.Getter;
 
 import java.util.ArrayList;

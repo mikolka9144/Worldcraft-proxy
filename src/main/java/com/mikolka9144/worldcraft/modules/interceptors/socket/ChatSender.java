@@ -2,12 +2,12 @@ package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.SocketPacketSender;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PopupMessage;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import lombok.SneakyThrows;
@@ -80,7 +80,7 @@ public class ChatSender extends CommandPacketInterceptor {
     public void interceptGraphicsInitializationResp(Packet packet, PacketsFormula formula) {
         if (!showedWarning){
             Packet message = new Packet(PacketProtocol.SERVER,0, PacketCommand.S_POPUP_MESSAGE,"", (byte) 0,
-                    PacketContentSerializer.encodePopupMessage(
+                    PacketDataEncoder.popupMessage(
                             new PopupMessage(
                                 PopupMessage.PopupMessageType.NONE,0,"",
                                     "You have a terminal connection connected to your device. Chat is located at port 10000 of your server." +

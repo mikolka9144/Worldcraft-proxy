@@ -8,7 +8,7 @@ public class VersionFlags {
 
     public VersionFlags(PacketProtocol proto) {
         switch (proto) {
-            case WORLDCRAFT_2_7_4, WORLDCRAFT_2_8_7 -> setFlags(true, false, true, true);
+            case WORLDCRAFT_2_8_7,LEGACY_VERSION -> setFlags(true, false, true, true);
             case WORLD_OF_CRAFT -> setFlags(true, true, false, false);
             default -> setFlags(false, true, false, false);
         }

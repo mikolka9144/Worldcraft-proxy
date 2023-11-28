@@ -1,7 +1,7 @@
 import com.mikolka9144.worldcraft.common.PacketDataBuilder;
 import com.mikolka9144.worldcraft.common.PacketDataReader;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentDeserializer;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataDecoder;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.PurchasesList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class PacketParsingTest {
                 }""";
         byte[] bytes = new PacketDataBuilder().append(input).build();
         // Act
-        PurchasesList purchasesList = PacketContentDeserializer.decodePurchaseLoadResponse(bytes);
+        PurchasesList purchasesList = PacketDataDecoder.decodePurchaseLoadResponse(bytes);
         // Assert
         assertEquals("50",purchasesList.getCoins());
         assertEquals("",purchasesList.getPurchaseId());
@@ -32,12 +32,12 @@ public class PacketParsingTest {
         // Prepare
         PurchasesList input = new PurchasesList("kupno","100","24","50");
         // Act
-        byte[] testOutput = PacketContentSerializer.encodePurchaseLoadResponse(input);
+        byte[] testOutput = PacketDataEncoder.purchaseLoadResponse(input);
         PacketDataReader reader = new PacketDataReader(testOutput);
         String testStr = reader.getString();
         log.info(testStr);
         // Assert
-        PurchasesList output = PacketContentDeserializer.decodePurchaseLoadResponse(testOutput);
+        PurchasesList output = PacketDataDecoder.decodePurchaseLoadResponse(testOutput);
         assertEquals(input,output);
 //        assertEquals(
 //                """

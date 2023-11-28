@@ -2,15 +2,15 @@ import com.mikolka9144.worldcraft.modules.interceptors.socket.ChatCommandsInterc
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
-import com.mikolka9144.worldcraft.socket.model.Packet.WorldcraftSocket;
+import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 import lombok.extern.slf4j.Slf4j;
@@ -161,7 +161,7 @@ public class InterceptorsTests {
 
         Packet commandSetBlock = builder.writeln("/setpointer 10 0");
         Packet setBlock = new Packet(PacketProtocol.SERVER, 10,
-                PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0, PacketContentSerializer.encodeServerPlaceBlock(block));
+                PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0, PacketDataEncoder.serverPlaceBlock(block));
 
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
         List<PacketAlteringModule> downstreamInterceptors = new ArrayList<>();

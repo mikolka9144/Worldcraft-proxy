@@ -1,9 +1,8 @@
 package com.mikolka9144.worldcraft.modules.interceptors.socket;
 
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.JoinRoomResponse;
 import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
 import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

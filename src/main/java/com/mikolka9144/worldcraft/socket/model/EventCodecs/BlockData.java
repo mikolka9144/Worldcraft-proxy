@@ -3,6 +3,7 @@ package com.mikolka9144.worldcraft.socket.model.EventCodecs;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Optional;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class BlockData {
     private static final int CHUNK_SIZE = 16;
     private short x;
@@ -129,15 +131,11 @@ public class BlockData {
 
         CHEST_ID(54),
 
-        DIAMOND_PICK_ID(55),
-
         DIAMOND_ORE_ID(56),
 
         DIAMOND_BLOCK_ID(57),
 
         WORK_BENCH_ID(58),
-
-        DIAMOND_AXE_ID(59),
 
         FARMLAND_ID(60),
 
@@ -153,15 +151,7 @@ public class BlockData {
 
         OPENED_IRON_DOOR_ID(66),
 
-        RAW_PORKCHOP_ID(68),
-
-        RAW_BEEF_ID(69),
-
-        SHEARS_ID(71),
-
         REDSTONE_ORE_ID(73),
-
-        COOKED_PORKCHOP_ID(74),
 
         BED_ID(75),
 
@@ -228,9 +218,6 @@ public class BlockData {
         STONE_BRICK_ID(109),
 
         MELON_ID(110),
-
-        DIAMOND_INGOT_ID(111),
-
         EMERALD_ID(112),
 
         CHISELED_SANDSTONE_ID(113),
@@ -255,21 +242,15 @@ public class BlockData {
 
         CROPS_BLOCK_ID(154),
 
-        Egg(164),
-
-        Bale(165),
-
-        Carrot(166),
-
         CARROT_BLOCK_ID(167),
 
         POTATO_BLOCK_ID(169),
 
-        DarkBricks(174),
+        DARK_BRICKS_ID(174),
 
-        Tabling(175),
+        TABLING_ID(175),
 
-        BigStoneBricks(176),
+        BIG_STONE_BRICKS_ID(176),
 
         BigBricks(177),
 
@@ -280,52 +261,27 @@ public class BlockData {
         STEEL_PLATE(180),
 
         MetalContainer(181),
-
-        BronzePlate(182),
-
-        ReliefStone(183),
-
-        Onyx(184),
-
-        DecoratedStone(185),
-
-        StonePlate(186),
-
-        MalachiteBlock(187),
-
-        StoneTile(188),
-
-        BlackBricks(189),
-
-        Asphalt(190),
-
-        DirtRoad(191),
-
-        PumpkinLantern(192),
-
-        PumpkinStem(195),
-
-        MelonStem(196),
-
-        MobSpawnerId(200),
-
-        CellDoorId(197),
-
-        WoodenTrapDoorId(201),
-
-        IronTrapDoorId(202),
-
-        FenceId(85),
-
-        FenceItem(205),
-
-        FenceGateId(216),
-
-        NetherWartId(221),
-
-        Slimeball(224),
-
-        FenceGateItem(225),
+        BRONZE_PLATE_ID(182),
+        RELIEF_STONE_ID(183),
+        ONYX_ID(184),
+        DECORATED_STONE_ID(185),
+        STONE_PLATE_ID(186),
+        MALACHITE_BLOCK_ID(187),
+        STONE_TILE_ID(188),
+        BLACK_BRICKS_ID(189),
+        ASPHALT_ID(190),
+        DIRT_ROAD_ID(191),
+        PUMPKIN_LANTERN_ID(192),
+        PUMPKIN_STEM_ID(195),
+        MELON_STEM_ID(196),
+        MOB_SPAWNER_ID(200),
+        CELL_DOOR_ID(197),
+        WOODEN_TRAP_DOOR_ID(201),
+        IRON_TRAP_DOOR_ID(202),
+        FENCE_ID(85),
+        FENCE_ITEM_ID(205),
+        FENCE_GATE_ID(216),
+        FENCE_GATE_ITEM_ID(225),
 
 
         Mushroom(236);

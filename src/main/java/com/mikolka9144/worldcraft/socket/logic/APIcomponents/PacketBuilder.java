@@ -1,11 +1,11 @@
 package com.mikolka9144.worldcraft.socket.logic.APIcomponents;
 
-import com.mikolka9144.worldcraft.socket.logic.packetParsers.PacketContentSerializer;
+import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
 import com.mikolka9144.worldcraft.socket.model.EventCodecs.ServerBlockData;
-import com.mikolka9144.worldcraft.socket.model.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.model.Packet.PacketCommand;
+import com.mikolka9144.worldcraft.socket.Packet.Packet;
+import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
 import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
 import com.mikolka9144.worldcraft.socket.model.Vector3Short;
 import com.mikolka9144.worldcraft.socket.model.VersionFlags;
@@ -64,7 +64,7 @@ public class PacketBuilder {
         var chatMsg = new ChatMessage(text, text, ChatMessage.MsgType.STANDARD);
 
         return new Packet(PacketProtocol.SERVER, 0, PacketCommand.SB_CHAT_MSG, "", (byte) 0,
-                PacketContentSerializer.encodeChatMessage(chatMsg));
+                PacketDataEncoder.chatMessage(chatMsg));
 
     }
 
@@ -72,7 +72,7 @@ public class PacketBuilder {
     setBlockServerPacket(int x, int y, int z, BlockData.BlockType blockType, int blockData){
         return new Packet(PacketProtocol.SERVER, 0,
                 PacketCommand.S_SET_BLOCK_TYPE, "", (byte) 0,
-                PacketContentSerializer.encodeServerPlaceBlock(new BlockData(
+                PacketDataEncoder.serverPlaceBlock(new BlockData(
                         new Vector3Short((short) x, (short) y, (short) z),
                          blockType,
                         (byte) blockData
@@ -84,7 +84,7 @@ public class PacketBuilder {
     setBlockServerPacket(BlockData data){
         return new Packet(PacketProtocol.SERVER, 0,
                 PacketCommand.S_SET_BLOCK_TYPE, "", (byte) 0,
-                PacketContentSerializer.encodeServerPlaceBlock(data));
+                PacketDataEncoder.serverPlaceBlock(data));
 
 
     }
@@ -103,13 +103,13 @@ public class PacketBuilder {
 
     public Packet writeln(String line) {
         return new Packet(clientProto,playerId,
-                PacketCommand.C_CHAT_MSG,"", (byte) 0, PacketContentSerializer.encodePlayerMessage(line));
+                PacketCommand.C_CHAT_MSG,"", (byte) 0, PacketDataEncoder.playerMessage(line));
     }
 
     public Packet sendBlockClientPacket(BlockData data) {
         return new Packet(clientProto, playerId,
                 PacketCommand.C_SET_BLOCK_TYPE_REQ, "", (byte) 0,
-                PacketContentSerializer.encodePlaceBlockReq(data));
+                PacketDataEncoder.placeBlockReq(data));
     }
 
     public List<Packet> createBlockComp(List<BlockData> blocks,int blocksPerPacket) {
@@ -121,7 +121,7 @@ public class PacketBuilder {
         }
 
         return blockData.stream()
-                .map(PacketContentSerializer::encodeServerBlocks)
+                .map(PacketDataEncoder::serverBlocks)
                 .map(s -> serverPacket(PacketCommand.S_MODIFIED_BLOCKS,s))
                 .toList();
 
