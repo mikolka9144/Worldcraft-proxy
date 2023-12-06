@@ -1,16 +1,16 @@
-import com.mikolka9144.worldcraft.common.PacketDataBuilder;
-import com.mikolka9144.worldcraft.common.PacketDataReader;
-import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataDecoder;
-import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.PurchasesList;
+import com.mikolka9144.worldcraft.common.api.packet.build.PacketDataBuilder;
+import com.mikolka9144.worldcraft.common.api.packet.build.PacketDataReader;
+import com.mikolka9144.worldcraft.common.api.packet.encodings.PacketDataDecoder;
+import com.mikolka9144.worldcraft.common.api.packet.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.common.api.packet.codecs.PurchasesList;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
-public class PacketParsingTest {
+class PacketParsingTest {
     @Test
-    public void testPurchaseParsing(){
+    void testPurchaseParsing(){
         String input = """
                 {
                 Coins: 50,
@@ -28,7 +28,7 @@ public class PacketParsingTest {
         assertEquals("10",purchasesList.getResurrections());
     }
     @Test
-    public void testPurchaseEncoding(){
+    void testPurchaseEncoding(){
         // Prepare
         PurchasesList input = new PurchasesList("kupno","100","24","50");
         // Act

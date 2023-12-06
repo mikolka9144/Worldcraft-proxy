@@ -1,10 +1,8 @@
 package com.mikolka9144.worldcraft.common.config;
 
-import com.mikolka9144.worldcraft.http.model.HttpDownloadInterceptor;
-import com.mikolka9144.worldcraft.http.model.HttpUploadInterceptor;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketServer;
+import com.mikolka9144.worldcraft.http.interceptors.HttpDownloadInterceptor;
+import com.mikolka9144.worldcraft.http.interceptors.HttpUploadInterceptor;
+import com.mikolka9144.worldcraft.socket.interceptor.PacketAlteringModule;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -28,12 +25,6 @@ public class ConfigurationBuilder {
 
         List<HttpUploadInterceptor> httpUploadPreset = new ArrayList<>();
 
-        // this function creates server interceptor (mostly to inject packets to server)
-        Function<WorldcraftPacketIO, PacketServer> serverBuilderFunc = (io) ->{
-            PacketServer server = context.getBean(manifest.getSocketServer(), PacketServer.class);
-            server.supplyIOConnection(io);
-            return server;
-        };
         socketPreset = () -> {
             List<PacketAlteringModule> interceptors = new ArrayList<>();
             for (String bean: manifest.getSocketInterBeans()) {
@@ -48,6 +39,6 @@ public class ConfigurationBuilder {
             httpUploadPreset.add(context.getBean(bean,HttpUploadInterceptor.class));
         }
 
-        return new ServerConfig(manifest.getSocketPort(), socketPreset,httpDownloadPreset,httpUploadPreset,serverBuilderFunc);
+        return new ServerConfig(manifest.getSocketPort(), socketPreset,httpDownloadPreset,httpUploadPreset);
     }
 }

@@ -1,18 +1,19 @@
-import com.mikolka9144.worldcraft.modules.interceptors.socket.ChatCommandsInterceptor;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
-import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
-import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
-import com.mikolka9144.worldcraft.socket.model.Vector3Short;
+import com.mikolka9144.worldcraft.common.api.packet.enums.BlockType;
+import com.mikolka9144.worldcraft.modules.hackoring.ChatCommandsInterceptor;
+import com.mikolka9144.worldcraft.socket.api.PacketBuilder;
+import com.mikolka9144.worldcraft.socket.server.WorldcraftPacketIO;
+import com.mikolka9144.worldcraft.socket.server.WorldcraftThread;
+import com.mikolka9144.worldcraft.common.api.packet.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.common.api.packet.codecs.Block;
+import com.mikolka9144.worldcraft.common.api.packet.codecs.ChatMessage;
+import com.mikolka9144.worldcraft.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.socket.interceptor.PacketAlteringModule;
+import com.mikolka9144.worldcraft.common.api.packet.Packet;
+import com.mikolka9144.worldcraft.common.api.packet.enums.PacketCommand;
+import com.mikolka9144.worldcraft.socket.api.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.server.WorldcraftSocket;
+import com.mikolka9144.worldcraft.common.api.packet.enums.PacketProtocol;
+import com.mikolka9144.worldcraft.common.models.Vector3Short;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class InterceptorsTests {
         private final Function<Packet,PacketsFormula>  test;
         public TestInterceptor(Function<Packet,PacketsFormula> command){this.test = command;}
         @Override
-        public PacketsFormula InterceptRawPacket(Packet packet) {
+        public PacketsFormula interceptRawPacket(Packet packet) {
             return test.apply(packet);
         }
     }
@@ -51,14 +52,14 @@ public class InterceptorsTests {
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
         upstreamInterceptors.add(new TestInterceptor((s) -> {
             PacketsFormula formula = new PacketsFormula();
-            s.setMessage("test");
+            s.setMsg("test");
             formula.addUpstream(s);
             return formula;
         }));
         upstreamInterceptors.add(new TestInterceptor((s) -> {
             PacketsFormula formula = new PacketsFormula();
             //assert
-            assertThat(s.getMessage()).isEqualTo("test");
+            assertThat(s.getMsg()).isEqualTo("test");
 
             formula.addUpstream(s);
             return formula;
@@ -117,7 +118,7 @@ public class InterceptorsTests {
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
         upstreamInterceptors.add(new TestInterceptor((s) -> {
             PacketsFormula formula = new PacketsFormula();
-            s.setMessage("test");
+            s.setMsg("test");
             formula.addUpstream(s);
             return formula;
         }));
@@ -131,7 +132,7 @@ public class InterceptorsTests {
         AtomicBoolean executed = new AtomicBoolean(false);
         List<PacketAlteringModule> downstreamInterceptors = new ArrayList<>();
         downstreamInterceptors.add(new TestInterceptor((s) -> {
-            assertThat(s.getMessage()).isEqualTo("test");
+            assertThat(s.getMsg()).isEqualTo("test");
             assertThat(s.getPlayerId()).isEqualTo(15);
             executed.set(true);
             return new PacketsFormula();
@@ -140,20 +141,20 @@ public class InterceptorsTests {
         // act
         socket.getChannel().send(packet);
         WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
-        thread.handleThread();
+        thread.startThread();
         // assert
         assertThat(executed).isTrue();
     }
     @Test
-    public void Interceptors_testcommands() throws IOException {
+    public void Interceptors_testCommands() throws IOException {
         //given
 
 
         PacketBuilder builder = new PacketBuilder(PacketProtocol.SERVER);
         builder.setPlayerId(10);
-        var block = new BlockData(
+        var block = new Block(
                         new Vector3Short((short) 100, (short) 50, (short) 12),
-                        BlockData.BlockType.GRASS_ID,
+                        BlockType.GRASS_ID,
                         (byte) 0,
                         (byte) 0,
                         (byte) 0
@@ -173,11 +174,11 @@ public class InterceptorsTests {
         // tests
         upstreamInterceptors.add(new CommandPacketInterceptor() {
             @Override
-            public void interceptPlaceBlockReq(Packet packet, BlockData data, PacketsFormula formula) {
+            public void interceptPlaceBlockReq(Packet packet, Block data, PacketsFormula formula) {
                 assertThat(data.getY()).isEqualTo(block.getY());
                 assertThat(data.getX()).isEqualTo(block.getX());
                 assertThat(data.getZ()).isEqualTo(block.getZ());
-                assertThat(data.getBlockType()).isEqualTo(BlockData.BlockType.LAVA_ID);
+                assertThat(data.getBlockName()).isEqualTo(BlockType.LAVA_ID);
                 assertThat(data.getChunkX()).isEqualTo(block.getChunkX());
                 assertThat(data.getChunkZ()).isEqualTo(block.getChunkZ());
             }
@@ -189,13 +190,13 @@ public class InterceptorsTests {
             }
 
             @Override
-            public void interceptServerPlaceBlock(Packet packet, BlockData data, PacketsFormula formula) {
+            public void interceptServerPlaceBlock(Packet packet, Block data, PacketsFormula formula) {
                 assertThat(data.getY()).isEqualTo(block.getY());
                 assertThat(data.getX()).isEqualTo(block.getX());
                 assertThat(data.getZ()).isEqualTo(block.getZ());
                 assertThat(data.getChunkX()).isEqualTo(block.getChunkX());
                 assertThat(data.getChunkZ()).isEqualTo(block.getChunkZ());
-                assertThat(data.getBlockType()).isEqualTo(BlockData.BlockType.LAVA_ID);
+                assertThat(data.getBlockName()).isEqualTo(BlockType.LAVA_ID);
             }
         });
 

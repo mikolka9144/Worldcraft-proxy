@@ -1,8 +1,6 @@
-import com.mikolka9144.worldcraft.programs.simba.Monika.Monika;
-import com.mikolka9144.worldcraft.programs.simba.Monika.MonikaCommandReader;
-import com.mikolka9144.worldcraft.programs.simba.Monika.MonikasLovePen;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
-import com.mikolka9144.worldcraft.socket.model.Vector3;
+import com.mikolka9144.worldcraft.common.models.Vector3;
+import com.mikolka9144.worldcraft.modules.simba.backend.Monika.Monika;
+import com.mikolka9144.worldcraft.modules.simba.backend.Monika.MonikaCommandReader;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 
@@ -88,10 +86,5 @@ public class MonikaTests {
         assertThat(monikasConsole.calculateAngle(0)).satisfies(isUp);
         assertThat(monikasConsole.calculateAngle(180)).satisfies(isUp);
         assertThat(monikasConsole.calculateAngle(270)).satisfies(isLeft);
-    }
-    @Test
-    public void DrawLine(){
-        List<BlockData> blocks = new MonikasLovePen().drawBlockLine(new Vector3(0,0,0),new Vector3(5.5f,0,2));
-        blocks.forEach(s -> System.out.println(s.getX()+" "+s.getY()+" "+s.getZ()));
     }
 }
