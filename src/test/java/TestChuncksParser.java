@@ -1,6 +1,6 @@
-import com.mikolka9144.worldcraft.common.level.Chunks.ChunkData;
-import com.mikolka9144.worldcraft.common.level.Chunks.ChunksMCR;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.BlockData;
+import com.mikolka9144.worldcraft.common.api.level.chunks.ChunkData;
+import com.mikolka9144.worldcraft.common.api.level.chunks.ChunksMCR;
+import com.mikolka9144.worldcraft.common.api.packet.enums.BlockType;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,15 +17,15 @@ public class TestChuncksParser {
         byte[] mcr = Files.readAllBytes(Path.of("region.mcr"));
         // act
         ChunksMCR chunks = new ChunksMCR(mcr);
-        chunks.getChunks()[3][1].setBlock(5,5,5, BlockData.BlockType.CROPS_BLOCK_ID);
+        chunks.getChunks()[3][1].setBlock(5,5,5, BlockType.WHEAT_CROP_ID.getId());
         byte[] mcrOut = chunks.build();
         ChunkData chunkData = chunks.getChunks()[3][1];
 
         ChunksMCR newRegion = new ChunksMCR(mcrOut);
         ChunkData chunkData1 = newRegion.getChunks()[3][1];
 
-        assertEquals(BlockData.BlockType.CROPS_BLOCK_ID, chunkData.getBlock(5,5,5));
-        assertEquals(BlockData.BlockType.CROPS_BLOCK_ID, chunkData1.getBlock(5,5,5));
+        assertEquals(BlockType.WHEAT_CROP_ID.getId(), chunkData.getBlock(5,5,5));
+        assertEquals(BlockType.WHEAT_CROP_ID.getId(), chunkData1.getBlock(5,5,5));
 
     }
     @Test

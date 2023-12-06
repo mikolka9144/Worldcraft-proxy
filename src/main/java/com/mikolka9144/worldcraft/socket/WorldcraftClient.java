@@ -1,42 +1,62 @@
 package com.mikolka9144.worldcraft.socket;
 
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftThread;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.PacketAlteringModule;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.SendToSocketInterceptor;
-import com.mikolka9144.worldcraft.socket.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.logic.WorldcraftSocket;
+import com.mikolka9144.worldcraft.common.api.packet.Packet;
+import com.mikolka9144.worldcraft.socket.server.WorldcraftSocket;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
+import java.nio.BufferUnderflowException;
+import java.util.function.Consumer;
 
+@Slf4j
 public class WorldcraftClient implements Closeable {
     @Getter
     private final WorldcraftSocket socket;
-    private final WorldcraftThread thread;
-    private final List<PacketAlteringModule> upstreamInterceptors;
-    private final List<PacketAlteringModule> writebackInterceptors;
+    private final Consumer<Packet> packetCallback;
+    private boolean isRunning = true;
+    private final Thread receiver;
 
-    public WorldcraftClient(String hostname, int port, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> writebackInterceptors) throws IOException {
-        this(new WorldcraftSocket(new Socket(hostname,port)),upstreamInterceptors,writebackInterceptors);
+    public WorldcraftClient(String hostname, int port, Consumer<Packet> onPacketReceive) throws IOException {
+        this(new WorldcraftSocket(new Socket(hostname,port)),onPacketReceive);
 
     }
-    public WorldcraftClient(WorldcraftSocket io, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> writebackInterceptors){
+    public WorldcraftClient(WorldcraftSocket io, Consumer<Packet> onPacketReceive){
         socket = io;
-        this.upstreamInterceptors = upstreamInterceptors;
-        this.writebackInterceptors = writebackInterceptors;
-        writebackInterceptors.add(new SendToSocketInterceptor(io.getChannel(), this));
-        thread = new WorldcraftThread(socket, upstreamInterceptors,writebackInterceptors);
-        thread.attachToThread().start();
+        packetCallback = onPacketReceive;
+        receiver = new Thread(this::handleThread,io.getConnectedIp());
     }
-    public void send(Packet packet) {
-        WorldcraftThread.sendPacket(packet,writebackInterceptors,upstreamInterceptors);
+    private void handleThread(){
+        try {
+            while (isRunning) {
+                Packet initialPacket = socket.getChannel().receive();
+                packetCallback.accept(initialPacket);
+            }
+            log.info(String.format("Connection for %s was HALTED!",socket.getConnectedIp()));
+        } catch (IOException x) {
+            log.warn(socket.getConnectedIp() + " had IO Exception");
+            log.debug(x.getMessage());
+        } catch (BufferUnderflowException ignore) { // Duplicate exception
+            log.warn(socket.getConnectedIp() + " had Buffer underflow");
+        } finally {
+            // if onClose throws an Exception, that will be his problem
+            close();
+            log.warn(socket.getConnectedIp() + " closed!");
+        }
+    }
+    public void start(){
+        receiver.start();
+    }
+    public void send(Packet packet) throws IOException {
+        socket.getChannel().send(packet);
     }
     @Override
-    public void close() throws IOException {
-        thread.close();
+    @SneakyThrows
+    public void close()  {
+        isRunning = false;
         socket.close();
     }
 }

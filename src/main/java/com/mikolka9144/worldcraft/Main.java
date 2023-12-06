@@ -13,6 +13,12 @@ import org.springframework.context.annotation.Bean;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
+        if(System.getenv("SPRING_PROFILES_ACTIVE") == null) {
+            log.error("No profile selected. select profile with SPRING_PROFILES_ACTIVE=profile");
+            log.error("Available profiles:");
+            log.error("dev,hack,legacy,official,proxy,proxyLegacy,simba,simbaLegacy");
+            return;
+        }
         SpringApplication app = new SpringApplication(Main.class);
         var context = app.run(args);
         try {

@@ -1,11 +1,11 @@
-import com.mikolka9144.worldcraft.socket.Packet.Packet;
-import com.mikolka9144.worldcraft.socket.Packet.PacketCommand;
-import com.mikolka9144.worldcraft.socket.Packet.packetParsers.PacketDataEncoder;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketBuilder;
-import com.mikolka9144.worldcraft.socket.logic.APIcomponents.PacketsFormula;
-import com.mikolka9144.worldcraft.socket.model.EventCodecs.ChatMessage;
-import com.mikolka9144.worldcraft.socket.model.Interceptors.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.socket.model.PacketProtocol;
+import com.mikolka9144.worldcraft.common.api.packet.Packet;
+import com.mikolka9144.worldcraft.common.api.packet.codecs.ChatMessage;
+import com.mikolka9144.worldcraft.common.api.packet.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.common.api.packet.enums.PacketCommand;
+import com.mikolka9144.worldcraft.common.api.packet.enums.PacketProtocol;
+import com.mikolka9144.worldcraft.socket.api.PacketBuilder;
+import com.mikolka9144.worldcraft.socket.api.PacketsFormula;
+import com.mikolka9144.worldcraft.socket.interceptor.CommandPacketInterceptor;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class FullPacketInterceptorTests {
         PacketBuilder builder = new PacketBuilder(PacketProtocol.UNKNOWN);
         Packet packet = builder.serverPacket(PacketCommand.C_CHAT_MSG, PacketDataEncoder.playerMessage("test"));
         // act
-            module.InterceptRawPacket(packet);
+            module.interceptRawPacket(packet);
         // assert
 
     }
@@ -44,7 +44,7 @@ public class FullPacketInterceptorTests {
         Packet packet = builder.serverPacket(PacketCommand.S_ROOM_LIST_RESP, PacketDataEncoder.playerMessage("test"));
 
         // act
-        module.InterceptRawPacket(packet);
+        module.interceptRawPacket(packet);
         // assert
 
     }

@@ -1,4 +1,4 @@
-import com.mikolka9144.worldcraft.common.PacketDataReader;
+import com.mikolka9144.worldcraft.common.api.packet.build.PacketDataReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
