@@ -1,8 +1,11 @@
 package com.mikolka9144.worldcraft.common.api.packet.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Optional;
 
+@Getter
 public enum BlockType {
     UNKNOWN(-1),
     AIR(0),
@@ -230,7 +233,4 @@ public enum BlockType {
         return command.orElse(UNKNOWN);
     }
 
-    public byte getId() {
-        return id;
-    }
 }

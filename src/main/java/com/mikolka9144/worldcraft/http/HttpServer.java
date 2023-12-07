@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Slf4j
 @RestController()
@@ -22,7 +23,7 @@ public class HttpServer {
     private ServerConfig configuration;
     @GetMapping("rooms/{roomId}/game.tar.gz")
     public ResponseEntity<byte[]> getWorld(@PathVariable int roomId){
-        WorldDownloadRequest request = new WorldDownloadRequest(roomId,null);
+        WorldDownloadRequest request = new WorldDownloadRequest(roomId,null,new ArrayList<>());
         for (HttpDownloadInterceptor interceptor : configuration.getHttpDownloadInterceptors()) {
             interceptor.getWorld(request);
         }
@@ -34,7 +35,7 @@ public class HttpServer {
     @PostMapping("upload")
     public ResponseEntity<byte[]> uploadWorld(@RequestPart("file") MultipartFile worldBin, @RequestPart("uploadToken") String token) throws IOException {
 
-        WorldUploadRequest world = new WorldUploadRequest(token,worldBin.getBytes());
+        WorldUploadRequest world = new WorldUploadRequest(token,worldBin.getBytes(),new ArrayList<>() );
         for (HttpUploadInterceptor interceptor : configuration.getHttpUploadInterceptors()) {
             interceptor.uploadWorld(world);
         }

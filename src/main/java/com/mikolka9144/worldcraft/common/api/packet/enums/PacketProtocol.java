@@ -1,9 +1,11 @@
 package com.mikolka9144.worldcraft.common.api.packet.enums;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Optional;
+@Getter
 @Slf4j
 public enum PacketProtocol{
     LEGACY_VERSION(0),
@@ -70,10 +72,6 @@ public enum PacketProtocol{
     WORLDCRAFT_2_7_4(201),
     WORLD_OF_CRAFT_1_2(202);
     private final int proto;
-
-    public int getProto() {
-        return proto;
-    }
 
     PacketProtocol(int proto) {
         this.proto = proto;

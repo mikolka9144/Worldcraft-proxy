@@ -16,6 +16,7 @@ public class RoomListRequest {
 
     private RoomsType roomsType;
     private int startingIndex;
+    @Getter
     public enum RoomsType{
         ROOM_SEARCH((byte)0),
         MOST_ACTIVE((byte)1),
@@ -24,10 +25,6 @@ public class RoomListRequest {
         READ_ONLY((byte)4);
 
         private final byte id;
-
-        public byte getId() {
-            return id;
-        }
 
         RoomsType(byte proto) {
             this.id = proto;

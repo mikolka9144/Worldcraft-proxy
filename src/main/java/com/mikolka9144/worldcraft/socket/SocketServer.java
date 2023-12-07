@@ -33,6 +33,7 @@ public class SocketServer implements Closeable {
     public void start() throws IOException {
         log.info("Starting socket thread loop");
 
+        //noinspection InfiniteLoopStatement
         while (true){
             // this is thread-locking
             WorldcraftSocket client = new WorldcraftSocket(serverSocket.accept());

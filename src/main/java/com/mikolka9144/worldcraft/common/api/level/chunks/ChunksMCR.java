@@ -73,7 +73,7 @@ public class ChunksMCR {
                 builder.append((byte) sectorCount);
 
                 chunksSectionBuilder.append(sector);
-                sectorsWritten+=sectorCount;
+                sectorsWritten+= (short) sectorCount;
             }
         }
 

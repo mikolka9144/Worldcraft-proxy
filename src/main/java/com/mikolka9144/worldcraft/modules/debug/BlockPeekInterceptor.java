@@ -24,7 +24,7 @@ public class BlockPeekInterceptor extends CommandPacketInterceptor {
         }
         String message = getBlockLog(data);
         for (String line : message.split("\n")) {
-            //formula.addWriteback(packager.println(line));
+            formula.addWriteback(packager.println(line));
         }
     }
 

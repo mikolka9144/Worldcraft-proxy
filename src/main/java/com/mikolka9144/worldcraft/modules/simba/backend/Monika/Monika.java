@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Monika {
-    private final float moveMultiplier = 0.1f;
     @Getter
     private final int PLAYER_ID = 2;
     private final Player herPlayer;
@@ -35,7 +34,8 @@ public class Monika {
         return herPlayer;
     }
     public void moveMonika(float distance){
-        Vector3 upward = calculateMovement(playerUpwardAngle,-distance*moveMultiplier);
+        float moveMultiplier = 0.1f;
+        Vector3 upward = calculateMovement(playerUpwardAngle,-distance* moveMultiplier);
         Vector3 newPosition = calculateMovement(playerAngle,upward.getZ());
         newPosition.setY(upward.getX());
 

@@ -12,8 +12,8 @@ import lombok.SneakyThrows;
 import java.io.*;
 import java.util.Arrays;
 
+@Getter
 public class RegionNBT {
-    @Getter
     private final CompoundTag nbt;
 
     @SneakyThrows

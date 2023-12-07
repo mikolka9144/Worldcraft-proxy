@@ -6,12 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JsonTests {
     @Test
     public void testJson(){
-        String test = "{\n" +
-                "PurchaseId: 123,\n" +
-                "Coins: 123,\n" +
-                "MarketOperationVersion: 123,\n" +
-                "Resurrections: 123\n" +
-                "}";
+        String test = """
+                {
+                PurchaseId: 123,
+                Coins: 123,
+                MarketOperationVersion: 123,
+                Resurrections: 123
+                }""";
         PurchasesList list = new PurchasesList("123","123","123","123");
         assertThat(list.encodeToJson()).isEqualTo(test);
     }

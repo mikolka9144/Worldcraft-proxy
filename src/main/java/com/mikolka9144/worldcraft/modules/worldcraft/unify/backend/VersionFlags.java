@@ -15,9 +15,7 @@ public record VersionFlags(
         if(proto == PacketProtocol.LEGACY_VERSION)
             log.warn("Getting feature flags for LEGACY_VERSION? Is everything alright?");
         return switch (proto) {
-            case WORLDCRAFT_2_8_7,LEGACY_VERSION -> new VersionFlags(true, false, true, true,true);
-            case WORLD_OF_CRAFT_1_2 -> new VersionFlags(true, false, true, true,true);
-            case WORLDCRAFT_2_7_4 -> new VersionFlags(true, false, true, true,true);
+            case WORLDCRAFT_2_8_7,LEGACY_VERSION, WORLD_OF_CRAFT_1_2, WORLDCRAFT_2_7_4 -> new VersionFlags(true, false, true, true,true);
             case WORLD_OF_CRAFT -> new VersionFlags(true, true, false, false,false);
             default -> new VersionFlags(false, true, false, false,false);
         };

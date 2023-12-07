@@ -21,7 +21,7 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class JoinLogInterceptor extends CommandPacketInterceptor {
-    private Map<Integer,String> cachePlayers = new HashMap<>();
+    private final Map<Integer,String> cachePlayers = new HashMap<>();
 
     @Override
     public void interceptJoinRoomResp(Packet packet, JoinRoomResponse joinRoomResponse, PacketsFormula formula) {
