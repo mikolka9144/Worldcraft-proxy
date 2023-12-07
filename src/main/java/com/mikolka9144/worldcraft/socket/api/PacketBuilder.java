@@ -21,10 +21,9 @@ import java.util.stream.Collectors;
 /**
  * This class contains methods for building packets.
  */
+@Getter
 public class PacketBuilder {
-    @Getter
     private final PacketProtocol clientProto;
-    @Getter
     @Setter
     private int playerId;
 

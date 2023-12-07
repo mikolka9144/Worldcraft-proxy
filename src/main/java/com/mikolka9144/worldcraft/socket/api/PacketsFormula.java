@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  {@link PacketsFormula} is a object for storing informaion about returned packets.</h3>
- *  It containes list of packets to be send
+ *  {@link PacketsFormula} is an object for storing information about returned packets.</h3>
+ *  It contains list of packets to be sent
  *  with the base packet ({@code upstreamPackets})
  *  and back to the sender ({@code writebackPackets}).
  */

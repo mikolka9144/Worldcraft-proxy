@@ -1,7 +1,9 @@
 package com.mikolka9144.worldcraft.common.api.level.gzip;
 
+import lombok.Getter;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 
+@Getter
 public class GzipEntry {
     private TarArchiveEntry header;
 
@@ -12,15 +14,8 @@ public class GzipEntry {
 
     private byte[] data;
 
-    public TarArchiveEntry getHeader() {
-        return header;
-    }
-
     public void setHeader(TarArchiveEntry header) {
         this.header = header;
-    }
-    public byte[] getData() {
-        return data;
     }
 
     public void setData(byte[] data) {

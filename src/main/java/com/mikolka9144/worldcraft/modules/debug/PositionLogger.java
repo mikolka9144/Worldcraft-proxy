@@ -20,10 +20,6 @@ import java.nio.charset.StandardCharsets;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class PositionLogger extends ErrorPacketInterceptor {
-//    @Override
-//    public void interceptPlayerPositionReq(Packet packet, MovementPacket data, PacketsFormula formula) {
-//        log.info(String.format("Position: x:%f y:%f z:%f",data.getPosition().getX(),data.getPosition().getY(),data.getPosition().getZ()));
-//    }
 
     @Override
     public void interceptChatMessage(Packet packet, ChatMessage data, PacketsFormula formula) {

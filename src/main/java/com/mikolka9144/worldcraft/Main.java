@@ -1,9 +1,9 @@
 package com.mikolka9144.worldcraft;
 
 import com.mikolka9144.worldcraft.common.config.ConfigurationBuilder;
+import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import com.mikolka9144.worldcraft.common.config.ServerConfigManifest;
 import com.mikolka9144.worldcraft.socket.SocketServer;
-import com.mikolka9144.worldcraft.common.config.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +30,7 @@ public class Main {
         } catch (Exception e) {
             log.error("Server crashed!!!", e);
         }
+
     }
 
     @Bean

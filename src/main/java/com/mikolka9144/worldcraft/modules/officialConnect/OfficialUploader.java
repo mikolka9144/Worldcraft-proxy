@@ -3,9 +3,11 @@ package com.mikolka9144.worldcraft.modules.officialConnect;
 import com.mikolka9144.worldcraft.common.config.ServerConfigManifest;
 import com.mikolka9144.worldcraft.http.interceptors.HttpUploadInterceptor;
 import com.mikolka9144.worldcraft.http.model.WorldUploadRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component("http-official-upload")
+@Slf4j
 public class OfficialUploader implements HttpUploadInterceptor {
     private final com.mikolka9144.worldcraft.http.HttpClient client;
 
@@ -17,6 +19,10 @@ public class OfficialUploader implements HttpUploadInterceptor {
 
     @Override
     public void uploadWorld(WorldUploadRequest data) {
+        if(data.getWorld() == null){
+            log.info("World missing. Not uploading to server");
+            return;
+        }
         client.uploadWorld(data.getToken(), data.getWorld());
     }
 }

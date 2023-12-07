@@ -1,10 +1,12 @@
 package com.mikolka9144.worldcraft.common.api.packet.enums;
 
 import com.mikolka9144.worldcraft.common.ParsingException;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+@Getter
 public enum PacketCommand {
     C_LOGIN_REQ(1),
     S_LOGIN_RESP(2),
@@ -66,10 +68,6 @@ public enum PacketCommand {
 
     private final byte command;
 
-
-    public byte getCommand() {
-        return command;
-    }
 
     public static PacketCommand findPacketCommandById(byte id){
         Optional<PacketCommand> command = Arrays.stream(PacketCommand.values()).filter(s -> s.getCommand() == id).findFirst();

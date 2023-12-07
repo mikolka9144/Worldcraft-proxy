@@ -43,7 +43,7 @@ public class SimbaInterceptor extends CommandPacketInterceptor {
     private Vector3Short bedrockPos;
     private boolean isSuspended;
     private List<Block> suspendedBlocks;
-    private MonikasConsole monika; // <3
+    private final MonikasConsole monika; // <3
 
     @Override
     public void interceptPlaceBlockReq(Packet packet, Block data, PacketsFormula formula) {

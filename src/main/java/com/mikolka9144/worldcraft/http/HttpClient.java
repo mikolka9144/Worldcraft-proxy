@@ -10,8 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class HttpClient {
     private String serverURL = "http://%s:%d/";
-    private String uploadURL = "worldcraft-web/upload";
-    private String downloadURL = "worldcraft-web/rooms/%d/game.tar.gz";
+
     public HttpClient(String target,int port){
         serverURL = String.format(serverURL,target,port);
     }
@@ -28,10 +27,12 @@ public class HttpClient {
         HttpEntity<MultiValueMap<String, HttpEntity<?>>> request = new HttpEntity<>(test.build(),headers);
 
         RestTemplate template = new RestTemplate();
-        template.postForEntity(serverURL+uploadURL,request, String.class);
+        String uploadURL = "worldcraft-web/upload";
+        template.postForEntity(serverURL+ uploadURL,request, String.class);
     }
     public byte[] getWorld(int worldId) {
         RestTemplate template = new RestTemplate();
+        String downloadURL = "worldcraft-web/rooms/%d/game.tar.gz";
         ResponseEntity<byte[]> world = template.getForEntity(
                 serverURL+String.format(downloadURL,worldId), byte[].class);
         return world.getBody();

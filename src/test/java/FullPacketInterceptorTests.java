@@ -13,7 +13,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FullPacketInterceptorTests {
-    public class TestFullInterceptor extends CommandPacketInterceptor{
+    public static class TestFullInterceptor extends CommandPacketInterceptor{
         @Override
         public void interceptPlayerMessage(Packet packet, String message, PacketsFormula formula) {
             assertEquals("test",message);

@@ -14,7 +14,7 @@ public class SendToSocketInterceptor extends PacketAlteringModule {
     private final Runnable connectionLifecycleHolder;
 
     /**
-     * Creates a interceptors for sending packages to a socket
+     * Creates an interceptors for sending packages to a socket
      * @param destination destination socket
      * @param onConnectionLost action to execute once socket disconnects
      */
