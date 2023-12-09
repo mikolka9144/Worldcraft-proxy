@@ -1,12 +1,13 @@
 package com.mikolka9144.worldcraft.common.api.level;
 
 import com.mikolka9144.worldcraft.common.api.level.chunks.ChunksMCR;
-import com.mikolka9144.worldcraft.common.api.level.nbt.LevelNBT;
 import com.mikolka9144.worldcraft.common.api.level.gzip.GZipConverter;
 import com.mikolka9144.worldcraft.common.api.level.gzip.GzipEntry;
+import com.mikolka9144.worldcraft.common.api.level.nbt.LevelNBT;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.compressors.CompressorException;
 
 import java.io.IOException;
@@ -18,41 +19,54 @@ import java.util.Optional;
 @Slf4j
 public class World {
 
+    public static final String LEVEL_DAT = "level.dat";
+    public static final String REGION = "region/r.0.0.mcr";
+
     public static World fromTarGzBin(byte[] tar) throws IOException {
         List<GzipEntry> files = GZipConverter.unGtar(tar);
-        Optional<GzipEntry> levelEntry = files.stream().filter(s -> s.getHeader().getName().equals("level.dat")).findFirst();
-        Optional<GzipEntry> chunks = files.stream().filter(s -> s.getHeader().getName().equals("region/r.0.0.mcr")).findFirst();
-        if(levelEntry.isEmpty() || chunks.isEmpty()){
+        Optional<GzipEntry> levelEntry = files.stream().filter(s -> s.getHeader().getName().equals(LEVEL_DAT)).findFirst();
+        Optional<GzipEntry> chunks = files.stream().filter(s -> s.getHeader().getName().equals(REGION)).findFirst();
+        if (levelEntry.isEmpty() || chunks.isEmpty()) {
             var message = "World zip is missing critical files. Either level.dat or r.0.0.mcr in 'region' folder";
             log.error(message);
             throw new IOException(message);
         }
-        return new World(levelEntry.get(),chunks.get());
+        return new World(levelEntry.get(), chunks.get());
     }
-    private World(GzipEntry levelEntry, GzipEntry regionEntry)  {
+
+    private World(GzipEntry levelEntry, GzipEntry regionEntry) {
         this.levelEntry = levelEntry;
         this.chunksEntry = regionEntry;
-        level = new LevelNBT(levelEntry.getData());
-        chunks = new ChunksMCR(chunksEntry.getData());
+        level = new Level(LevelNBT.open(levelEntry.getData()));
+        chunks = ChunksMCR.createFromMCR(chunksEntry.getData());
+    }
+    public World(Level level,Terrain terrain){
+        this.level = level;
+        this.chunks = terrain;
+        levelEntry = new GzipEntry(new TarArchiveEntry(LEVEL_DAT),new byte[0]);
+        chunksEntry = new GzipEntry(new TarArchiveEntry(REGION),new byte[0]);
     }
 
     @Getter
-    private final LevelNBT level;
+    private final Level level;
+
     @Getter
-    private final ChunksMCR chunks;
+    private final Terrain chunks;
+
     private final GzipEntry levelEntry;
 
     private final GzipEntry chunksEntry;
+
     @SneakyThrows
-    public byte[] toTarGzBin()  {
-        levelEntry.setData(level.build());
-        chunksEntry.setData(chunks.build());
+    public byte[] toTarGzBin() {
+        levelEntry.setData(LevelNBT.build(level.getNbt()));
+        chunksEntry.setData(ChunksMCR.build(chunks));
         try {
             return GZipConverter.gtarify(List.of(levelEntry, chunksEntry));
         } catch (IOException e) {
             String msg = "Fatal error occured while saving World. Something is REALLY wrong:";
             log.error(msg);
-            throw new CompressorException(msg,e);
+            throw new CompressorException(msg, e);
         }
     }
 }
