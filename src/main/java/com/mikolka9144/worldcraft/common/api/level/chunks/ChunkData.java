@@ -10,15 +10,18 @@ import lombok.Getter;
 //Z:0-15
 @Getter
 public class ChunkData {
-    private RegionNBT rawNBT;
+    private CompoundTag rawNBT;
     private static final int CHUNK_HEIGHT = 128;
     private static final int CHUNK_LENGHT = 16;
     public ChunkData(byte[] chunkBlob){
         try {
-            rawNBT = new RegionNBT(chunkBlob);
+            rawNBT = RegionNBT.open(chunkBlob);
         }
         catch (Exception ignored){
         }
+    }
+    public ChunkData(CompoundTag tag){
+        rawNBT = tag;
     }
     public void setBlock(int x, int y, int z, byte block){
         int index = calculatePosition(x,y,z);
@@ -37,7 +40,7 @@ public class ChunkData {
         return getLevel().getByteArray("Data").get(index);
     }
     public CompoundTag getLevel(){
-        return rawNBT.getNbt().getCompound("Level");
+        return rawNBT.getCompound("Level");
     }
     private int calculatePosition(int x,int y,int z){
         int position = 0;
@@ -47,6 +50,6 @@ public class ChunkData {
         return position;
     }
     public byte[] build(){
-        return rawNBT != null ? rawNBT.build() : new byte[0];
+        return rawNBT != null ? RegionNBT.build(rawNBT) : new byte[0];
     }
 }

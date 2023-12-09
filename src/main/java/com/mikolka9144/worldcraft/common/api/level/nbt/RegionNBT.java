@@ -14,20 +14,20 @@ import java.util.Arrays;
 
 @Getter
 public class RegionNBT {
-    private final CompoundTag nbt;
+    private RegionNBT(){}
 
     @SneakyThrows
-    public RegionNBT(byte[] chunkBlob)  {
+    public static CompoundTag open(byte[] chunkBlob)  {
         PacketDataReader reader = new PacketDataReader(chunkBlob);
         int length = reader.getInt();
         reader.getByte(); // gets compression, which is always 2
         byte[] compressedNbt = new ByteArrayInputStream(reader.getBytes()).readNBytes(length-1);
 
         var decompressedNBT = GZipConverter.unZlib(compressedNbt);
-        nbt = new Nbt().fromByteArray(decompressedNBT);
+        return new Nbt().fromByteArray(decompressedNBT);
     }
     @SneakyThrows
-    public byte[] build()  {
+    public static byte[] build(CompoundTag nbt)  {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutput dataOutput = new DataOutputStream(byteOut);
         new Nbt().toStream(nbt,dataOutput);
