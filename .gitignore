@@ -78,3 +78,4 @@ fabric.properties
 target
 
 WoCserver.base/docker/server.jar
+./bins
