@@ -7,7 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="WoCserver" />
+      </profile>
+      <profile name="Annotation profile for WoCserver" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="Server" />
+        <module name="PacketParser" />
+        <module name="LevelParser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,7 +33,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="WoCserver" options="-parameters" />
+      <module name="LevelParser" options="-parameters" />
+      <module name="PacketParser" options="-parameters" />
+      <module name="Server" options="-parameters" />
+      <module name="WoCserver" options="" />
     </option>
   </component>
 </project>
