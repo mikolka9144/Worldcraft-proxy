@@ -3,7 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/LevelParser/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/PacketParser/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WoCserver.base/WoCserver.cmdExts/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WoCserver.base/WoCserver.cmdExts/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WoCserver.base/WoCserver.legacy/src/main/java" charset="UTF-8" />
@@ -14,6 +13,10 @@
     <file url="file://$PROJECT_DIR$/WoCserver.base/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WoCserver.base/untitled/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WoCserver.base/untitled/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server.clean/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server.modded/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server.simba/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/serverBackend/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

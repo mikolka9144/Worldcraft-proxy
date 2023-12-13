@@ -15,8 +15,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>LevelParser</module>
-        <module>Server</module>
+        <module>server.modded</module>
         <module>PacketParser</module>
+        <module>serverBackend</module>
+        <module>server.simba</module>
+        <module>server.clean</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
