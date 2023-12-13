@@ -15,13 +15,18 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="Server" />
         <module name="PacketParser" />
+        <module name="serverBackend" />
         <module name="LevelParser" />
+        <module name="modded" />
+        <module name="simba" />
+        <module name="server.clean" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="aggregator" target="1.7" />
+      <module name="server.modded" target="17" />
+      <module name="server.simba" target="17" />
       <module name="untitled" target="17" />
       <module name="WoClegacy" target="17" />
       <module name="WoClegacy-build" target="1.7" />
@@ -35,8 +40,13 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="LevelParser" options="-parameters" />
       <module name="PacketParser" options="-parameters" />
-      <module name="Server" options="-parameters" />
       <module name="WoCserver" options="" />
+      <module name="modded" options="-parameters" />
+      <module name="server.clean" options="-parameters" />
+      <module name="server.modded" options="-parameters" />
+      <module name="server.simba" options="-parameters" />
+      <module name="serverBackend" options="-parameters" />
+      <module name="simba" options="-parameters" />
     </option>
   </component>
 </project>
