@@ -1,7 +1,7 @@
 package com.mikolka9144.packet.packet;
 
-import com.mikolka9144.packet.packet.enums.PacketCommand;
-import com.mikolka9144.packet.packet.enums.PacketProtocol;
+import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
+import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,0 +1,10 @@
+module tests{
+    requires PacketParser;
+    requires junit;
+    requires worldcraft.client;
+    requires utills;
+    requires static lombok;
+    requires org.junit.jupiter.api;
+    requires org.assertj.core;
+
+}

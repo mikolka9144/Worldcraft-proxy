@@ -1,4 +1,4 @@
-import com.mikolka9144.level.World;
+import com.mikolka9144.worldcraft.level.World;
 import org.junit.Test;
 
 import java.io.IOException;

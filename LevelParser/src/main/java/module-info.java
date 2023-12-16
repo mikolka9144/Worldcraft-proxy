@@ -3,6 +3,6 @@ module LevelParser {
     requires nbt;
     requires org.slf4j;
     requires org.apache.commons.compress;
-    requires PacketParser;
-    exports com.mikolka9144.level;
+    requires utills;
+    exports com.mikolka9144.worldcraft.level;
 }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.mikolka9144</groupId>
         <artifactId>WoCserver</artifactId>
-        <version>0.3</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>LevelParser</artifactId>
@@ -18,14 +18,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>1.21</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.mikolka9144</groupId>
-            <artifactId>PacketParser</artifactId>
+            <artifactId>utills</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
