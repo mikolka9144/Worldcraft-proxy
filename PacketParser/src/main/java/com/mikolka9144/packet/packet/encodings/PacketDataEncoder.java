@@ -1,7 +1,7 @@
 package com.mikolka9144.packet.packet.encodings;
 
 import com.mikolka9144.packet.packet.codecs.*;
-import com.mikolka9144.packet.packet.build.PacketDataBuilder;
+import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
 import lombok.SneakyThrows;
 
 import java.util.List;

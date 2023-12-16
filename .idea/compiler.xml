@@ -16,11 +16,13 @@
           <entry name="$USER_HOME$/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
         <module name="PacketParser" />
-        <module name="serverBackend" />
+        <module name="server" />
         <module name="LevelParser" />
-        <module name="modded" />
+        <module name="utills" />
         <module name="simba" />
         <module name="server.clean" />
+        <module name="client" />
+        <module name="modded" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -34,6 +36,9 @@
       <module name="WoCserver.cmdExts" target="17" />
       <module name="WoCserver.legacy" target="17" />
       <module name="WoCserver.standard" target="17" />
+      <module name="worldcraft.client" target="17" />
+      <module name="worldcraft.server" target="17" />
+      <module name="worldcraft.spring" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -41,12 +46,17 @@
       <module name="LevelParser" options="-parameters" />
       <module name="PacketParser" options="-parameters" />
       <module name="WoCserver" options="" />
+      <module name="client" options="-parameters" />
       <module name="modded" options="-parameters" />
+      <module name="server" options="-parameters" />
       <module name="server.clean" options="-parameters" />
       <module name="server.modded" options="-parameters" />
       <module name="server.simba" options="-parameters" />
-      <module name="serverBackend" options="-parameters" />
       <module name="simba" options="-parameters" />
+      <module name="utills" options="-parameters" />
+      <module name="worldcraft.client" options="-parameters" />
+      <module name="worldcraft.server" options="-parameters" />
+      <module name="worldcraft.spring" options="-parameters" />
     </option>
   </component>
 </project>

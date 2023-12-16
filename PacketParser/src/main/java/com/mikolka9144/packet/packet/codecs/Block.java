@@ -1,7 +1,7 @@
 package com.mikolka9144.packet.packet.codecs;
 
-import com.mikolka9144.packet.packet.enums.BlockType;
-import com.mikolka9144.packet.Vector3Short;
+import com.mikolka9144.worldcraft.utills.enums.BlockType;
+import com.mikolka9144.worldcraft.utills.Vector3Short;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

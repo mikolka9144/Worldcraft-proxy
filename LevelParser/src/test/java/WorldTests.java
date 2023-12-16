@@ -1,6 +1,6 @@
-import com.mikolka9144.level.Level;
-import com.mikolka9144.level.Terrain;
-import com.mikolka9144.level.nbt.ChunksMCR;
+import com.mikolka9144.worldcraft.level.Level;
+import com.mikolka9144.worldcraft.level.Terrain;
+import com.mikolka9144.worldcraft.level.nbt.ChunksMCR;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

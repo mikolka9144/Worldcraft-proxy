@@ -1,7 +1,7 @@
 package com.mikolka9144.packet.packet.codecs;
 
 
-import com.mikolka9144.packet.Vector3;
+import com.mikolka9144.worldcraft.utills.Vector3;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

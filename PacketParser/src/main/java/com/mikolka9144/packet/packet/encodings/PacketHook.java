@@ -1,6 +1,6 @@
 package com.mikolka9144.packet.packet.encodings;
 
-import com.mikolka9144.packet.packet.enums.PacketCommand;
+import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,8 +1,8 @@
 package com.mikolka9144.packet.packet.encodings;
 
 import com.mikolka9144.packet.packet.codecs.*;
-import com.mikolka9144.packet.packet.enums.PacketCommand;
-import com.mikolka9144.packet.packet.build.PacketDataReader;
+import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
+import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
