@@ -1,9 +1,12 @@
 package com.mikolka9144.worldcraft.level;
 
+import com.mikolka9144.worldcraft.utills.LevelConsts;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.worldcraft.level.nbt.RegionNBT;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import lombok.Getter;
+
+import static com.mikolka9144.worldcraft.utills.LevelConsts.LEVEL_CHUNK_SIZE;
 
 //Position ranges
 //X:0-15
@@ -12,8 +15,6 @@ import lombok.Getter;
 @Getter
 public class ChunkData {
     public static final String BLOCKS = "Blocks";
-    private static final int CHUNK_HEIGHT = 128;
-    private static final int CHUNK_LENGTH = 16;
 
     private CompoundTag rawNBT;
     public ChunkData(byte[] chunkBlob){
@@ -42,8 +43,8 @@ public class ChunkData {
     private int calculatePosition(int x,int y,int z){
         int position = 0;
         position += y;
-        position += z*CHUNK_HEIGHT;
-        position += x*CHUNK_HEIGHT* CHUNK_LENGTH;
+        position += z* LevelConsts.CHUNK_HEIGHT;
+        position += x* LevelConsts.CHUNK_HEIGHT* LEVEL_CHUNK_SIZE;
         return position;
     }
     public byte[] build(){

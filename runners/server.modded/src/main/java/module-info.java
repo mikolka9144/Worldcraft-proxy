@@ -8,7 +8,7 @@ module server.hacking {
     requires org.slf4j;
     requires PacketParser;
     requires LevelParser;
-    requires worldcraft.spring;
+    requires worldcraft.server;
     requires utills;
     requires worldcraft.client;
     opens com.mikolka9144.worldcraft;

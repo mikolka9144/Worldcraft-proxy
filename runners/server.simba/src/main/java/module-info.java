@@ -1,5 +1,5 @@
-module server.simba {
-    requires worldcraft.spring;
+module simba {
+    requires worldcraft.server;
     requires static lombok;
     requires org.slf4j;
 
@@ -14,5 +14,5 @@ module server.simba {
     requires worldcraft.client;
     exports com.mikolka9144.worldcraft.simba;
     exports com.mikolka9144.worldcraft.simba.backend.Monika;
-    opens com.mikolka9144.worldcraft;
+    opens com.mikolka9144.worldcraft.simba;
 }

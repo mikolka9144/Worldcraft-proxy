@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.backend.spring.official;
 
 import com.mikolka9144.worldcraft.backend.spring.config.ServerConfigManifest;
-import com.mikolka9144.worldcraft.backend.base.http.HttpClient;
+import com.mikolka9144.worldcraft.backend.base.http.HttpWorldClient;
 import com.mikolka9144.worldcraft.backend.spring.http.interceptors.HttpUploadInterceptor;
 import com.mikolka9144.worldcraft.backend.spring.http.model.WorldUploadRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Component("http-official-upload")
 @Slf4j
 public class OfficialUploader implements HttpUploadInterceptor {
-    private final HttpClient client;
+    private final HttpWorldClient client;
 
     public OfficialUploader(ServerConfigManifest manifest) {
-        client = new HttpClient(
+        client = new HttpWorldClient(
                 manifest.getTargetServer(),
                 manifest.getTargetHttpPort());
     }
