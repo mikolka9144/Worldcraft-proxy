@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.backend.spring.official;
 
-import com.mikolka9144.worldcraft.backend.base.http.HttpClient;
+import com.mikolka9144.worldcraft.backend.base.http.HttpWorldClient;
 import com.mikolka9144.worldcraft.level.World;
 import com.mikolka9144.worldcraft.backend.spring.config.ServerConfigManifest;
 import com.mikolka9144.worldcraft.backend.spring.http.interceptors.HttpDownloadInterceptor;
@@ -23,10 +23,10 @@ public class OfficialDownloader implements HttpDownloadInterceptor {
         request.setWorld(World.fromTarGzBin(worldBin));
     }
 
-    private final HttpClient client;
+    private final HttpWorldClient client;
 
     public OfficialDownloader(ServerConfigManifest manifest) {
-        client = new HttpClient(
+        client = new HttpWorldClient(
                 manifest.getTargetServer(),
                 manifest.getTargetHttpPort());
     }

@@ -23,6 +23,12 @@
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>dev.dewy</groupId>
+            <artifactId>nbt</artifactId>
+            <version>1.5.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,3 +1,5 @@
+package tests;
+
 import com.mikolka9144.worldcraft.level.World;
 import org.junit.Test;
 

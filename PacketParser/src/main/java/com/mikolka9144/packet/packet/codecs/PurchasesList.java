@@ -1,7 +1,6 @@
 package com.mikolka9144.packet.packet.codecs;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.*;
 
 @Getter
@@ -10,17 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchasesList {
-    @JsonProperty("PurchaseId")
-    String purchaseId;
-    @JsonProperty("Coins")
-    String coins;
-    @JsonProperty("MarketOperationVersion")
-    String marketOperationVersion;
-    @JsonProperty("Resurrections")
-    String resurrections;
+    public String PurchaseId;
+    public String Coins;
+    public String MarketOperationVersion;
+    public String Resurrections;
     @SneakyThrows
     public static PurchasesList decodefromJson(String jsonData){
-        ObjectMapper objectMapper = new ObjectMapper();
+        Gson gson = new Gson();
         String payload = jsonData
                 .replace("\n","")
                 .replace(",}","}")
@@ -28,12 +23,12 @@ public class PurchasesList {
                 .replace(": ","\":\"")
                 .replace(",","\",\"")
                 .replace("}","\"}");
-        return objectMapper.readValue(payload, PurchasesList.class);
+        return gson.fromJson(payload, PurchasesList.class);
     }
     @SneakyThrows
     public String encodeToJson(){
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(this)
+
+        return new Gson().toJson(this)
                 .replace("{","{\n")
                 .replace("}","\n}")
                 .replace(",",",\n")

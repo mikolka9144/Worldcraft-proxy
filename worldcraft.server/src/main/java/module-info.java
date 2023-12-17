@@ -1,4 +1,4 @@
-module worldcraft.spring {
+module worldcraft.server {
     requires spring.web;
     requires static lombok;
     requires spring.core;

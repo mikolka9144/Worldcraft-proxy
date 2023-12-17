@@ -20,9 +20,10 @@
         <module name="LevelParser" />
         <module name="utills" />
         <module name="simba" />
-        <module name="server.clean" />
         <module name="client" />
         <module name="modded" />
+        <module name="clean" />
+        <module name="Tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -45,11 +46,12 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="LevelParser" options="-parameters" />
       <module name="PacketParser" options="-parameters" />
+      <module name="Tests" options="-parameters" />
       <module name="WoCserver" options="" />
+      <module name="clean" options="-parameters" />
       <module name="client" options="-parameters" />
       <module name="modded" options="-parameters" />
       <module name="server" options="-parameters" />
-      <module name="server.clean" options="-parameters" />
       <module name="server.modded" options="-parameters" />
       <module name="server.simba" options="-parameters" />
       <module name="simba" options="-parameters" />

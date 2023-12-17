@@ -1,6 +1,9 @@
-import com.mikolka9144.worldcraft.utills.Vector3;
+package tests;
+
 import com.mikolka9144.worldcraft.simba.backend.Monika.Monika;
 import com.mikolka9144.worldcraft.simba.backend.Monika.MonikaCommandReader;
+import com.mikolka9144.worldcraft.utills.Vector3;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 
@@ -53,17 +56,17 @@ public class MonikaTests {
         List<String> command = List.of("powtórz","4","[","np","50","gr","90","]");
         MonikaCommandReader reader = new MonikaCommandReader(command.iterator());
         //
-        assertThat(reader.readNext()).isEqualTo("powtórz");
-        assertThat(reader.readNext()).isEqualTo("4");
-        assertThat(reader.readNextCodeBlock()).hasSameElementsAs(List.of("np","50","gr","90"));
+        Assertions.assertThat(reader.readNext()).isEqualTo("powtórz");
+        Assertions.assertThat(reader.readNext()).isEqualTo("4");
+        Assertions.assertThat(reader.readNextCodeBlock()).hasSameElementsAs(List.of("np","50","gr","90"));
     }
     @Test
     public void testInvalidCodeBlocksTest(){
         List<String> command = List.of("powtórz","4","[","np","50","gr","90");
         MonikaCommandReader reader = new MonikaCommandReader(command.iterator());
         //
-        assertThat(reader.readNext()).isEqualTo("powtórz");
-        assertThat(reader.readNext()).isEqualTo("4");
+        Assertions.assertThat(reader.readNext()).isEqualTo("powtórz");
+        Assertions.assertThat(reader.readNext()).isEqualTo("4");
         assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(reader::readNextCodeBlock);
     }
     @Test
@@ -71,7 +74,7 @@ public class MonikaTests {
         List<String> command = List.of("powtórz","4");
         MonikaCommandReader reader = new MonikaCommandReader(command.iterator());
         //
-        assertThat(reader.readNext()).isEqualTo("powtórz");
+        Assertions.assertThat(reader.readNext()).isEqualTo("powtórz");
         assertThatExceptionOfType(IllegalStateException.class).isThrownBy(reader::readNextCodeBlock);
     }
     @Test
@@ -82,9 +85,9 @@ public class MonikaTests {
         Condition<Vector3> isLeft = new Condition<>(s -> s.getX() == -1,"Left rotation");
         //
 
-        assertThat(monikasConsole.calculateAngle(90)).satisfies(isRight);
-        assertThat(monikasConsole.calculateAngle(0)).satisfies(isUp);
-        assertThat(monikasConsole.calculateAngle(180)).satisfies(isUp);
-        assertThat(monikasConsole.calculateAngle(270)).satisfies(isLeft);
+        Assertions.assertThat(monikasConsole.calculateAngle(90)).satisfies(isRight);
+        Assertions.assertThat(monikasConsole.calculateAngle(0)).satisfies(isUp);
+        Assertions.assertThat(monikasConsole.calculateAngle(180)).satisfies(isUp);
+        Assertions.assertThat(monikasConsole.calculateAngle(270)).satisfies(isLeft);
     }
 }
