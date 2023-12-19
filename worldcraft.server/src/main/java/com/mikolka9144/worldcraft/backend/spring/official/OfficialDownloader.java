@@ -19,8 +19,11 @@ public class OfficialDownloader implements HttpDownloadInterceptor {
             log.info("World present. Not downloading from server");
             return;
         }
+        log.info("Downloading "+request.getWorldId());
         var worldBin = client.getWorld(request.getWorldId());
+        log.info("Parsing "+request.getWorldId());
         request.setWorld(World.fromTarGzBin(worldBin));
+        log.info("Done "+request.getWorldId());
     }
 
     private final HttpWorldClient client;
