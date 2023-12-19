@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.modules.hackoring.fakers;
 
 import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
 import com.mikolka9144.packet.packet.codecs.LoginInfo;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

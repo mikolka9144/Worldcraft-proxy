@@ -1,9 +1,9 @@
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.base.interceptor.PacketAlteringModule;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.PacketAlteringModule;
 import com.mikolka9144.worldcraft.backend.base.socket.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.backend.base.socket.WorldcraftSocket;
-import com.mikolka9144.worldcraft.backend.base.socket.server.WorldcraftThread;
+import com.mikolka9144.worldcraft.backend.spring.socket.WorldcraftThread;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;

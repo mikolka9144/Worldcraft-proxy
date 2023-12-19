@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.base.interceptor;
+package com.mikolka9144.worldcraft.backend.spring.socket.interceptor;
 
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.packet.packet.errorcodes.CreateRoomErrorCode;

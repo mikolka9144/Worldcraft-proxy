@@ -2,9 +2,7 @@ package com.mikolka9144.worldcraft.backend.spring.socket;
 
 import com.mikolka9144.worldcraft.backend.base.socket.WorldcraftSocket;
 import com.mikolka9144.worldcraft.backend.spring.config.ServerConfig;
-import com.mikolka9144.worldcraft.backend.base.socket.server.SocketPacketSender;
-import com.mikolka9144.worldcraft.backend.base.interceptor.PacketAlteringModule;
-import com.mikolka9144.worldcraft.backend.base.socket.server.WorldcraftThread;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.PacketAlteringModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

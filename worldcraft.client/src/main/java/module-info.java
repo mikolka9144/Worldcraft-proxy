@@ -8,7 +8,5 @@ module worldcraft.client {
 
     exports com.mikolka9144.worldcraft.backend.base.socket;
     exports com.mikolka9144.worldcraft.backend.base.api;
-    exports com.mikolka9144.worldcraft.backend.base.interceptor;
-    exports com.mikolka9144.worldcraft.backend.base.socket.server;
     exports com.mikolka9144.worldcraft.backend.base.http;
 }

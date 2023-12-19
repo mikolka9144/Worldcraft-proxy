@@ -5,7 +5,7 @@ import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
 import com.mikolka9144.packet.packet.codecs.ChatMessage;
 import com.mikolka9144.packet.packet.codecs.JoinRoomResponse;
 import com.mikolka9144.packet.packet.codecs.Player;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import lombok.extern.slf4j.Slf4j;

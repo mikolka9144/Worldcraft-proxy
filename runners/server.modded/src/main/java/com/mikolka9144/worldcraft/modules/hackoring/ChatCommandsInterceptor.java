@@ -3,7 +3,7 @@ package com.mikolka9144.worldcraft.modules.hackoring;
 import com.mikolka9144.packet.packet.codecs.Block;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.packet.packet.codecs.ChatMessage;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;

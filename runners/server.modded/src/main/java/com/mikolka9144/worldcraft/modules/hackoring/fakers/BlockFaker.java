@@ -4,7 +4,7 @@ import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.packet.packet.codecs.Block;
 import com.mikolka9144.packet.packet.codecs.PlayerAction;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

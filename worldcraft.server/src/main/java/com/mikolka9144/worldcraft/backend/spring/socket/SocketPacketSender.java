@@ -1,7 +1,7 @@
-package com.mikolka9144.worldcraft.backend.base.socket.server;
+package com.mikolka9144.worldcraft.backend.spring.socket;
 
 import com.mikolka9144.packet.packet.Packet;
-import com.mikolka9144.worldcraft.backend.base.interceptor.PacketAlteringModule;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.PacketAlteringModule;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
