@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.backend.spring.config;
 
 import com.mikolka9144.worldcraft.backend.spring.http.interceptors.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.backend.spring.http.interceptors.HttpUploadInterceptor;
-import com.mikolka9144.worldcraft.backend.base.interceptor.PacketAlteringModule;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.PacketAlteringModule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

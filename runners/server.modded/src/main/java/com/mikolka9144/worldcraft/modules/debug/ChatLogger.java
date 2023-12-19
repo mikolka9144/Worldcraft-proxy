@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.modules.debug;
 
 import com.mikolka9144.packet.packet.codecs.ChatMessage;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
 import lombok.extern.slf4j.Slf4j;

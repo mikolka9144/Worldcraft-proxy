@@ -6,7 +6,7 @@ import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

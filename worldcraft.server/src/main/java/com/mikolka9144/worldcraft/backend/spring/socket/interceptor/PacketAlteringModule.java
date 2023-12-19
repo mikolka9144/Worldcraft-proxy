@@ -1,8 +1,8 @@
-package com.mikolka9144.worldcraft.backend.base.interceptor;
+package com.mikolka9144.worldcraft.backend.spring.socket.interceptor;
 
 import com.mikolka9144.packet.packet.Packet;
 import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.base.socket.server.SocketPacketSender;
+import com.mikolka9144.worldcraft.backend.spring.socket.SocketPacketSender;
 
 import java.io.Closeable;
 

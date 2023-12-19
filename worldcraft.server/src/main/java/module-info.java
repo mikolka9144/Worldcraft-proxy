@@ -11,6 +11,7 @@ module worldcraft.server {
     requires utills;
     requires worldcraft.client;
     exports com.mikolka9144.worldcraft.backend.spring.socket;
+    exports com.mikolka9144.worldcraft.backend.spring.socket.interceptor;
     exports com.mikolka9144.worldcraft.backend.spring.config;
     exports com.mikolka9144.worldcraft.backend.spring.http.interceptors;
     exports com.mikolka9144.worldcraft.backend.spring.http;

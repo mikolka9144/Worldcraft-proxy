@@ -6,7 +6,7 @@ import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
 import com.mikolka9144.packet.packet.codecs.ClientBuildManifest;
 import com.mikolka9144.packet.packet.codecs.MovementPacket;
 import com.mikolka9144.packet.packet.codecs.PlayerAction;
-import com.mikolka9144.worldcraft.backend.base.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;

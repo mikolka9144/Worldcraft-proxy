@@ -7,7 +7,7 @@ import com.mikolka9144.packet.packet.codecs.Block;
 import com.mikolka9144.packet.packet.codecs.ChatMessage;
 import com.mikolka9144.packet.packet.codecs.ClientBuildManifest;
 import com.mikolka9144.packet.packet.codecs.LoginInfo;
-import com.mikolka9144.worldcraft.backend.base.interceptor.ErrorPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.ErrorPacketInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
