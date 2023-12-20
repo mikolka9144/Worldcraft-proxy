@@ -1,5 +1,3 @@
-package tests;
-
 import com.mikolka9144.worldcraft.backend.level.Level;
 import com.mikolka9144.worldcraft.backend.level.Terrain;
 import org.junit.Test;

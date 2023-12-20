@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>client</artifactId>
+    <version>${worldcraft.client.version}</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>PacketParser</artifactId>
-            <version>1.0</version>
+            <version>${worldcraft.packet.version}</version>
             <scope>compile</scope>
         </dependency>
 

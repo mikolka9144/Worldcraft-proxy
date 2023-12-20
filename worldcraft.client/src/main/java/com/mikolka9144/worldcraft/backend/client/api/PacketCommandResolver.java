@@ -11,6 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Optional;
+
+/**
+ * Component identifying packet type and redirecting
+ * it to a suitable callback in {@link PacketCommands} implementation
+ */
 @Slf4j
 public class PacketCommandResolver {
     private final PacketCommands commands;
@@ -20,10 +25,16 @@ public class PacketCommandResolver {
         this.commands = targetObject;
     }
 
-    public void executeCommand(PacketCommand target, Packet packet, PacketsFormula formula) {
+    /**
+     * Analyses given packet and executes suitable callback in {@code targetObject}
+     * {@link PacketsFormula} should have given packet set as upstream packet
+     * @param packet A packet to analyse
+     * @param formula Formula for default callback
+     */
+    public void executeCommand(Packet packet, PacketsFormula formula) {
         Method[] declaredCalls = commands.getClass().getDeclaredMethods();
         Method[] allCalls = PacketCommands.class.getDeclaredMethods();
-        Optional<Method> baseMethod = findTargetInMethods(target, allCalls);
+        Optional<Method> baseMethod = findTargetInMethods(packet.getCommand(), allCalls);
         String callName = baseMethod.map(Method::getName).orElse("interceptUnknownPacket");
         Optional<Method> call = findTargetInMethods(callName,declaredCalls);
 
@@ -35,10 +46,23 @@ public class PacketCommandResolver {
                         if (argument != null) x.invoke(commands, packet, argument, formula);
                         else x.invoke(commands, packet, formula);
                     } catch (Exception exp) {
-                        log.error(String.format("Method execution failed for %s with argument %s",target,argument), exp);
+                        log.error(String.format("Method execution failed for %s with argument %s",packet.getCommand(),argument), exp);
                     }
                 }
         );
+    }
+
+    /**
+     * Analyses given packet and executes suitable callback in {@code targetObject}.
+     * Also takes care of preparing {@link PacketsFormula}
+     * @param packet A packet to analyse
+     * @return Result of callback execution
+     */
+    public PacketsFormula executeCommand(Packet packet){
+        PacketsFormula formula = new PacketsFormula();
+        formula.addUpstream(packet);
+        executeCommand(packet,formula);
+        return formula;
     }
 
     private Object getPacketData(PacketCommand target, byte[] data) {

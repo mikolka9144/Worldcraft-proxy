@@ -12,6 +12,8 @@ import java.util.List;
  *  It contains list of packets to be sent
  *  with the base packet ({@code upstreamPackets})
  *  and back to the sender ({@code writebackPackets}).
+ *  <h3>Note</h3>
+ *  By default, first packet in upstreamPackets is packet, that triggers a call
  */
 @Getter
 public class PacketsFormula {

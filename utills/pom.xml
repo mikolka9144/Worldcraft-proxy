@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>utills</artifactId>
-
+    <version>${worldcraft.utills.version}</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

@@ -17,8 +17,8 @@
         </processorPath>
         <module name="PacketParser" />
         <module name="server" />
-        <module name="LevelParser" />
         <module name="utills" />
+        <module name="LevelParser" />
         <module name="client" />
         <module name="clean" />
         <module name="Tests" />
