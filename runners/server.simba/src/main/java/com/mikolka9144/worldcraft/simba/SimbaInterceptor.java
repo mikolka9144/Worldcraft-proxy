@@ -1,13 +1,13 @@
 package com.mikolka9144.worldcraft.simba;
 
-import com.mikolka9144.packet.packet.Packet;
-import com.mikolka9144.packet.packet.codecs.Block;
-import com.mikolka9144.packet.packet.codecs.MovementPacket;
-import com.mikolka9144.packet.packet.codecs.PopupMessage;
-import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.backend.spring.socket.SocketPacketSender;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
+import com.mikolka9144.worldcraft.backend.packets.codecs.Block;
+import com.mikolka9144.worldcraft.backend.packets.codecs.MovementPacket;
+import com.mikolka9144.worldcraft.backend.packets.codecs.PopupMessage;
+import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.server.socket.SocketPacketSender;
 import com.mikolka9144.worldcraft.simba.backend.Monika.MonikasConsole;
 import com.mikolka9144.worldcraft.simba.backend.models.StepPacket;
 import com.mikolka9144.worldcraft.utills.Vector3Short;

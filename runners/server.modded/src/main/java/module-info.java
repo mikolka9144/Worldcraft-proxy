@@ -12,10 +12,10 @@ module server.hacking {
     requires utills;
     requires worldcraft.client;
     opens com.mikolka9144.worldcraft;
-    exports com.mikolka9144.worldcraft.modules.hackoring;
-    exports com.mikolka9144.worldcraft.modules.hackoring.fakers;
-    exports com.mikolka9144.worldcraft.modules.debug;
-    exports com.mikolka9144.worldcraft.modules;
-    exports com.mikolka9144.worldcraft.modules.debug.http;
+    exports com.mikolka9144.worldcraft.hacked.modules.hackoring;
+    exports com.mikolka9144.worldcraft.hacked.modules.hackoring.fakers;
+    exports com.mikolka9144.worldcraft.hacked.modules.debug;
+    exports com.mikolka9144.worldcraft.hacked.modules;
+    exports com.mikolka9144.worldcraft.hacked.modules.debug.http;
 
 }

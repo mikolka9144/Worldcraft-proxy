@@ -1,6 +1,6 @@
-import com.mikolka9144.packet.packet.codecs.PurchasesList;
-import com.mikolka9144.packet.packet.encodings.PacketDataDecoder;
-import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.backend.packets.codecs.PurchasesList;
+import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataDecoder;
+import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import lombok.extern.slf4j.Slf4j;

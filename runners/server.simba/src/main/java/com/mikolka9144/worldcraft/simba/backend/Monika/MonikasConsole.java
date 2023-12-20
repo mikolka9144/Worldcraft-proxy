@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.simba.backend.Monika;
 
 import com.mikolka9144.worldcraft.utills.Vector3;
-import com.mikolka9144.packet.packet.codecs.Block;
+import com.mikolka9144.worldcraft.backend.packets.codecs.Block;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.worldcraft.simba.backend.models.SimbaFunction;
 import com.mikolka9144.worldcraft.simba.backend.models.StepPacket;

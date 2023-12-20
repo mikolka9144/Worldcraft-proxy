@@ -1,4 +1,4 @@
-import com.mikolka9144.packet.packet.codecs.PurchasesList;
+import com.mikolka9144.worldcraft.backend.packets.codecs.PurchasesList;
 import org.junit.Test;
 import org.assertj.core.api.Assertions;
 

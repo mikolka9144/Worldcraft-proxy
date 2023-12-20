@@ -6,7 +6,7 @@ module worldcraft.client {
     requires unirest.java.core;
     requires java.net.http;
 
-    exports com.mikolka9144.worldcraft.backend.base.socket;
-    exports com.mikolka9144.worldcraft.backend.base.api;
-    exports com.mikolka9144.worldcraft.backend.base.http;
+    exports com.mikolka9144.worldcraft.backend.client.socket;
+    exports com.mikolka9144.worldcraft.backend.client.api;
+    exports com.mikolka9144.worldcraft.backend.client.http;
 }

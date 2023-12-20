@@ -10,14 +10,14 @@ module worldcraft.server {
     requires LevelParser;
     requires utills;
     requires worldcraft.client;
-    exports com.mikolka9144.worldcraft.backend.spring.socket;
-    exports com.mikolka9144.worldcraft.backend.spring.socket.interceptor;
-    exports com.mikolka9144.worldcraft.backend.spring.config;
-    exports com.mikolka9144.worldcraft.backend.spring.http.interceptors;
-    exports com.mikolka9144.worldcraft.backend.spring.http;
-    exports com.mikolka9144.worldcraft.backend.spring.http.model;
-    exports com.mikolka9144.worldcraft.backend.spring.official;
-    exports com.mikolka9144.worldcraft.backend.spring.unify;
-    exports com.mikolka9144.worldcraft.backend.spring.unify.convert;
-    opens com.mikolka9144.worldcraft.backend.spring.config;
+    exports com.mikolka9144.worldcraft.backend.server.socket;
+    exports com.mikolka9144.worldcraft.backend.server.socket.interceptor;
+    exports com.mikolka9144.worldcraft.backend.server.config;
+    exports com.mikolka9144.worldcraft.backend.server.http.interceptors;
+    exports com.mikolka9144.worldcraft.backend.server.http;
+    exports com.mikolka9144.worldcraft.backend.server.http.model;
+    exports com.mikolka9144.worldcraft.backend.server.official;
+    exports com.mikolka9144.worldcraft.backend.server.unify;
+    exports com.mikolka9144.worldcraft.backend.server.unify.convert;
+    opens com.mikolka9144.worldcraft.backend.server.config;
 }
