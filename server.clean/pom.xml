@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.mikolka9144</groupId>
         <artifactId>WoCserver</artifactId>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>modded</artifactId>
-    <version>1.0</version>
+
+    <artifactId>clean</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,29 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>com.mikolka9144</groupId>
-            <artifactId>LevelParser</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mikolka9144</groupId>
-            <artifactId>PacketParser</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mikolka9144</groupId>
             <artifactId>server</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
 </project>
