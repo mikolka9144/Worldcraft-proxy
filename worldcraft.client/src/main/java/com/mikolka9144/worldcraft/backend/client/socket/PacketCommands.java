@@ -9,6 +9,10 @@ import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 
 import java.util.List;
 
+/**
+ * Interface for use with classes implementing type-based packet interpretation.
+ * Use with {@link com.mikolka9144.worldcraft.backend.client.api.PacketCommandResolver}
+ */
 public interface PacketCommands {
     @PacketHook(PacketCommand.S_CREATE_ROOM_RESP)
     default void interceptCreateRoomResp(Packet packet, String worldUploadToken, PacketsFormula formula) {

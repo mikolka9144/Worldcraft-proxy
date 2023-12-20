@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>LevelParser</artifactId>
-    <version>1.0</version>
+    <version>${worldcraft.level.version}</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>utills</artifactId>
-            <version>1.0</version>
+            <version>${worldcraft.utills.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

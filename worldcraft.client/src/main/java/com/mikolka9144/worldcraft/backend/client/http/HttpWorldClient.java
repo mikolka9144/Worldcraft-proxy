@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 
+/**
+ * Basic Http client for downloading and uploading worlds to server
+ */
 @Slf4j
 public class HttpWorldClient {
 
@@ -16,6 +19,12 @@ public class HttpWorldClient {
     public HttpWorldClient(String target, int port){
         serverURL = String.format(serverURL,target,port);
     }
+
+    /**
+     * Uploads a world to server (as part of room creation process)
+     * @param token Token from server
+     * @param worldBin World to upload. Refer to {@code World} class in {@code LevelParser} for more details
+     */
     public void uploadWorld(String token,byte[] worldBin) {
         String uploadURL = "/worldcraft-web/upload";
             Unirest.post(serverURL+uploadURL)
@@ -25,7 +34,11 @@ public class HttpWorldClient {
     }
 
 
-
+    /**
+     * Downloads a world binary from server.
+     * @param worldId Id of the world you want to download
+     * @return Raw binary of world. Refer to {@code World} class in {@code LevelParser} to decode it.
+     */
     public byte[] getWorld(int worldId) {
         String downloadURL = "worldcraft-web/rooms/%d/game.tar.gz";
         HttpResponse<byte[]> response = Unirest.get(serverURL + String.format(downloadURL, worldId)).asBytes();
