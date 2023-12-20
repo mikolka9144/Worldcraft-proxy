@@ -1,14 +1,13 @@
-package tests;
-
 import com.mikolka9144.worldcraft.backend.level.Level;
 import com.mikolka9144.worldcraft.backend.level.Terrain;
 import org.junit.Test;
 
-import static com.mikolka9144.worldcraft.utills.LevelConsts.LEVEL_CHUNK_SIZE;
 import static org.junit.Assert.assertEquals;
 
 
 public class WorldTests {
+    private static final int LEVEL_CHUNK_SIZE = 16;
+
     @Test
     public void testCountingWorldLEnght(){
         Level lvl = new Level();
