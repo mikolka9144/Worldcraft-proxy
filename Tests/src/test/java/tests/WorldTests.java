@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.backend.level.Terrain;
 import org.junit.Test;
 
 import static com.mikolka9144.worldcraft.utills.LevelConsts.LEVEL_CHUNK_SIZE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 
 public class WorldTests {

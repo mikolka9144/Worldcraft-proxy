@@ -1,8 +1,8 @@
+import com.mikolka9144.worldcraft.backend.client.api.PacketBuilder;
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ChatMessage;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.client.api.PacketBuilder;
-import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class FullPacketInterceptorTests {
-    public static class TestFullInterceptor extends CommandPacketInterceptor{
+    public static class TestFullInterceptor extends CommandPacketInterceptor {
         @Override
         public void interceptPlayerMessage(Packet packet, String message, PacketsFormula formula) {
             Assertions.assertThat("test").isEqualTo(message);

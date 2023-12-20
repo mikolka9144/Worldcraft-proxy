@@ -1,5 +1,6 @@
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.server.socket.SocketPacketSender;
 import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftSocket;
@@ -98,13 +99,7 @@ public class InterceptorsTests {
         //TODO I bet Monika wouldn't be happy with this goofy ahh code (or anyone)
         var packet = new Packet(PacketProtocol.UNKNOWN,0,
                 PacketCommand.C_LOGIN_REQ,"",(byte)0,new byte[0]);
-        var tempOut = new ByteArrayOutputStream();
-        new WorldcraftPacketIO(new ByteArrayInputStream(new byte[0]),tempOut).send(packet);
-        byte[] rawInput = tempOut.toByteArray();
 
-        InputStream input = new ByteArrayInputStream(rawInput);
-        OutputStream output = new ByteArrayOutputStream();
-        WorldcraftSocket socket = new WorldcraftSocket(input,output,"XD",output);
 
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
         upstreamInterceptors.add(new TestInterceptor((s) -> {
@@ -130,9 +125,8 @@ public class InterceptorsTests {
         }));
 
         // act
-        socket.getChannel().send(packet);
-        WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
-        thread.startThread();
+        SocketPacketSender thread = new SocketPacketSender(upstreamInterceptors,downstreamInterceptors);
+        thread.sendToServer(packet);
         // assert
         Assertions.assertThat(executed).isTrue();
     }

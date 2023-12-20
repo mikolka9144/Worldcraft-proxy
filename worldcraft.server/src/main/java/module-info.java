@@ -10,6 +10,7 @@ module worldcraft.server {
     requires LevelParser;
     requires utills;
     requires worldcraft.client;
+    requires spring.boot;
     exports com.mikolka9144.worldcraft.backend.server.socket;
     exports com.mikolka9144.worldcraft.backend.server.socket.interceptor;
     exports com.mikolka9144.worldcraft.backend.server.config;
