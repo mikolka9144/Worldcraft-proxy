@@ -13,13 +13,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
         <module name="PacketParser" />
         <module name="server" />
         <module name="LevelParser" />
         <module name="utills" />
-        <module name="simba" />
         <module name="client" />
         <module name="modded" />
         <module name="clean" />
@@ -31,6 +30,7 @@
       <module name="converter" target="17" />
       <module name="server.modded" target="17" />
       <module name="server.simba" target="17" />
+      <module name="simba" target="17" />
       <module name="untitled" target="17" />
       <module name="WoClegacy" target="17" />
       <module name="WoClegacy-build" target="1.7" />

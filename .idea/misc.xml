@@ -27,6 +27,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/WoCserver.base/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/runners/server.simba/pom.xml" />
       </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
