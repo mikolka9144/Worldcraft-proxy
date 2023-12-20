@@ -15,10 +15,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>LevelParser</module>
-        <module>runners/server.modded</module>
         <module>PacketParser</module>
         <module>worldcraft.server</module>
-        <module>runners/server.clean</module>
+        <module>server.clean</module>
         <module>utills</module>
         <module>worldcraft.client</module>
         <module>Tests</module>
