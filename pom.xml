@@ -18,7 +18,6 @@
         <module>runners/server.modded</module>
         <module>PacketParser</module>
         <module>worldcraft.server</module>
-        <module>runners/server.simba</module>
         <module>runners/server.clean</module>
         <module>utills</module>
         <module>worldcraft.client</module>
