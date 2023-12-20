@@ -11,7 +11,9 @@ import java.net.Socket;
 import java.nio.BufferUnderflowException;
 import java.util.function.Consumer;
 
-
+/**
+ * Implementation of basic worldcraft client allowing to communicate with target server.
+ */
 @Slf4j
 public class WorldcraftClient implements Closeable {
     @Getter
@@ -20,10 +22,21 @@ public class WorldcraftClient implements Closeable {
     private boolean isRunning = true;
     private final Thread receiver;
 
+    /**
+     * @param hostname Name (or IP) of target server
+     * @param port A port to hit on target {@code hostname}
+     * @param onPacketReceive Callback to run for received packets from server
+     * @throws IOException Thrown if client fails to open connection to target server
+     */
     public WorldcraftClient(String hostname, int port, Consumer<Packet> onPacketReceive) throws IOException {
         this(new WorldcraftSocket(new Socket(hostname,port)),onPacketReceive);
 
     }
+
+    /**
+     * @param io Connection (real or fake) to operate on
+     * @param onPacketReceive Callback to run for received packets from server
+     */
     public WorldcraftClient(WorldcraftSocket io, Consumer<Packet> onPacketReceive){
         socket = io;
         packetCallback = onPacketReceive;
@@ -47,9 +60,19 @@ public class WorldcraftClient implements Closeable {
             log.warn(socket.getConnectedIp() + " closed!");
         }
     }
+
+    /**
+     * Starts receiving packets from server. As simple as that.
+     */
     public void start(){
         receiver.start();
     }
+
+    /**
+     * Sends packet to Server
+     * @param packet A packet to send
+     * @throws IOException Sending packet to server failed
+     */
     public void send(Packet packet) throws IOException {
         socket.getChannel().send(packet);
     }

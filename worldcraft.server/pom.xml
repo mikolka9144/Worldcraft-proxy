@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>server</artifactId>
+    <version>1.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,19 +21,19 @@
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>PacketParser</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>LevelParser</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>client</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
 

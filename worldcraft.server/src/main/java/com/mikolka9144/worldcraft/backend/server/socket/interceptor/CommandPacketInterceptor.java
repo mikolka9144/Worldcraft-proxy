@@ -24,9 +24,7 @@ public abstract class CommandPacketInterceptor extends PacketAlteringModule impl
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {
         configurePacketer(packet);
-        PacketsFormula formula = super.interceptRawPacket(packet);
-        resolver.executeCommand(packet.getCommand(),packet,formula);
-        return formula;
+        return resolver.executeCommand(packet);
     }
 
     private void configurePacketer(Packet packet) {
