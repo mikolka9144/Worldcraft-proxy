@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.simba.backend.models;
 
-import com.mikolka9144.packet.packet.codecs.Block;
-import com.mikolka9144.packet.packet.codecs.MovementPacket;
+import com.mikolka9144.worldcraft.backend.packets.codecs.Block;
+import com.mikolka9144.worldcraft.backend.packets.codecs.MovementPacket;
 import lombok.Data;
 
 import java.util.ArrayList;

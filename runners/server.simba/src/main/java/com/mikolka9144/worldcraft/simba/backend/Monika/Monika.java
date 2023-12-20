@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.simba.backend.Monika;
 
-import com.mikolka9144.packet.packet.codecs.MovementPacket;
-import com.mikolka9144.packet.packet.codecs.Player;
+import com.mikolka9144.worldcraft.backend.packets.codecs.MovementPacket;
+import com.mikolka9144.worldcraft.backend.packets.codecs.Player;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
 import lombok.Getter;

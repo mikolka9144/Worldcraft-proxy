@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.simba.backend.Monika;
 
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
-import com.mikolka9144.packet.packet.codecs.Block;
+import com.mikolka9144.worldcraft.backend.packets.codecs.Block;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

@@ -1,7 +1,7 @@
 package tests;
 
-import com.mikolka9144.worldcraft.level.Level;
-import com.mikolka9144.worldcraft.level.Terrain;
+import com.mikolka9144.worldcraft.backend.level.Level;
+import com.mikolka9144.worldcraft.backend.level.Terrain;
 import org.junit.Test;
 
 import static com.mikolka9144.worldcraft.utills.LevelConsts.LEVEL_CHUNK_SIZE;

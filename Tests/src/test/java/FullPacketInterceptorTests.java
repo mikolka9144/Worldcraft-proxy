@@ -1,9 +1,9 @@
-import com.mikolka9144.packet.packet.Packet;
-import com.mikolka9144.packet.packet.codecs.ChatMessage;
-import com.mikolka9144.packet.packet.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.base.api.PacketBuilder;
-import com.mikolka9144.worldcraft.backend.base.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.spring.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
+import com.mikolka9144.worldcraft.backend.packets.codecs.ChatMessage;
+import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.backend.client.api.PacketBuilder;
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import org.assertj.core.api.Assertions;

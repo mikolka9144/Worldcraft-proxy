@@ -1,13 +1,13 @@
 package com.mikolka9144.worldcraft.simba;
 
-import com.mikolka9144.worldcraft.level.Level;
-import com.mikolka9144.worldcraft.level.Terrain;
-import com.mikolka9144.worldcraft.level.World;
+import com.mikolka9144.worldcraft.backend.level.Level;
+import com.mikolka9144.worldcraft.backend.level.Terrain;
+import com.mikolka9144.worldcraft.backend.level.World;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
-import com.mikolka9144.worldcraft.backend.spring.http.interceptors.HttpDownloadInterceptor;
-import com.mikolka9144.worldcraft.backend.spring.http.model.WorldDownloadRequest;
+import com.mikolka9144.worldcraft.backend.server.http.interceptors.HttpDownloadInterceptor;
+import com.mikolka9144.worldcraft.backend.server.http.model.WorldDownloadRequest;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
