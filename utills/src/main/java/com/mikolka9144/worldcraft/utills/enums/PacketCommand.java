@@ -10,27 +10,18 @@ import java.util.Optional;
 public enum PacketCommand {
     C_LOGIN_REQ(1),
     S_LOGIN_RESP(2),
-    SB_LOGIN(4),
-    C_LOGOUT(5),
-    SB_LOGOUT(6),
-    S_DISCONNECT(7),
-    C_QUIT_GAME(8),
     C_CHAT_MSG(10),
     SB_CHAT_MSG(11),
     C_MOVE_REQ(12),
     S_MOVE_RESP(13),
     C_CREATE_ROOM_REQ(14),
     S_CREATE_ROOM_RESP(15),
-    SB_CREATE_ROOM(16),
-    SBNIR_CREATE_ROOM(17),
     C_JOIN_ROOM_REQ(18),
     S_JOIN_ROOM_RESP(19),
-    SB_JOIN_ROOM(20),
     C_CHECK_VERSION_REQ(21),
     S_CHECK_VERSION_RESP(22),
     C_ROOM_LIST_REQ(24),
     S_ROOM_LIST_RESP(25),
-    S_ROOM_LIST(26),
     C_SET_BLOCK_TYPE_REQ(27),
     S_SET_BLOCK_TYPE_RESP(28),
     S_SET_BLOCK_TYPE(29),
@@ -43,9 +34,7 @@ public enum PacketCommand {
     S_ENEMY_ACTION(36),
     C_PLAYER_GRAPHICS_INITED_REQ(37),
     S_PLAYER_GRAPHICS_INITED_RESP(38),
-    S_PLAYER_GRAPHICS_INITED(39),
     S_MODIFIED_BLOCKS(40),
-    SUBCLASS_FIRST_CMD_ID(41),
     S_PLAYERS_INFO(45),
     SB_PLAYER_JOINED_ROOM(46),
     C_PING_REQ(47),
@@ -64,7 +53,18 @@ public enum PacketCommand {
     C_LOAD_PURCHASES_REQ(60),
     S_LOAD_PURCHASES_RES(61),
     C_VALIDATE_PURCHASE_REQ(62),
-    S_VALIDATE_PURCHASE_RES(63);
+    S_VALIDATE_PURCHASE_RES(63),
+    SB_LOGIN(4), // unknown
+    C_LOGOUT(5), // unknown
+    SB_LOGOUT(6), // unknown
+    S_DISCONNECT(7), // unknown
+    C_QUIT_GAME(8), // unknown
+    SB_CREATE_ROOM(16), // unknown
+    SBNIR_CREATE_ROOM(17), // unknown
+    SB_JOIN_ROOM(20), // unknown
+    S_ROOM_LIST(26), // unknown
+    S_PLAYER_GRAPHICS_INITED(39), // unknown
+    SUBCLASS_FIRST_CMD_ID(41); // unknown
 
     private final byte command;
 

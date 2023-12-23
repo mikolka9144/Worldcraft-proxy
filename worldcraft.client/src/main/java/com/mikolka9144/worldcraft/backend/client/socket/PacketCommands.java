@@ -14,6 +14,11 @@ import java.util.List;
  * Use with {@link com.mikolka9144.worldcraft.backend.client.api.PacketCommandResolver}
  */
 public interface PacketCommands {
+    @PacketHook(PacketCommand.C_LOGIN_REQ)
+    default void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {
+
+    }
+
     @PacketHook(PacketCommand.S_CREATE_ROOM_RESP)
     default void interceptCreateRoomResp(Packet packet, String worldUploadToken, PacketsFormula formula) {
 
@@ -159,11 +164,6 @@ public interface PacketCommands {
 
     }
 
-    @PacketHook(PacketCommand.C_LOGIN_REQ)
-    default void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {
-
-    }
-
     @PacketHook(PacketCommand.S_SET_BLOCK_TYPE)
     default void interceptServerPlaceBlock(Packet packet, Block data, PacketsFormula formula) {
 
@@ -221,6 +221,14 @@ public interface PacketCommands {
 
     @PacketHook(PacketCommand.C_ROOM_LIST_REQ)
     default void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
+
+    }
+    @PacketHook(PacketCommand.C_REPORT_ABUSE_REQ)
+    default void interceptPlayerReportReq(Packet packet, PlayerReport data,PacketsFormula formula){
+
+    }
+    @PacketHook(PacketCommand.S_REPORT_ABUSE_RES)
+    default void interceptPlayerReportResp(Packet packet,PacketsFormula formula){
 
     }
 

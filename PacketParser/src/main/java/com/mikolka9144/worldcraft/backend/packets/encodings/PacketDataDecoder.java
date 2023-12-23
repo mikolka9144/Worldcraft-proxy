@@ -32,6 +32,11 @@ public class PacketDataDecoder {
         }
         return out;
     }
+    @PacketHook(PacketCommand.C_REPORT_ABUSE_REQ)
+    public static PlayerReport decodePlayerReportReq(byte[] data){
+        PacketDataReader reader = new PacketDataReader(data);
+        return new PlayerReport(reader.getInt(), reader.getString());
+    }
     @SneakyThrows
     @PacketHook(PacketCommand.C_CHECK_VERSION_REQ)
     public static ClientBuildManifest decodeVersionCheckReq(byte[] data){

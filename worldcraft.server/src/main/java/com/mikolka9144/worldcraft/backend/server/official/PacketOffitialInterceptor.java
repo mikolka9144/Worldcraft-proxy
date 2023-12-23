@@ -21,6 +21,7 @@ public class PacketOffitialInterceptor extends PacketAlteringModule {
     private final String hostname;
     private final int port;
     private WorldcraftClient wocClient;
+    private SocketPacketSender io;
 
     public PacketOffitialInterceptor(ServerConfigManifest manifest) {
         this.hostname = manifest.getTargetServer();
@@ -29,6 +30,7 @@ public class PacketOffitialInterceptor extends PacketAlteringModule {
 
     @Override
     public void setupSockets(SocketPacketSender io) {
+        this.io = io;
         try {
             log.info(String.format("Attempting to connect to %s:%d",hostname,port));
             wocClient = new WorldcraftClient(hostname,port, io::sendToClient);
@@ -45,7 +47,8 @@ public class PacketOffitialInterceptor extends PacketAlteringModule {
         try {
             wocClient.send(packet);
         } catch (IOException e) {
-            log.error(String.format("Sending packet %s to %s failed",packet.getCommand().name(),hostname));
+            log.error(String.format("Sending packet %s to %s failed. Closing connection!",packet.getCommand().name(),hostname));
+            io.closeConnection();
         }
         return new PacketsFormula();
     }

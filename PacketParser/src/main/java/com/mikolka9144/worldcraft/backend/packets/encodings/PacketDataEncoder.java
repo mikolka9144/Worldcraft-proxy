@@ -30,7 +30,12 @@ public class PacketDataEncoder {
         }
         return builder.build();
     }
-
+    public static byte[] reportPlayerResp(PlayerReport data) {
+        return new PacketDataBuilder()
+                .append(data.getPlayerId())
+                .append(data.getAbuseDescription())
+                .build();
+    }
     public static byte[] validatePurchaseReq(PurchaseValidationReq data) {
         return new PacketDataBuilder()
                 .append(data.getPurchaseName())

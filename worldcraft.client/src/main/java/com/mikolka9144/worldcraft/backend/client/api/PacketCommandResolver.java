@@ -59,8 +59,7 @@ public class PacketCommandResolver {
      * @return Result of callback execution
      */
     public PacketsFormula executeCommand(Packet packet){
-        PacketsFormula formula = new PacketsFormula();
-        formula.addUpstream(packet);
+        PacketsFormula formula = new PacketsFormula(packet);
         executeCommand(packet,formula);
         return formula;
     }
