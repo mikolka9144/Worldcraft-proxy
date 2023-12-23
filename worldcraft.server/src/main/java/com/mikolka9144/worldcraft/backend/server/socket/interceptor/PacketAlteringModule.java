@@ -16,9 +16,7 @@ public abstract class PacketAlteringModule implements Closeable {
     public void setupSockets(SocketPacketSender io){}
     protected PacketAlteringModule(){}
     public PacketsFormula interceptRawPacket(Packet packet){
-        PacketsFormula formula = new PacketsFormula();
-        formula.addUpstream(packet);
-        return formula;
+        return new PacketsFormula(packet);
     }
     @Override
     public void close() {

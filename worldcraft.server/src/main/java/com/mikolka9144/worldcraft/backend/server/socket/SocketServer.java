@@ -41,16 +41,16 @@ public class SocketServer implements Closeable {
 
             PacketAlteringModule loopback = new SendToSocketInterceptor(client.getChannel(),() -> onClientDisconnect(clientInterceptors));
             serverInterceptors.add(loopback);
-            setupAlteringModules(clientInterceptors,serverInterceptors);
+            setupAlteringModules(clientInterceptors,serverInterceptors,client);
 
             WorldcraftThread clientThread = new WorldcraftThread(client, clientInterceptors, serverInterceptors);
             clientThread.startThread();
         }
     }
 
-    private void setupAlteringModules(List<PacketAlteringModule> clientInterceptors,List<PacketAlteringModule> serverInterceptors) {
+    private void setupAlteringModules(List<PacketAlteringModule> clientInterceptors,List<PacketAlteringModule> serverInterceptors,WorldcraftSocket conn) {
         for (PacketAlteringModule module : clientInterceptors) {
-            module.setupSockets(new SocketPacketSender(clientInterceptors,serverInterceptors));
+            module.setupSockets(new SocketPacketSender(clientInterceptors,serverInterceptors,conn));
         }
     }
 

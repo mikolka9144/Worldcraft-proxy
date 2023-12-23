@@ -3,6 +3,7 @@ package com.mikolka9144.worldcraft.backend.client.api;
 
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +16,31 @@ import java.util.List;
  *  <h3>Note</h3>
  *  By default, first packet in upstreamPackets is packet, that triggers a call
  */
-@Getter
+@NoArgsConstructor
 public class PacketsFormula {
+    private Packet initialpacket;
+
+    public PacketsFormula(Packet initialPacket){
+        this.initialpacket = initialPacket;
+        addUpstream(initialPacket);
+    }
+    @Getter
     private final List<Packet> upstreamPackets = new ArrayList<>();
+    @Getter
     private final List<Packet> writebackPackets = new ArrayList<>();
 
     public void add(PacketsFormula s) {
-        upstreamPackets.addAll(s.getUpstreamPackets());
-        writebackPackets.addAll(s.getWritebackPackets());
+        upstreamPackets.addAll(s.upstreamPackets);
+        writebackPackets.addAll(s.writebackPackets);
     }
     public void addUpstream(Packet packet){
         upstreamPackets.add(packet);
     }
     public void addWriteback(Packet packet){
         writebackPackets.add(packet);
+    }
+    public void clearInitialPacket(){
+        upstreamPackets.remove(initialpacket);
     }
 }
 
