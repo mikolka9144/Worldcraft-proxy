@@ -52,14 +52,14 @@ public class ConfigurationBuilder {
             log.error("Bean "+x.getBeanName()+" couldn't be found.");
             log.error("Consider removing that bean from server configuration.");
             log.error("or create such bean (extending "+target.getName()+" ofc.)");
-            throw new IllegalStateException("Configuration bean "+x.getBeanName()+" failed to initialise");
+            throw new KillAppException();
         }
         catch (BeanNotOfRequiredTypeException x){
             log.error("Bean "+x.getBeanName()+" was found, but was inserted to incorrect list.");
             log.error("Bean was expected to be "+target.getName());
             log.error("But is "+x.getActualType().getName());
             log.error("Make sure to put "+bean+ " to correct list in configuration");
-            throw new IllegalStateException("Configuration bean "+x.getBeanName()+" failed to initialise");
+            throw new KillAppException();
         }
     }
 }

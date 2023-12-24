@@ -30,7 +30,7 @@ public class PacketDataEncoder {
         }
         return builder.build();
     }
-    public static byte[] reportPlayerResp(PlayerReport data) {
+    public static byte[] reportPlayerRep(PlayerReport data) {
         return new PacketDataBuilder()
                 .append(data.getPlayerId())
                 .append(data.getAbuseDescription())
@@ -193,6 +193,12 @@ public class PacketDataEncoder {
     }
     public static byte[] playerUpdateInfo(PlayerInfo data) {
         PacketDataBuilder writer = new PacketDataBuilder();
+        writer.append(data.getNickname());
+        writer.append(data.getSkinId());
+        return writer.build();
+    }
+    public static byte[] enemyUpdateInfo(PlayerInfo data) {
+        PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getId());
         writer.append(data.getNickname());
         writer.append(data.getSkinId());
@@ -210,6 +216,9 @@ public class PacketDataEncoder {
                 .append(data.getRoomPassword())
                 .append(data.isReadOnly());
         return writer.build();
+    }
+    public static byte[] purchaseSaveReq(PurchasesList data) {
+        return purchaseLoadResponse(data);
     }
     @SneakyThrows
     public static byte[] purchaseLoadResponse(PurchasesList data) {

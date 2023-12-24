@@ -3,6 +3,8 @@ package com.mikolka9144.worldcraft.backend.packets.codecs;
 import com.google.gson.Gson;
 import lombok.*;
 
+
+@SuppressWarnings("PublicField")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -37,3 +39,5 @@ public class PurchasesList {
                 ;
     }
 }
+
+

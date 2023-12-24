@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.backend.server.http.model.WorldDownloadRequest
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Component("world-simplify-early")
+@Component("worldSimplifyEarly")
 @Slf4j
 public class EarlyWorldConvert implements HttpDownloadInterceptor {
 

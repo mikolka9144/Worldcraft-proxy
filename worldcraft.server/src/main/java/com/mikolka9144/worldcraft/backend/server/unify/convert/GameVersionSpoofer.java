@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
 import org.springframework.stereotype.Component;
 
-@Component("gameVer-spoofer")
+@Component("gameVersionSpoofer")
 public class GameVersionSpoofer extends CommandPacketInterceptor {
     @Override
     public void interceptVersionCheckResponse(Packet packet, PacketsFormula formula) {

@@ -9,7 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Component("http-official-download")
+@Component("httpOfficialDownload")
 @Slf4j
 public class OfficialDownloader implements HttpDownloadInterceptor {
     @SneakyThrows

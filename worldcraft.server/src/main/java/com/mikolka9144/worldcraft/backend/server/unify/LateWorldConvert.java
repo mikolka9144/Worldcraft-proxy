@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.UnaryOperator;
 
-@Component("world-simplify-late")
+@Component("worldSimplifyLate")
 @Slf4j
 public class LateWorldConvert implements HttpDownloadInterceptor {
 
@@ -24,6 +24,9 @@ public class LateWorldConvert implements HttpDownloadInterceptor {
             chk.enumerateWorld3D(
                     x -> convertBlock(world.getWorld(), x, PacketConverter::replaceForWorldcraft));
             log.info("DONE LOGGING WORLD!!!");
+        }
+        if (!world.getWorld().getLevel().getData().contains("LastPlayed")) {
+            world.getWorld().getLevel().getData().putLong("LastPlayed", 0);
         }
     }
 

@@ -12,7 +12,7 @@ import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacke
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-@Component("block-convert")
+@Component("blockConverter")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BlockConvertInterceptor extends CommandPacketInterceptor {
     private VersionFlags flags;

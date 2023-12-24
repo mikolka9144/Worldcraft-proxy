@@ -198,7 +198,16 @@ public class PacketDataDecoder {
         return players;
     }
     @PacketHook(PacketCommand.CLIENT_PLAYER_UPDATE_REQ)
-    public static Player decodePlayerInfo(byte[] data) {
+    public static PlayerInfo decodePlayerInfo(byte[] data) {
+        PacketDataReader reader = new PacketDataReader(data);
+        PlayerInfo info = new PlayerInfo();
+        info.setId(-1);
+        info.setNickname(reader.getString());
+        info.setSkinId(reader.getShort());
+        return info;
+    }
+    @PacketHook(PacketCommand.SERVER_PLAYER_JOINED)
+    public static Player decodeEnemyInfo(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         Player player = new Player();
         player.setId(reader.getInt());
@@ -207,10 +216,6 @@ public class PacketDataDecoder {
         player.setPos(decodeMovement(reader));
         return player;
     }
-    @PacketHook(PacketCommand.SERVER_PLAYER_JOINED)
-    public static Player decodeEnemyInfo(byte[] data) {
-        return decodePlayerInfo(data);
-    }
     @PacketHook(PacketCommand.SERVER_ENEMY_UPDATED)
     public static PlayerInfo decodePlayerUpdateInfo(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
@@ -218,7 +223,7 @@ public class PacketDataDecoder {
     }
     @SneakyThrows
     @PacketHook(PacketCommand.SERVER_PURCHASES_LOAD_RESP)
-    public static PurchasesList decodePurchaseLoadResponse(byte[] data) {
+    public static PurchasesList decodePurchaseData(byte[] data) {
         PacketDataReader reader = new PacketDataReader(data);
         String jsonData = reader.getString();
         if (!jsonData.isEmpty()){
@@ -230,7 +235,7 @@ public class PacketDataDecoder {
     }
     @PacketHook(PacketCommand.CLIENT_PURCHASES_SAVE_REQ)
     public static PurchasesList decodePurchaseSaveReq(byte[] data) {
-        return decodePurchaseLoadResponse(data);
+        return decodePurchaseData(data);
     }
     @PacketHook(PacketCommand.CLIENT_ROOM_SEARCH)
     public static RoomSearchReq decodeRoomsSearchReq(byte[] data) {

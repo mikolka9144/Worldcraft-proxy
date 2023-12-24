@@ -1,14 +1,13 @@
-import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.server.socket.SocketPacketSender;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftSocket;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
+import com.mikolka9144.worldcraft.backend.server.socket.SocketPacketSender;
 import com.mikolka9144.worldcraft.backend.server.socket.WorldcraftThread;
+import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.io.*;
@@ -16,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 @Slf4j
 public class InterceptorsTests {
 
@@ -32,7 +35,7 @@ public class InterceptorsTests {
         //given
         //TODO I bet Monika wouldn't be happy with this goofy ahh code (or anyone)
         var packet = new Packet(PacketProtocol.UNKNOWN,0,
-                PacketCommand.C_LOGIN_REQ,"",(byte)0,new byte[0]);
+                PacketCommand.CLIENT_LOGIN_REQ,"",(byte)0,new byte[0]);
         var tempOut = new ByteArrayOutputStream();
         new WorldcraftPacketIO(new ByteArrayInputStream(new byte[0]),tempOut).send(packet);
         byte[] rawInput = tempOut.toByteArray();
@@ -51,7 +54,7 @@ public class InterceptorsTests {
         upstreamInterceptors.add(new TestInterceptor((s) -> {
             PacketsFormula formula = new PacketsFormula();
             //assert
-            Assertions.assertThat(s.getMsg()).isEqualTo("test");
+            assertThat(s.getMsg()).isEqualTo("test");
 
             formula.addUpstream(s);
             return formula;
@@ -70,7 +73,7 @@ public class InterceptorsTests {
         //given
         //TODO I bet Monika wouldn't be happy with this goofy ahh code (or anyone)
         var packet = new Packet(PacketProtocol.UNKNOWN,0,
-                PacketCommand.C_LOGIN_REQ,"",(byte)0,new byte[0]);
+                PacketCommand.CLIENT_LOGIN_REQ,"",(byte)0,new byte[0]);
         var tempOut = new ByteArrayOutputStream();
         new WorldcraftPacketIO(new ByteArrayInputStream(new byte[0]),tempOut).send(packet);
         byte[] rawInput = tempOut.toByteArray();
@@ -91,14 +94,14 @@ public class InterceptorsTests {
         // act
         socket.getChannel().send(packet);
         WorldcraftThread thread = new WorldcraftThread(socket,upstreamInterceptors,downstreamInterceptors);
-        thread.sendPacket(packet);
+        assertThatCode(() -> thread.sendPacket(packet)).doesNotThrowAnyException();
     }
     @Test
     public void Interceptors_testPacketLoopback() throws IOException {
         //given
         //TODO I bet Monika wouldn't be happy with this goofy ahh code (or anyone)
         var packet = new Packet(PacketProtocol.UNKNOWN,0,
-                PacketCommand.C_LOGIN_REQ,"",(byte)0,new byte[0]);
+                PacketCommand.CLIENT_LOGIN_REQ,"",(byte)0,new byte[0]);
 
 
         List<PacketAlteringModule> upstreamInterceptors = new ArrayList<>();
@@ -118,17 +121,17 @@ public class InterceptorsTests {
         AtomicBoolean executed = new AtomicBoolean(false);
         List<PacketAlteringModule> downstreamInterceptors = new ArrayList<>();
         downstreamInterceptors.add(new TestInterceptor((s) -> {
-            Assertions.assertThat(s.getMsg()).isEqualTo("test");
-            Assertions.assertThat(s.getPlayerId()).isEqualTo(15);
+            assertThat(s.getMsg()).isEqualTo("test");
+            assertThat(s.getPlayerId()).isEqualTo(15);
             executed.set(true);
             return new PacketsFormula();
         }));
 
         // act
-        SocketPacketSender thread = new SocketPacketSender(upstreamInterceptors,downstreamInterceptors);
+        SocketPacketSender thread = new SocketPacketSender(upstreamInterceptors,downstreamInterceptors,null);
         thread.sendToServer(packet);
         // assert
-        Assertions.assertThat(executed).isTrue();
+        assertThat(executed).isTrue();
     }
 
 }

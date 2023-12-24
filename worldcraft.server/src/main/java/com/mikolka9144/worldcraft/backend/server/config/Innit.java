@@ -4,6 +4,7 @@ import com.mikolka9144.worldcraft.backend.server.socket.SocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,7 +31,7 @@ public class Innit {
         }
     }
     @Bean
-    public ServerConfig configure(ConfigurationBuilder builder, ServerConfigManifest manifest) {
-            return builder.configure(manifest);
+    public ServerConfig configure(ConfigurationBuilder builder, ServerConfigManifest manifest, ConfigurableApplicationContext context) {
+        return builder.configure(manifest);
     }
 }

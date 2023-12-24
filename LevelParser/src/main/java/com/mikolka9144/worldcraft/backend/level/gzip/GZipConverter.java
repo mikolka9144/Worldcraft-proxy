@@ -18,6 +18,7 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 
 public class GZipConverter {
+    private static final int BUFFER_SIZE = 1000000; // 1Mb buffer should be enough
     private GZipConverter(){}
     public static List<GzipEntry> unGtar(byte[] data) throws IOException {
         TarArchiveInputStream tarIn = new TarArchiveInputStream(new ByteArrayInputStream(unGzip(data)));
@@ -63,7 +64,8 @@ public class GZipConverter {
         return out.toByteArray();
     }
     public static byte[] zlibify(byte[] data){
-        byte[] output = new byte[data.length+200]; //TODO might break
+
+        byte[] output = new byte[BUFFER_SIZE];
         Deflater compresser = new Deflater();
         compresser.setInput(data);
         compresser.finish();
@@ -73,7 +75,7 @@ public class GZipConverter {
     }
     @SneakyThrows
     public static byte[] unZlib(byte[] data){
-        byte[] output = new byte[1000000]; // 1Mb buffer should be enough
+        byte[] output = new byte[BUFFER_SIZE];
         Inflater decompresser = new Inflater();
         decompresser.setInput(data);
         int resultLength = decompresser.inflate(output);

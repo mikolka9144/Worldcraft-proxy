@@ -19,7 +19,7 @@ class PacketParsingTest {
                 }""";
         byte[] bytes = new PacketDataBuilder().append(input).build();
         // Act
-        PurchasesList purchasesList = PacketDataDecoder.decodePurchaseLoadResponse(bytes);
+        PurchasesList purchasesList = PacketDataDecoder.decodePurchaseData(bytes);
         // Assert
         Assertions.assertEquals("50",purchasesList.getCoins());
         Assertions.assertEquals("",purchasesList.getPurchaseId());
@@ -36,7 +36,7 @@ class PacketParsingTest {
         String testStr = reader.getString();
         log.info(testStr);
         // Assert
-        PurchasesList output = PacketDataDecoder.decodePurchaseLoadResponse(testOutput);
+        PurchasesList output = PacketDataDecoder.decodePurchaseData(testOutput);
         Assertions.assertEquals(input,output);
 //        assertEquals(
 //                """

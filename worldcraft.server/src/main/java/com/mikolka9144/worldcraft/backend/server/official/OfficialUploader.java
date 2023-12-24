@@ -7,7 +7,7 @@ import com.mikolka9144.worldcraft.backend.server.http.model.WorldUploadRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Component("http-official-upload")
+@Component("httpOfficialUpload")
 @Slf4j
 public class OfficialUploader implements HttpUploadInterceptor {
     private final HttpWorldClient client;

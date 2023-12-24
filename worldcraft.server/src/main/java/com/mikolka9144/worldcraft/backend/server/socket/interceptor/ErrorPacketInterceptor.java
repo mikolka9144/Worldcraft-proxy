@@ -15,7 +15,7 @@ public abstract class ErrorPacketInterceptor extends CommandPacketInterceptor {
 
             switch (packet.getCommand()){
                 case SERVER_ROOM_CREATE_RESP -> this.interceptErrorCreateRoom(packet, CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()),formula);
-                case S_LOGIN_RESP -> this.interceptErrorLogin(packet, LoginErrorCode.findErrorByCode(packet.getErrorCode()),formula);
+                case SERVER_LOGIN_RESP -> this.interceptErrorLogin(packet, LoginErrorCode.findErrorByCode(packet.getErrorCode()),formula);
                 case SERVER_ROOM_JOIN_RESP -> this.interceptErrorJoinRoom(packet, RoomJoinError.findErrorByCode(packet.getErrorCode()),formula);
                 default -> interceptUnknownErrorPacket(packet,formula);
             }
