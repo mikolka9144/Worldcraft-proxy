@@ -5,6 +5,10 @@ import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketHook;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.CreateRoomErrorCode;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.LoginErrorCode;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.RoomJoinError;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 
 import java.util.List;
@@ -235,4 +239,19 @@ public interface PacketCommands {
     default void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
 
     }
+    default void interceptErrorLogin(Packet packet, LoginErrorCode errorByCode, PacketsFormula formula) {
+    }
+
+    default void interceptErrorJoinRoom(Packet packet, RoomJoinError errorByCode, PacketsFormula formula) {
+
+    }
+
+    default void interceptErrorCreateRoom(Packet packet, CreateRoomErrorCode errorByCode, PacketsFormula formula) {
+
+    }
+    default void interceptUnknownErrorPacket(Packet packet, PacketsFormula formula) {
+
+    }
+
+    default void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode errorByCode, PacketsFormula formula){}
 }

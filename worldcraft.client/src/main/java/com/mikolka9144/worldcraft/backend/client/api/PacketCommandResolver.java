@@ -5,6 +5,10 @@ import com.mikolka9144.worldcraft.backend.client.socket.PacketCommands;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataDecoder;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketHook;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.CreateRoomErrorCode;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.LoginErrorCode;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.RoomJoinError;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +35,23 @@ public class PacketCommandResolver {
      * @param packet A packet to analyse
      * @param formula Formula for default callback
      */
-    public void executeCommand(Packet packet, PacketsFormula formula) {
+    private void executeCommand(Packet packet, PacketsFormula formula) {
+        if (packet.getErrorCode() != 0) analiseErrors(packet,formula);
+        else executeInternalCall(packet,formula);
+    }
+    /**
+     * Analyses given packet and executes suitable callback in {@code targetObject}.
+     * Also takes care of preparing {@link PacketsFormula}
+     * @param packet A packet to analyse
+     * @return Result of callback execution
+     */
+    public PacketsFormula executeCommand(Packet packet){
+        PacketsFormula formula = new PacketsFormula(packet);
+        executeCommand(packet,formula);
+        return formula;
+    }
+
+    private void executeInternalCall(Packet packet, PacketsFormula formula) {
         Method[] declaredCalls = commands.getClass().getDeclaredMethods();
         Method[] allCalls = PacketCommands.class.getDeclaredMethods();
         Optional<Method> baseMethod = findTargetInMethods(packet.getCommand(), allCalls);
@@ -50,18 +70,6 @@ public class PacketCommandResolver {
                     }
                 }
         );
-    }
-
-    /**
-     * Analyses given packet and executes suitable callback in {@code targetObject}.
-     * Also takes care of preparing {@link PacketsFormula}
-     * @param packet A packet to analyse
-     * @return Result of callback execution
-     */
-    public PacketsFormula executeCommand(Packet packet){
-        PacketsFormula formula = new PacketsFormula(packet);
-        executeCommand(packet,formula);
-        return formula;
     }
 
     private Object getPacketData(PacketCommand target, byte[] data) {
@@ -87,5 +95,14 @@ public class PacketCommandResolver {
     private static Optional<Method> findTargetInMethods(String target, Method[] pool) {
         return Arrays.stream(pool)
                 .filter(s -> s.getName().equals(target)).findFirst();
+    }
+    private void analiseErrors(Packet packet, PacketsFormula formula){
+            switch (packet.getCommand()){
+                case SERVER_ROOM_CREATE_RESP -> commands.interceptErrorCreateRoom(packet, CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()),formula);
+                case SERVER_LOGIN_RESP -> commands.interceptErrorLogin(packet, LoginErrorCode.findErrorByCode(packet.getErrorCode()),formula);
+                case SERVER_ROOM_JOIN_RESP -> commands.interceptErrorJoinRoom(packet, RoomJoinError.findErrorByCode(packet.getErrorCode()),formula);
+                case SERVER_CHECK_VERSION_RESP -> commands.interceptErrorVersionCheck(packet, VersionCheckErrorCode.findErrorByCode(packet.getErrorCode()),formula);
+                default -> commands.interceptUnknownErrorPacket(packet,formula);
+            }
     }
 }

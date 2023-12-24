@@ -33,13 +33,19 @@ public class ChunkData {
         chk.putByteArray(SKY_LIGHT,new byte[16384]);
         chk.putByteArray(BLOCK_LIGHT,new byte[16384]);
         chk.putByteArray("Data",new byte[32768]);
-        chk.putByte("LightCalculated", (byte) 0);
+        chk.putByte("LightCalculated", (byte) 1);
 
         rawNBT = new CompoundTag("");
         rawNBT.put(chk);
     }
     public StepBlock at(int x,int y,int z){
         return new StepBlock(calculatePosition(x,y,z));
+    }
+    public boolean isRecalculationgLight(){
+        return getLevel().getByte("LightCalculated").getValue() == 1;
+    }
+    public void setRecalculationgLight(boolean value){
+        getLevel().getByte("LightCalculated").setValue((byte) (value? 1:0));
     }
 
     public CompoundTag getLevel(){
