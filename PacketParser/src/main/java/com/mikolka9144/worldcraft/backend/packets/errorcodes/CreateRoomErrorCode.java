@@ -7,6 +7,7 @@ import java.util.Optional;
 @Slf4j
 public enum CreateRoomErrorCode {
     UNKNOWN((byte)-255),
+    NO_ERROR((byte) 0),
     USER_IS_NULL((byte)-1),
     LOGIN_REQUIRED((byte)-2),
     ROOM_ALREADY_EXISTS((byte)-3),

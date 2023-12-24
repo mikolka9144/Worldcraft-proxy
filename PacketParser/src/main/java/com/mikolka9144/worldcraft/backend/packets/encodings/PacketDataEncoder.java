@@ -63,7 +63,7 @@ public class PacketDataEncoder {
         return data.getBytes();
     }
 
-    public static byte[] enemyMovementPacket(MovementPacket data) {
+    public static byte[] movementPacket(MovementPacket data) {
         PacketDataBuilder writer = new PacketDataBuilder();writer
                 .append(data.getPlayerId())
                 .append(data.getPosition())
@@ -185,10 +185,10 @@ public class PacketDataEncoder {
                 .append(player.getId())
         .append(player.getNickname())
         .append(player.getSkinId())
-        .append(player.getId())
-        .append(player.getPosition())
-        .append(player.getAt())
-        .append(player.getUp());
+        .append(player.getPos().getPlayerId())
+        .append(player.getPos().getPosition())
+        .append(player.getPos().getOrientation())
+        .append(player.getPos().getBase());
         return writer.build();
     }
     public static byte[] playerUpdateInfo(PlayerInfo data) {

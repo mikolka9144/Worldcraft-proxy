@@ -14,14 +14,14 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component("packet-conv-early")
+@Component("packetConvEarly")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class EarlyInterceptor extends CommandPacketInterceptor {
     PacketProtocol newProto = null;
 
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {
-        if (packet.getCommand() == PacketCommand.C_LOGIN_REQ) {
+        if (packet.getCommand() == PacketCommand.CLIENT_LOGIN_REQ) {
             LoginInfo ret = PacketConverter.pareLegacyLoginInfo(packet);
 
             if (packet.getProtoId() == PacketProtocol.LEGACY_VERSION) {
