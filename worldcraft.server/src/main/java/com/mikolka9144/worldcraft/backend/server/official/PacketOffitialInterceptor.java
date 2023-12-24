@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 @Slf4j
-@Component("packet-official")
+@Component("packetServerSender")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PacketOffitialInterceptor extends PacketAlteringModule {
 

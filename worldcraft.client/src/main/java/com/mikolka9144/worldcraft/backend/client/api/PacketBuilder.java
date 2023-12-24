@@ -1,11 +1,11 @@
 package com.mikolka9144.worldcraft.backend.client.api;
 
+import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
+import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
-import com.mikolka9144.worldcraft.backend.packets.Packet;
-import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * This class contains methods for building packets.
  */
+@SuppressWarnings("unused") // these are API methods (unused here)
 @Getter
 public class PacketBuilder {
     private final PacketProtocol clientProto;
@@ -69,7 +70,11 @@ public class PacketBuilder {
 
     public Packet println(String text) {
         var chatMsg = new ChatMessage("", text, ChatMessage.MsgType.STANDARD);
-        return serverPacket(PacketCommand.SERVER_MESSAGE,PacketDataEncoder.chatMessage(chatMsg));
+        return println(chatMsg);
+
+    }
+    public Packet println(ChatMessage message) {
+        return serverPacket(PacketCommand.SERVER_MESSAGE,PacketDataEncoder.chatMessage(message));
 
     }
     public Packet createRoomReq(String name,String password,boolean readOnly){
@@ -172,16 +177,6 @@ public class PacketBuilder {
     public Packet readyPlayerResp(){
         return pong(PacketCommand.SERVER_READY_RESP);
     }
-    public Packet ping(){
-        return clientPacket(PacketCommand.CLIENT_PING,new byte[0]);
-    }
-
-    public Packet pong(){
-        return pong(PacketCommand.SERVER_PONG);
-    }
-    private Packet pong(PacketCommand ponger){
-        return serverPacket(ponger,new byte[0]);
-    }
     public List<Packet> createBlockComp(List<Block> blocks, int blocksPerPacket) {
         List<ServerBlockData> blockData = new ArrayList<>();
         var chunks = prepareChunks(blocks,blocksPerPacket).stream().toList();
@@ -199,6 +194,78 @@ public class PacketBuilder {
     public List<Packet> createPlayerList(List<Player> players, int playersPerPacket) {
         return prepareChunks(players, playersPerPacket).stream().map(s ->
                 serverPacket(PacketCommand.SERVER_PLAYERS_LIST, PacketDataEncoder.playerList(s))).toList();
+    }
+    public Packet playerJoined(Player player){
+        return serverPacket(PacketCommand.SERVER_PLAYER_JOINED,PacketDataEncoder.playerInfo(player));
+    }
+    public Packet playerLeft(int playerId){
+        return serverPacket(PacketCommand.SERVER_PLAYER_JOINED,PacketDataEncoder.playerDisconnect(playerId));
+    }
+    public Packet likeCurrentWorld(){
+        return ping(PacketCommand.CLIENT_LIKE_WORLD);
+    }
+    public Packet dislikeCurrentWorld(){
+        return ping(PacketCommand.CLIENT_DISLIKE_WORLD);
+    }
+    public Packet searchRooms(String query,int fromIndex){
+        return clientPacket(PacketCommand.CLIENT_ROOM_SEARCH,PacketDataEncoder.roomsSearchReq(new RoomSearchReq(query,fromIndex)));
+    }
+    public Packet ping(){
+        return ping(PacketCommand.CLIENT_PING);
+    }
+    public Packet pong(){
+        return pong(PacketCommand.SERVER_PONG);
+    }
+    public Packet playerReport(int playerId,String reason){
+        return clientPacket(PacketCommand.CLIENT_REPORT_REQ,PacketDataEncoder.reportPlayerRep(new PlayerReport(playerId,reason)));
+    }
+    public Packet playerReportResp(){
+        return pong(PacketCommand.SERVER_REPORT_RESP);
+    }
+    public Packet displayAlert(PopupMessage data){
+        return serverPacket(PacketCommand.SERVER_DIALOG_DISPLAY,PacketDataEncoder.popupMessage(data));
+    }
+    public Packet displayAlert(String message){
+        return displayAlert(new PopupMessage(message));
+    }
+    public Packet updatePlayerApperance(String newUsername,short newSkinId){
+        return clientPacket(PacketCommand.CLIENT_PLAYER_UPDATE_REQ,
+                PacketDataEncoder.playerUpdateInfo(new PlayerInfo(0,newUsername,newSkinId)));
+    }
+    public Packet updatePlayerApperanceResp(){
+        return pong(PacketCommand.SERVER_PLAYER_UPDATE_RES);
+    }
+    public Packet updateEnemyApperance(PlayerInfo enemy){
+        return clientPacket(PacketCommand.CLIENT_PLAYER_UPDATE_REQ,
+                PacketDataEncoder.enemyUpdateInfo(enemy));
+    }
+    public Packet saveEmptyPurchases(){
+        return savePurchases(null);
+    }
+    public Packet savePurchases(PurchasesList shoppingList){
+        return clientPacket(PacketCommand.CLIENT_PURCHASES_SAVE_REQ,PacketDataEncoder.purchaseSaveReq(shoppingList));
+    }
+    public Packet savePurchasesResp(){
+        return pong(PacketCommand.SERVER_PURCHASES_SAVE_RESP);
+    }
+    public Packet loadPurchases(){
+        return ping(PacketCommand.CLIENT_PURCHASES_LOAD_REQ);
+    }
+    public Packet loadPurchasesResp(PurchasesList shoppingList){
+        return serverPacket(PacketCommand.SERVER_PURCHASES_LOAD_RESP,PacketDataEncoder.purchaseLoadResponse(shoppingList));
+    }
+    public Packet validatePurchase(PurchaseValidationReq req){
+        return clientPacket(PacketCommand.CLIENT_PURCHASES_VALIDATE_REQ,PacketDataEncoder.validatePurchaseReq(req));
+    }
+    public Packet validatePurchaseResp(PurchaseValidationResp.Status status, String receipt){
+        return serverPacket(PacketCommand.SERVER_PURCHASES_VALIDATE_RESP,
+                PacketDataEncoder.validatePurchaseResp(new PurchaseValidationResp(status,receipt)));
+    }
+    private Packet ping(PacketCommand pinger){
+        return clientPacket(pinger,new byte[0]);
+    }
+    private Packet pong(PacketCommand ponger){
+        return serverPacket(ponger,new byte[0]);
     }
     public static <T> Collection<List<T>> prepareChunks(List<T> inputList, int chunkSize) {
         AtomicInteger counter = new AtomicInteger();

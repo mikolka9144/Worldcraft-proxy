@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 
 public class Terrain {
     public static final int MAX_Y = 128;
+    @Getter
     private final ChunkData[][] chunks = new ChunkData[32][32];
     private byte[] timestamps = new byte[ChunksMCR.SECTOR_SIZE];
     public Terrain(byte[] timestamps){
