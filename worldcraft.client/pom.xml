@@ -24,6 +24,12 @@
             <version>1.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.mikolka9144</groupId>
+            <artifactId>utills</artifactId>
+            <version>1.1</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public enum LoginErrorCode {
     UNKNOWN((byte)-255),
+    NO_ERROR((byte) 0),
     USER_ALREADY_LOGGED_IN((byte)-1),
     USER_IS_NULL((byte)-2),
     BANNED_IP((byte)-3),

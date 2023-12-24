@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public enum RoomJoinError {
     UNKNOWN((byte)-255),
+    NO_ERROR((byte) 0),
     ROOM_DOES_NOT_EXIST((byte)-1),
     JOINING_FAILED((byte)-2),
     BAD_PASSWORD((byte)-3),
