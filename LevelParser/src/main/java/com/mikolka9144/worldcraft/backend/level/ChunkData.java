@@ -20,6 +20,8 @@ public class ChunkData {
     public static final String BLOCKS = "Blocks";
     public static final String BLOCK_LIGHT = "BlockLight";
     public static final String SKY_LIGHT = "SkyLight";
+    public static final String LIGHT_CALCULATED = "LightCalculated";
+    public static final String DATA = "Data";
 
     private CompoundTag rawNBT;
     public ChunkData(byte[] chunkBlob){
@@ -32,8 +34,8 @@ public class ChunkData {
         chk.putByteArray(BLOCKS,new byte[32768]);
         chk.putByteArray(SKY_LIGHT,new byte[16384]);
         chk.putByteArray(BLOCK_LIGHT,new byte[16384]);
-        chk.putByteArray("Data",new byte[32768]);
-        chk.putByte("LightCalculated", (byte) 1);
+        chk.putByteArray(DATA,new byte[32768]);
+        chk.putByte(LIGHT_CALCULATED, (byte) 1);
 
         rawNBT = new CompoundTag("");
         rawNBT.put(chk);
@@ -41,11 +43,11 @@ public class ChunkData {
     public StepBlock at(int x,int y,int z){
         return new StepBlock(calculatePosition(x,y,z));
     }
-    public boolean isRecalculationgLight(){
-        return getLevel().getByte("LightCalculated").getValue() == 1;
+    public boolean getLightCalculated(){
+        return getLevel().getByte(LIGHT_CALCULATED).getValue() == 1;
     }
-    public void setRecalculationgLight(boolean value){
-        getLevel().getByte("LightCalculated").setValue((byte) (value? 1:0));
+    public void setCalculatedLight(boolean value){
+        getLevel().getByte(LIGHT_CALCULATED).setValue((byte) (value? 1:0));
     }
 
     public CompoundTag getLevel(){
@@ -67,29 +69,34 @@ public class ChunkData {
         private StepBlock(int index){
             this.index = index;
         }
-        public void setBlock(byte block){
+        public StepBlock setBlock(byte block){
             getLevel().getByteArray(BLOCKS).set(index,block);
+            return this;
         }
-        public void setData(byte data){
-            getLevel().getByteArray("Data").set(index,data);
+        public StepBlock setData(byte data){
+            getLevel().getByteArray(DATA).set(index,data);
+            return this;
         }
         public BlockType getBlockType(){
             return BlockType.findBlockById(getBlock());
         }
-        public void setBlockType(BlockType block){
+        public StepBlock setBlockType(BlockType block){
             setBlock(block.getId());
+            return this;
         }
-        public void setBlockLight(byte value){
+        public StepBlock setBlockLight(byte value){
             setLight(getLevel().getByteArray(BLOCK_LIGHT),value);
+            return this;
         }
-        public void setSkyLight(byte value){
+        public StepBlock setSkyLight(byte value){
             setLight(getLevel().getByteArray(SKY_LIGHT),value);
+            return this;
         }
         public byte getBlock(){
             return getLevel().getByteArray(BLOCKS).get(index);
         }
         public byte getData(){
-            return getLevel().getByteArray("Data").get(index);
+            return getLevel().getByteArray(DATA).get(index);
         }
         public byte getBlockLight(){
             return getLight(getLevel().getByteArray(BLOCK_LIGHT));
@@ -101,14 +108,14 @@ public class ChunkData {
             int targetByteIndex = index>>1;
             boolean isDivisiable = (index & 1) == 1;
             byte targetByte = set.get(targetByteIndex);
-            return (byte) (isDivisiable? targetByte&15: targetByte>>4);
+            return (byte) (!isDivisiable? targetByte&15: targetByte>>4);
         }
         private void setLight(ByteArrayTag set,byte value){
             if(!ValueRange.of(0,15).isValidValue(value)) throw new IllegalArgumentException("Light must be between 0 and 15");
             int targetByteIndex = index>>1;
             boolean isDivisiable = (index & 1) == 1;
             byte targetByte = set.get(targetByteIndex);
-            if (isDivisiable){
+            if (!isDivisiable){
                 byte leftPart = (byte) (targetByte>>4);
                 byte stub = (byte) (leftPart<<4);
                 byte result = (byte) (stub+value);
