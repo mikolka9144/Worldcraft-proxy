@@ -38,7 +38,16 @@ public class Terrain {
         int zPos = z% ChunksMCR.CHUNK_SIZE;
         int chunkX = x/ ChunksMCR.CHUNK_SIZE;
         int chunkZ = z/ ChunksMCR.CHUNK_SIZE;
-        return chunks[chunkX][chunkZ].at(xPos,y,zPos);
+        return atChunk(chunkX,chunkZ).at(xPos,y,zPos);
+    }
+    /**
+     * Retrieves chunk in given position
+     * @param x X position of requested chunk.
+     * @param z Z position of requested chunk.
+     * @return Object representing that chunk.
+     */
+    public ChunkData atChunk(int x,int z){
+        return chunks[x][z];
     }
     /**
      * Retrieves block for manipulation
@@ -50,8 +59,8 @@ public class Terrain {
      * Manually creates chunk.
      * Use this function at your own risk.
      */
-    public void createChunk(int X,int Z){
-        chunks[X][Z] = new ChunkData(X,Z);
+    public void createChunk(int x,int z){
+        chunks[x][z] = new ChunkData(x,z);
     }
     /**
      * Get maximum X value, that block can take.
