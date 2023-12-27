@@ -14,16 +14,16 @@ import org.springframework.stereotype.Component;
 public class OfficialDownloader implements HttpDownloadInterceptor {
     @SneakyThrows
     @Override
-    public void getWorld(WorldDownloadRequest request){
-        if(request.getWorld() != null){
+    public void getWorld(WorldDownloadRequest request) {
+        if (request.getWorld() != null) {
             log.info("World present. Not downloading from server");
             return;
         }
-        log.info("Downloading "+request.getWorldId());
+        log.info("Downloading " + request.getWorldId());
         var worldBin = client.getWorld(request.getWorldId());
-        log.info("Parsing "+request.getWorldId());
+        log.info("Parsing " + request.getWorldId());
         request.setWorld(World.fromTarGzBin(worldBin));
-        log.info("Done "+request.getWorldId());
+        log.info("Done " + request.getWorldId());
     }
 
     private final HttpWorldClient client;

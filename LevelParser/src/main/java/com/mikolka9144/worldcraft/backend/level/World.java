@@ -1,8 +1,8 @@
 package com.mikolka9144.worldcraft.backend.level;
 
 import com.mikolka9144.worldcraft.backend.level.gzip.GZipConverter;
-import com.mikolka9144.worldcraft.backend.level.nbt.ChunksMCR;
 import com.mikolka9144.worldcraft.backend.level.gzip.GzipEntry;
+import com.mikolka9144.worldcraft.backend.level.nbt.ChunksMCR;
 import com.mikolka9144.worldcraft.backend.level.nbt.LevelNBT;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -40,11 +40,12 @@ public class World {
         level = new Level(LevelNBT.open(levelEntry.getData()));
         chunks = ChunksMCR.createFromMCR(chunksEntry.getData());
     }
-    public World(Level level,Terrain terrain){
+
+    public World(Level level, Terrain terrain) {
         this.level = level;
         this.chunks = terrain;
-        levelEntry = new GzipEntry(new TarArchiveEntry(LEVEL_DAT),new byte[0]);
-        chunksEntry = new GzipEntry(new TarArchiveEntry(REGION),new byte[0]);
+        levelEntry = new GzipEntry(new TarArchiveEntry(LEVEL_DAT), new byte[0]);
+        chunksEntry = new GzipEntry(new TarArchiveEntry(REGION), new byte[0]);
     }
 
     @Getter

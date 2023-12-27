@@ -56,13 +56,13 @@ public enum PacketCommand {
     private final byte command;
 
 
-    public static PacketCommand findPacketCommandById(byte id){
+    public static PacketCommand findPacketCommandById(byte id) {
         Optional<PacketCommand> command = Arrays.stream(PacketCommand.values()).filter(s -> s.getCommand() == id).findFirst();
-        if(command.isPresent()) return command.get();
-        throw new ParsingException("Command "+id+" is not declared");
+        if (command.isPresent()) return command.get();
+        throw new ParsingException("Command " + id + " is not declared");
     }
 
     PacketCommand(int command) {
-        this.command = (byte)command;
+        this.command = (byte) command;
     }
 }

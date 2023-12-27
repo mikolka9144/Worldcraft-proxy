@@ -13,21 +13,21 @@ import java.util.Optional;
 @Setter
 @AllArgsConstructor
 public class PopupMessage {
-    public PopupMessage(PopupMessageType messagePreset, String textParameter,long timeParameter) {
-        this(messagePreset,timeParameter,textParameter,"Preset message. No legacy message");
+    public PopupMessage(PopupMessageType messagePreset, String textParameter, long timeParameter) {
+        this(messagePreset, timeParameter, textParameter, "Preset message. No legacy message");
     }
 
     public PopupMessage(String baseMessage) {
-        this(PopupMessageType.NONE,0,"",baseMessage);
+        this(PopupMessageType.NONE, 0, "", baseMessage);
     }
 
     private PopupMessageType messagePreset;
     private long timeParameter;
     private String textParameter;
     private String baseMessage;
+
     @Getter
-    public enum PopupMessageType
-    {
+    public enum PopupMessageType {
         NONE(0),
         READ_ONLY(1),
         REPORTED_ABUSE(2),
@@ -38,14 +38,14 @@ public class PopupMessage {
         private final byte value;
 
 
-        public static PopupMessageType findByValue(byte value){
+        public static PopupMessageType findByValue(byte value) {
             Optional<PopupMessageType> val = Arrays.stream(PopupMessageType.values()).filter(s -> s.getValue() == value).findFirst();
-            if(val.isPresent()) return val.get();
-            throw new ParsingException("Message of type "+value+" is not declared");
+            if (val.isPresent()) return val.get();
+            throw new ParsingException("Message of type " + value + " is not declared");
         }
 
         PopupMessageType(int value) {
-            this.value = (byte)value;
+            this.value = (byte) value;
         }
     }
 }

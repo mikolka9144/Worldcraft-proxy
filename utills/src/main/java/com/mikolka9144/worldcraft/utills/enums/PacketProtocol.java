@@ -5,9 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Optional;
+
 @Getter
 @Slf4j
-public enum PacketProtocol{
+public enum PacketProtocol {
     LEGACY_VERSION(0),
     WORLDCRAFT_2_8_7(1),
     WORLD_OF_CRAFT(2),
@@ -76,10 +77,11 @@ public enum PacketProtocol{
     PacketProtocol(int proto) {
         this.proto = proto;
     }
-    public static PacketProtocol findPacketProtoById(int id){
+
+    public static PacketProtocol findPacketProtoById(int id) {
         Optional<PacketProtocol> command = Arrays.stream(PacketProtocol.values()).filter(s -> s.getProto() == id).findFirst();
-        if(command.isPresent()) return command.get();
-        log.warn("Protocol "+id+" is not declared. Returning UNKNOWN");
+        if (command.isPresent()) return command.get();
+        log.warn("Protocol " + id + " is not declared. Returning UNKNOWN");
         return UNKNOWN;
     }
 }

@@ -1,10 +1,10 @@
 package com.mikolka9144.worldcraft.backend.client.socket;
 
 
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketHook;
-import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.CreateRoomErrorCode;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.LoginErrorCode;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.RoomJoinError;
@@ -227,31 +227,36 @@ public interface PacketCommands {
     default void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
 
     }
+
     @PacketHook(PacketCommand.CLIENT_REPORT_REQ)
-    default void interceptPlayerReportReq(Packet packet, PlayerReport data,PacketsFormula formula){
+    default void interceptPlayerReportReq(Packet packet, PlayerReport data, PacketsFormula formula) {
 
     }
+
     @PacketHook(PacketCommand.SERVER_REPORT_RESP)
-    default void interceptPlayerReportResp(Packet packet,PacketsFormula formula){
+    default void interceptPlayerReportResp(Packet packet, PacketsFormula formula) {
 
     }
 
     default void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
 
     }
-    default void interceptErrorLogin(Packet packet, LoginErrorCode code,String errorMessage, PacketsFormula formula) {
+
+    default void interceptErrorLogin(Packet packet, LoginErrorCode code, String errorMessage, PacketsFormula formula) {
     }
 
-    default void interceptErrorJoinRoom(Packet packet, RoomJoinError code,String errorMessage, PacketsFormula formula) {
+    default void interceptErrorJoinRoom(Packet packet, RoomJoinError code, String errorMessage, PacketsFormula formula) {
 
     }
 
-    default void interceptErrorCreateRoom(Packet packet, CreateRoomErrorCode code,String errorMessage, PacketsFormula formula) {
+    default void interceptErrorCreateRoom(Packet packet, CreateRoomErrorCode code, String errorMessage, PacketsFormula formula) {
 
     }
+
     default void interceptUnknownErrorPacket(Packet packet, PacketsFormula formula) {
 
     }
 
-    default void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode code,String errorMessage, PacketsFormula formula){}
+    default void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode code, String errorMessage, PacketsFormula formula) {
+    }
 }

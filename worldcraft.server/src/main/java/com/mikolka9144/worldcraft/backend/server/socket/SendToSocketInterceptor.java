@@ -1,9 +1,9 @@
 package com.mikolka9144.worldcraft.backend.server.socket;
 
-import com.mikolka9144.worldcraft.backend.packets.Packet;
-import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftPacketIO;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftPacketIO;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
+import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +16,11 @@ public class SendToSocketInterceptor extends PacketAlteringModule {
 
     /**
      * Creates an interceptors for sending packages to a socket
-     * @param destination destination socket
+     *
+     * @param destination      destination socket
      * @param onConnectionLost action to execute once socket disconnects
      */
-    public SendToSocketInterceptor(WorldcraftPacketIO destination, Runnable onConnectionLost){
+    public SendToSocketInterceptor(WorldcraftPacketIO destination, Runnable onConnectionLost) {
         this.destination = destination;
         this.connectionLifecycleHolder = onConnectionLost;
     }
@@ -27,10 +28,10 @@ public class SendToSocketInterceptor extends PacketAlteringModule {
     @SneakyThrows
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {
-        try{
+        try {
             destination.send(packet);
         } catch (IOException e) {
-            log.error(String.format("Sending packet %s failed. Closing connection.",packet.getCommand().name()));
+            log.error(String.format("Sending packet %s failed. Closing connection.", packet.getCommand().name()));
             connectionLifecycleHolder.run();
         }
         return new PacketsFormula();

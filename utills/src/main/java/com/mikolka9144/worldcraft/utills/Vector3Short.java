@@ -15,15 +15,21 @@ public class Vector3Short {
         this.y = y;
         this.z = z;
     }
-    public Vector3Short(int x, int y, int z) {this((short) x,(short) y,(short) z);}
-    public Vector3Short(Vector3 vector3){
+
+    public Vector3Short(int x, int y, int z) {
+        this((short) x, (short) y, (short) z);
+    }
+
+    public Vector3Short(Vector3 vector3) {
         this(vector3, Float::shortValue);
     }
-    public Vector3Short(Vector3 vector3, Function<Float,Short> conv){
+
+    public Vector3Short(Vector3 vector3, Function<Float, Short> conv) {
         x = conv.apply(vector3.getX());
         y = conv.apply(vector3.getY());
         z = conv.apply(vector3.getZ());
     }
+
     private short x;
 
     private short y;

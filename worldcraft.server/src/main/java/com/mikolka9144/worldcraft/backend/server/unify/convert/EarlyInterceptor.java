@@ -1,15 +1,15 @@
 package com.mikolka9144.worldcraft.backend.server.unify.convert;
 
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ChatMessage;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ClientBuildManifest;
 import com.mikolka9144.worldcraft.backend.packets.codecs.LoginInfo;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.server.unify.backend.VersionFlags;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
-import com.mikolka9144.worldcraft.backend.server.unify.backend.VersionFlags;
-import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -42,7 +42,7 @@ public class EarlyInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptVersionCheckReq(Packet packet, ClientBuildManifest clientBuildManifest, PacketsFormula formula) {
-        if(clientBuildManifest.getClientVersion() == 2) {
+        if (clientBuildManifest.getClientVersion() == 2) {
             newProto = PacketProtocol.WORLD_OF_CRAFT_1_2;
             packet.setProtoId(newProto);
         }

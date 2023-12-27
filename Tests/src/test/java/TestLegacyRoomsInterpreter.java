@@ -7,24 +7,24 @@ import java.util.Arrays;
 
 class TestLegacyRoomsInterpreter {
     @Test
-    void testWorldcraftConversionForRooms()  {
+    void testWorldcraftConversionForRooms() {
         PacketDataReader reader = getDataReader();
         var packetIndex = reader.getInt();
-                var allPackets = reader.getInt();
-                var initRoom = reader.getShort();
-                var roomType = reader.getByte();
-        while (reader.hasNext(20)){
-                    var id = reader.getInt();
-                    var name = reader.getString();
-                    var protect = reader.getBoolean();
-                    var players = reader.getShort();
-                    var roomCap = reader.getShort();
-                    Assertions.assertEquals(80,roomCap);
-                    var entr = reader.getInt();
-                    var likes = reader.getInt();
-                    System.out.println(entr);
-                    System.out.println(Arrays.toString(ByteBuffer.allocate(4).putInt(likes).array()));
-                    //var readOlny = reader.getBoolean();
+        var allPackets = reader.getInt();
+        var initRoom = reader.getShort();
+        var roomType = reader.getByte();
+        while (reader.hasNext(20)) {
+            var id = reader.getInt();
+            var name = reader.getString();
+            var protect = reader.getBoolean();
+            var players = reader.getShort();
+            var roomCap = reader.getShort();
+            Assertions.assertEquals(80, roomCap);
+            var entr = reader.getInt();
+            var likes = reader.getInt();
+            System.out.println(entr);
+            System.out.println(Arrays.toString(ByteBuffer.allocate(4).putInt(likes).array()));
+            //var readOlny = reader.getBoolean();
         }
     }
 

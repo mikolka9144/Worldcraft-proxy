@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
-        if(System.getenv("SPRING_PROFILES_ACTIVE") == null) {
+        if (System.getenv("SPRING_PROFILES_ACTIVE") == null) {
             log.error("No profile selected. select profile with SPRING_PROFILES_ACTIVE=profile");
             log.error("Available profiles:");
             log.error("legacy,official,proxy,proxyLegacy");
@@ -24,16 +24,17 @@ public class Main {
         }
         SpringApplication app = new SpringApplication(Main.class);
         AtomicReference<String> addr = new AtomicReference<>("64.237.54.60");
-        Arrays.stream(args).findFirst().ifPresent(s ->{
-            log.info("LOADING CUSTOM SERVER: "+s);
+        Arrays.stream(args).findFirst().ifPresent(s -> {
+            log.info("LOADING CUSTOM SERVER: " + s);
             addr.set(s);
         });
         app.setDefaultProperties(Collections
                 .singletonMap("server.target.address", addr.get().toLowerCase()));
         Innit.start(app.run(args));
     }
+
     @Bean
-    public static ServerConfigManifest createSource(Environment env){
+    public static ServerConfigManifest createSource(Environment env) {
         return new ServerConfigManifest(env);
     }
 }

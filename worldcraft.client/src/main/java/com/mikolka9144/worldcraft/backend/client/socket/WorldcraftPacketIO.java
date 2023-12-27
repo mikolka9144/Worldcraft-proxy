@@ -18,12 +18,13 @@ public class WorldcraftPacketIO {
     private final InputStream inputStream;
     private final OutputStream outputStream;
 
-    public WorldcraftPacketIO(InputStream in, OutputStream out){
+    public WorldcraftPacketIO(InputStream in, OutputStream out) {
 
         this.inputStream = in;
         this.outputStream = out;
 
     }
+
     public Packet receive() throws IOException {
         // Loading Early metadata
         PacketDataReader headerReader = new PacketDataReader(inputStream.readNBytes(8));
@@ -40,11 +41,13 @@ public class WorldcraftPacketIO {
         byte errorCode = packetRaw.getByte();
         int playerId = packetRaw.getInt();
         String packetMessage = packetRaw.getString();
-        /*int dataSize =*/ packetRaw.getInt();
+        /*int dataSize =*/
+        packetRaw.getInt();
         byte[] data = packetRaw.getBytes();
         // Craft serialized packet
-        return new Packet(protocol,playerId,command,packetMessage,errorCode,data);
+        return new Packet(protocol, playerId, command, packetMessage, errorCode, data);
     }
+
     public void send(Packet packet) throws IOException {
         //Calculate data size
         int dataSize = packet.getData().length;
@@ -54,11 +57,11 @@ public class WorldcraftPacketIO {
 
         // Write packet
         out.append(packet.getCommand().getCommand())
-            .append(packet.getErrorCode())
-            .append(packet.getPlayerId())
-            .append(packet.getMsg())
-            .append(dataSize)
-            .append(packet.getData());
+                .append(packet.getErrorCode())
+                .append(packet.getPlayerId())
+                .append(packet.getMsg())
+                .append(dataSize)
+                .append(packet.getData());
 
         // Build packet
         PacketDataBuilder tcpPacket = new PacketDataBuilder();

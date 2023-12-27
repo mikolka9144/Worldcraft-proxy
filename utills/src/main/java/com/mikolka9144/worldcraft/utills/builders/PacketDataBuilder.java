@@ -1,8 +1,9 @@
 package com.mikolka9144.worldcraft.utills.builders;
 
 
-import lombok.SneakyThrows;
 import com.mikolka9144.worldcraft.utills.Vector3;
+import lombok.SneakyThrows;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
@@ -16,6 +17,7 @@ public class PacketDataBuilder {
         out.write(valueAsBytes);
         return this;
     }
+
     @SneakyThrows
     public PacketDataBuilder appendAsText(String value) {
         out.write(value.getBytes());
@@ -34,12 +36,14 @@ public class PacketDataBuilder {
         out.write(ByteBuffer.allocate(4).putInt(value).array());
         return this;
     }
+
     @SneakyThrows
     public PacketDataBuilder append(long value) {
 
         out.write(ByteBuffer.allocate(8).putLong(value).array());
         return this;
     }
+
     public PacketDataBuilder append(byte value) {
         out.write(value);
         return this;

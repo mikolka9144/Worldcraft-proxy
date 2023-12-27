@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *{@link Packet} is the smallest unit in socket communication.
+ * {@link Packet} is the smallest unit in socket communication.
  * It represents single packet between client-server.
  */
 @Getter

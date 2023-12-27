@@ -12,7 +12,7 @@ public class ChatMessage {
     private String message;
     private MsgType type;
 
-    public enum MsgType{
+    public enum MsgType {
         STANDARD,
         PLAYER_JOINED,
         PLAYER_GOT_WARNING,

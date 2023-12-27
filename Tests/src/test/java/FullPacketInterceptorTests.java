@@ -28,6 +28,7 @@ public class FullPacketInterceptorTests {
             super.interceptChatMessage(packet, data, formula);
         }
     }
+
     @Test
     public void onNormalPacket_testDataExtraction_ShouldExecuteMethod() throws IOException {
         //given
@@ -35,10 +36,11 @@ public class FullPacketInterceptorTests {
         PacketBuilder builder = new PacketBuilder(PacketProtocol.UNKNOWN);
         Packet packet = builder.serverPacket(PacketCommand.CLIENT_SPEAK, PacketDataEncoder.playerMessage("test"));
         // act
-            module.interceptRawPacket(packet);
+        module.interceptRawPacket(packet);
         // assert
         assertThat(module.msg).isEqualTo("test");
     }
+
     @Test
     public void onReduntantPacket_testPacketIgnoring_ShouldIgnorePacket() throws IOException {
         //given

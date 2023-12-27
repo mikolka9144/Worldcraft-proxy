@@ -13,11 +13,13 @@ public class Vector3 {
         this.y = y;
         this.z = z;
     }
-    public Vector3(Vector3Short vector){
+
+    public Vector3(Vector3Short vector) {
         x = vector.getX();
         y = vector.getY();
         z = vector.getZ();
     }
+
     private float x;
 
     private float y;
