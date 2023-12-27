@@ -19,7 +19,7 @@ public enum CreateRoomErrorCode {
     ROOM_PASSWORD_TOO_LONG((byte)-9)
     ;
     private final byte code;
-    public int getvalue() {return code;}
+    public byte getvalue() {return code;}
 
     CreateRoomErrorCode(byte code) {
         this.code = code;

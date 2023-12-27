@@ -3,10 +3,8 @@ package com.mikolka9144.tests;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
-import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
 import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -38,13 +36,13 @@ public class PassInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptLogin(Packet packet, LoginInfo data, PacketsFormula formula) {
-        formula.addWriteback(packager.respondToLogin(0, data.getUsername()));
+        formula.addWriteback(packager.loginResp(0, data.getUsername()));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }
 
     @Override
     public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
-        formula.getWritebackPackets().addAll(packager.respondWithRooms(List.of(new RoomsPacket.Room(
+        formula.addWriteback(packager.respondWithRooms(List.of(new RoomsPacket.Room(
                 0,
                 "test",
                 false,
@@ -70,8 +68,7 @@ public class PassInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptJoinRoomReq(Packet packet, JoinRoomRequest joinRoomRequest, PacketsFormula formula) {
-        formula.addWriteback(packager.serverPacket(PacketCommand.SERVER_ROOM_JOIN_RESP, PacketDataEncoder.joinRoomResponse(
-                new JoinRoomResponse(true,false))));
+        formula.addWriteback(packager.joinRoomResp(true,false));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }
 

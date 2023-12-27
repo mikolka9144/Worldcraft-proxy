@@ -19,7 +19,6 @@ public class WorldBuilder implements HttpDownloadInterceptor {
         //
         lvl.setSpawn(new Vector3Short(5,5,5));
         lvl.setPosition(new Vector3(5,5,5));
-
         trn.enumerateWorld2D(2,v -> trn.at(v).setBlock(BlockType.DIRT_WITH_GRASS_ID.getId()));
         trn.enumerateWorld2D(3,v -> trn.at(v).setBlock(BlockType.FLOWER_ID.getId()));
         trn.enumerateWorld2D(4,v -> trn.at(v).setBlockType(BlockType.FLOWER_ID));

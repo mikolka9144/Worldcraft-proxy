@@ -7,7 +7,7 @@ public enum LoginErrorCode {
     UNKNOWN((byte)-255),
     NO_ERROR((byte) 0),
     USER_ALREADY_LOGGED_IN((byte)-1),
-    USER_IS_NULL((byte)-2),
+    USERNAME_IS_EMPTY((byte)-2),
     BANNED_IP((byte)-3),
     BANNED_DEVIDE((byte)-4),
     USERNAME_HAS_BLACKLISTED_WORD((byte)-5),
@@ -15,7 +15,7 @@ public enum LoginErrorCode {
     USERNAME_IS_BLACKLISTED((byte)-7)
     ;
     private final byte code;
-    public int getvalue() {return code;}
+    public byte getvalue() {return code;}
 
     LoginErrorCode(byte code) {
         this.code = code;

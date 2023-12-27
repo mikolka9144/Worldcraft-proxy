@@ -12,7 +12,7 @@ public enum RoomJoinError {
     ROOM_IS_FULL((byte)-4)
     ;
     private final byte code;
-    public int getvalue() {return code;}
+    public byte getvalue() {return code;}
 
     RoomJoinError(byte code) {
         this.code = code;
