@@ -1,15 +1,12 @@
 package com.mikolka9144.worldcraft.backend.level;
 
-import com.mikolka9144.worldcraft.utills.LevelConsts;
-import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.worldcraft.backend.level.nbt.RegionNBT;
+import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import dev.dewy.nbt.tags.array.ByteArrayTag;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import lombok.Getter;
 
 import java.time.temporal.ValueRange;
-
-import static com.mikolka9144.worldcraft.utills.LevelConsts.LEVEL_CHUNK_SIZE;
 
 //Position ranges
 //X:0-15
@@ -56,8 +53,8 @@ public class ChunkData {
     private int calculatePosition(int x,int y,int z){
         int position = 0;
         position += y;
-        position += z* LevelConsts.CHUNK_HEIGHT;
-        position += x* LevelConsts.CHUNK_HEIGHT* LEVEL_CHUNK_SIZE;
+        position += z<<7; // LevelConsts.CHUNK_HEIGHT
+        position += x<<11;// LevelConsts.CHUNK_HEIGHT* LEVEL_CHUNK_SIZE
         return position;
     }
     public byte[] build(){
@@ -83,6 +80,12 @@ public class ChunkData {
         public StepBlock setBlockType(BlockType block){
             setBlock(block.getId());
             return this;
+        }
+        public StepBlock setBlockLight(int value){
+            return setBlockLight((byte)value);
+        }
+        public StepBlock setSkyLight(int value){
+            return setSkyLight((byte)value);
         }
         public StepBlock setBlockLight(byte value){
             setLight(getLevel().getByteArray(BLOCK_LIGHT),value);

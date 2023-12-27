@@ -34,10 +34,10 @@ public class Terrain {
      * @return Object representing said block.
      */
     public ChunkData.StepBlock at(int x, int y, int z){
-        int xPos = x% ChunksMCR.CHUNK_SIZE;
-        int zPos = z% ChunksMCR.CHUNK_SIZE;
-        int chunkX = x/ ChunksMCR.CHUNK_SIZE;
-        int chunkZ = z/ ChunksMCR.CHUNK_SIZE;
+        int xPos = x&15;   // mod by CHUNK_SIZE
+        int zPos = z&15;   // mod by CHUNK_SIZE
+        int chunkX = x>>4; // dividing by CHUNK_SIZE
+        int chunkZ = z>>4; // dividing by CHUNK_SIZE
         return atChunk(chunkX,chunkZ).at(xPos,y,zPos);
     }
     /**

@@ -9,5 +9,7 @@ module Tests {
     requires spring.boot;
     requires spring.core;
     requires spring.boot.autoconfigure;
+    requires org.slf4j;
+    requires static lombok;
     opens com.mikolka9144.tests;
 }
