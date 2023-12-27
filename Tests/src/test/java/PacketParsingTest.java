@@ -6,10 +6,11 @@ import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 @Slf4j
 class PacketParsingTest {
     @Test
-    void testPurchaseParsing(){
+    void testPurchaseParsing() {
         String input = """
                 {
                 Coins: 50,
@@ -21,15 +22,16 @@ class PacketParsingTest {
         // Act
         PurchasesList purchasesList = PacketDataDecoder.decodePurchaseData(bytes);
         // Assert
-        Assertions.assertEquals("50",purchasesList.getCoins());
-        Assertions.assertEquals("",purchasesList.getPurchaseId());
-        Assertions.assertEquals("0",purchasesList.getMarketOperationVersion());
-        Assertions.assertEquals("10",purchasesList.getResurrections());
+        Assertions.assertEquals("50", purchasesList.getCoins());
+        Assertions.assertEquals("", purchasesList.getPurchaseId());
+        Assertions.assertEquals("0", purchasesList.getMarketOperationVersion());
+        Assertions.assertEquals("10", purchasesList.getResurrections());
     }
+
     @Test
-    void testPurchaseEncoding(){
+    void testPurchaseEncoding() {
         // Prepare
-        PurchasesList input = new PurchasesList("kupno","100","24","50");
+        PurchasesList input = new PurchasesList("kupno", "100", "24", "50");
         // Act
         byte[] testOutput = PacketDataEncoder.purchaseLoadResponse(input);
         PacketDataReader reader = new PacketDataReader(testOutput);
@@ -37,7 +39,7 @@ class PacketParsingTest {
         log.info(testStr);
         // Assert
         PurchasesList output = PacketDataDecoder.decodePurchaseData(testOutput);
-        Assertions.assertEquals(input,output);
+        Assertions.assertEquals(input, output);
 //        assertEquals(
 //                """
 //                {

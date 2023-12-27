@@ -8,12 +8,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PurchaseValidationResp {
-    public enum Status{
+    public enum Status {
         NULL,
         SUCSESS,
         FAIL,
         RETRY
     }
+
     private Status status;
     private String receipt;
 }

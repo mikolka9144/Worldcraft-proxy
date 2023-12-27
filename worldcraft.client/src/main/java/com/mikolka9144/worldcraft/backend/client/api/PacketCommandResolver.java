@@ -25,7 +25,7 @@ import java.util.Optional;
 public class PacketCommandResolver {
     private final PacketCommands commands;
 
-    public PacketCommandResolver(PacketCommands targetObject){
+    public PacketCommandResolver(PacketCommands targetObject) {
 
         this.commands = targetObject;
     }
@@ -33,22 +33,25 @@ public class PacketCommandResolver {
     /**
      * Analyses given packet and executes suitable callback in {@code targetObject}
      * {@link PacketsFormula} should have given packet set as upstream packet
-     * @param packet A packet to analyse
+     *
+     * @param packet  A packet to analyse
      * @param formula Formula for default callback
      */
     private void executeCommand(Packet packet, PacketsFormula formula) {
-        if (packet.getErrorCode() != 0) analiseErrors(packet,formula);
-        else executeInternalCall(packet,formula);
+        if (packet.getErrorCode() != 0) analiseErrors(packet, formula);
+        else executeInternalCall(packet, formula);
     }
+
     /**
      * Analyses given packet and executes suitable callback in {@code targetObject}.
      * Also takes care of preparing {@link PacketsFormula}
+     *
      * @param packet A packet to analyse
      * @return Result of callback execution
      */
-    public PacketsFormula executeCommand(Packet packet){
+    public PacketsFormula executeCommand(Packet packet) {
         PacketsFormula formula = new PacketsFormula(packet);
-        executeCommand(packet,formula);
+        executeCommand(packet, formula);
         return formula;
     }
 
@@ -57,7 +60,7 @@ public class PacketCommandResolver {
         Method[] allCalls = PacketCommands.class.getDeclaredMethods();
         Optional<Method> baseMethod = findTargetInMethods(packet.getCommand(), allCalls);
         String callName = baseMethod.map(Method::getName).orElse("interceptUnknownPacket");
-        Optional<Method> call = findTargetInMethods(callName,declaredCalls);
+        Optional<Method> call = findTargetInMethods(callName, declaredCalls);
 
         call.ifPresent(
                 x -> {
@@ -67,7 +70,7 @@ public class PacketCommandResolver {
                         if (argument != null) x.invoke(commands, packet, argument, formula);
                         else x.invoke(commands, packet, formula);
                     } catch (Exception exp) {
-                        log.error(String.format("Method execution failed for %s with argument %s",packet.getCommand(),argument), exp);
+                        log.error(String.format("Method execution failed for %s with argument %s", packet.getCommand(), argument), exp);
                     }
                 }
         );
@@ -93,22 +96,24 @@ public class PacketCommandResolver {
                 .filter(s -> s.getAnnotation(PacketHook.class) != null)
                 .filter(s -> s.getAnnotation(PacketHook.class).value().equals(target)).findFirst();
     }
+
     private static Optional<Method> findTargetInMethods(String target, Method[] pool) {
         return Arrays.stream(pool)
                 .filter(s -> s.getName().equals(target)).findFirst();
     }
-    private void analiseErrors(Packet packet, PacketsFormula formula){
+
+    private void analiseErrors(Packet packet, PacketsFormula formula) {
         String message = new PacketDataReader(packet.getData()).readAsText();
-            switch (packet.getCommand()){
-                case SERVER_ROOM_CREATE_RESP -> commands.interceptErrorCreateRoom(packet,
-                        CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
-                case SERVER_LOGIN_RESP -> commands.interceptErrorLogin(packet,
-                        LoginErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
-                case SERVER_ROOM_JOIN_RESP -> commands.interceptErrorJoinRoom(packet,
-                        RoomJoinError.findErrorByCode(packet.getErrorCode()),message,formula);
-                case SERVER_CHECK_VERSION_RESP -> commands.interceptErrorVersionCheck(packet,
-                        VersionCheckErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
-                default -> commands.interceptUnknownErrorPacket(packet,formula);
-            }
+        switch (packet.getCommand()) {
+            case SERVER_ROOM_CREATE_RESP -> commands.interceptErrorCreateRoom(packet,
+                    CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()), message, formula);
+            case SERVER_LOGIN_RESP -> commands.interceptErrorLogin(packet,
+                    LoginErrorCode.findErrorByCode(packet.getErrorCode()), message, formula);
+            case SERVER_ROOM_JOIN_RESP -> commands.interceptErrorJoinRoom(packet,
+                    RoomJoinError.findErrorByCode(packet.getErrorCode()), message, formula);
+            case SERVER_CHECK_VERSION_RESP -> commands.interceptErrorVersionCheck(packet,
+                    VersionCheckErrorCode.findErrorByCode(packet.getErrorCode()), message, formula);
+            default -> commands.interceptUnknownErrorPacket(packet, formula);
+        }
     }
 }

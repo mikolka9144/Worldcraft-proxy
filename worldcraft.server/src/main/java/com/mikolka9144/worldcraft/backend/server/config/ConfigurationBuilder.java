@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class ConfigurationBuilder {
     private ApplicationContext context;
 
-    public ServerConfig configure(ServerConfigManifest manifest){
+    public ServerConfig configure(ServerConfigManifest manifest) {
         Supplier<List<PacketAlteringModule>> socketPreset;
 
         List<HttpDownloadInterceptor> httpDownloadPreset = new ArrayList<>();
@@ -29,36 +29,34 @@ public class ConfigurationBuilder {
 
         socketPreset = () -> {
             List<PacketAlteringModule> interceptors = new ArrayList<>();
-            for (String bean: manifest.getSocketInterBeans()) {
+            for (String bean : manifest.getSocketInterBeans()) {
                 interceptors.add(context.getBean(bean, PacketAlteringModule.class));
             }
             return interceptors;
         };
         for (String bean : manifest.getHttpInterDownBeans()) {
-            httpDownloadPreset.add(requestBean(bean,HttpDownloadInterceptor.class));
+            httpDownloadPreset.add(requestBean(bean, HttpDownloadInterceptor.class));
         }
         for (String bean : manifest.getHttpInterUpBeans()) {
-            httpUploadPreset.add(context.getBean(bean,HttpUploadInterceptor.class));
+            httpUploadPreset.add(context.getBean(bean, HttpUploadInterceptor.class));
         }
 
-        return new ServerConfig(manifest.getSocketPort(), socketPreset,httpDownloadPreset,httpUploadPreset);
+        return new ServerConfig(manifest.getSocketPort(), socketPreset, httpDownloadPreset, httpUploadPreset);
     }
 
     private <T> T requestBean(String bean, Class<T> target) {
         try {
             return context.getBean(bean, target);
-        }
-        catch (NoSuchBeanDefinitionException x){
-            log.error("Bean "+x.getBeanName()+" couldn't be found.");
+        } catch (NoSuchBeanDefinitionException x) {
+            log.error("Bean " + x.getBeanName() + " couldn't be found.");
             log.error("Consider removing that bean from server configuration.");
-            log.error("or create such bean (extending "+target.getName()+" ofc.)");
+            log.error("or create such bean (extending " + target.getName() + " ofc.)");
             throw new KillAppException();
-        }
-        catch (BeanNotOfRequiredTypeException x){
-            log.error("Bean "+x.getBeanName()+" was found, but was inserted to incorrect list.");
-            log.error("Bean was expected to be "+target.getName());
-            log.error("But is "+x.getActualType().getName());
-            log.error("Make sure to put "+bean+ " to correct list in configuration");
+        } catch (BeanNotOfRequiredTypeException x) {
+            log.error("Bean " + x.getBeanName() + " was found, but was inserted to incorrect list.");
+            log.error("Bean was expected to be " + target.getName());
+            log.error("But is " + x.getActualType().getName());
+            log.error("Make sure to put " + bean + " to correct list in configuration");
             throw new KillAppException();
         }
     }

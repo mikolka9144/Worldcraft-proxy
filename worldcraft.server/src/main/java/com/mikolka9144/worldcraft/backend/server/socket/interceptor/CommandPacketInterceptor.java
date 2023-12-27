@@ -1,10 +1,10 @@
 package com.mikolka9144.worldcraft.backend.server.socket.interceptor;
 
-import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.client.api.PacketBuilder;
 import com.mikolka9144.worldcraft.backend.client.api.PacketCommandResolver;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.client.socket.PacketCommands;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,9 +17,11 @@ public abstract class CommandPacketInterceptor extends PacketAlteringModule impl
 
     protected PacketBuilder packager = null;
     private final PacketCommandResolver resolver;
-    protected CommandPacketInterceptor(){
+
+    protected CommandPacketInterceptor() {
         resolver = new PacketCommandResolver(this);
     }
+
     // first packet is added by default
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {

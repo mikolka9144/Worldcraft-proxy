@@ -1,15 +1,16 @@
 package com.mikolka9144.worldcraft.backend.server.socket;
 
-import com.mikolka9144.worldcraft.backend.packets.Packet;
+import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftClient;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftSocket;
-import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
+import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
 import java.util.List;
+
 /**
  * Blob-like class containing logic for sending packets.
  * This class is responsible for handling {@link PacketsFormula}
@@ -22,16 +23,16 @@ public class WorldcraftThread implements Closeable {
     private final List<PacketAlteringModule> downstreamInterceptors;
 
     /**
-     *
-     * @param socket connection to handle
-     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
+     * @param socket                 connection to handle
+     * @param upstreamInterceptors   List of {@link PacketAlteringModule} to use for packets received from {@code socket}
      * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
      */
     public WorldcraftThread(WorldcraftSocket socket, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
-        this.connection = new WorldcraftClient(socket,this::sendPacket);
+        this.connection = new WorldcraftClient(socket, this::sendPacket);
         this.upstreamInterceptors = upstreamInterceptors;
         this.downstreamInterceptors = downstreamInterceptors;
     }
+
     /**
      * Attaches {@code handleClientSocket} to a runnable thread
      */
@@ -41,16 +42,17 @@ public class WorldcraftThread implements Closeable {
 
     /**
      * This method sends given packet as if it was sent by a client.
-     * @param packet packet to send
-     * @param upstreamInterceptors List of {@link PacketAlteringModule} to use for packets received from {@code socket}
+     *
+     * @param packet                 packet to send
+     * @param upstreamInterceptors   List of {@link PacketAlteringModule} to use for packets received from {@code socket}
      * @param downstreamInterceptors List of {@link PacketAlteringModule} to use for packets sent to {@code socket}
      */
-    public static void sendPacket(Packet packet, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors){
+    public static void sendPacket(Packet packet, List<PacketAlteringModule> upstreamInterceptors, List<PacketAlteringModule> downstreamInterceptors) {
         PacketsFormula baseFormula = executeComunication(upstreamInterceptors, List.of(packet));
 
         if (baseFormula.getWritebackPackets().isEmpty()) return;
 
-        PacketsFormula downstreamFormula = executeComunication(downstreamInterceptors,baseFormula.getWritebackPackets());
+        PacketsFormula downstreamFormula = executeComunication(downstreamInterceptors, baseFormula.getWritebackPackets());
 
         if (!downstreamFormula.getWritebackPackets().isEmpty()) {
             log.error("Downstream packets generated more upstream packets.");
@@ -58,13 +60,16 @@ public class WorldcraftThread implements Closeable {
             log.error("Make sure, that interceptors are working as intended.");
         }
     }
-/**
- * This method sends given packet as if it was sent by a client.
- * @param packet packet to send
- */
-    public void sendPacket(Packet packet){
-        sendPacket(packet,upstreamInterceptors,downstreamInterceptors);
+
+    /**
+     * This method sends given packet as if it was sent by a client.
+     *
+     * @param packet packet to send
+     */
+    public void sendPacket(Packet packet) {
+        sendPacket(packet, upstreamInterceptors, downstreamInterceptors);
     }
+
     private static PacketsFormula executeComunication(List<PacketAlteringModule> socketInter, List<Packet> packets) {
         PacketsFormula baseFormula = new PacketsFormula();
         baseFormula.getUpstreamPackets().addAll(packets);

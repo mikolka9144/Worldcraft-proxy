@@ -30,12 +30,14 @@ public class PacketDataEncoder {
         }
         return builder.build();
     }
+
     public static byte[] reportPlayerRep(PlayerReport data) {
         return new PacketDataBuilder()
                 .append(data.getPlayerId())
                 .append(data.getAbuseDescription())
                 .build();
     }
+
     public static byte[] validatePurchaseReq(PurchaseValidationReq data) {
         return new PacketDataBuilder()
                 .append(data.getPurchaseName())
@@ -64,7 +66,8 @@ public class PacketDataEncoder {
     }
 
     public static byte[] movementPacket(MovementPacket data) {
-        PacketDataBuilder writer = new PacketDataBuilder();writer
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer
                 .append(data.getPlayerId())
                 .append(data.getPosition())
                 .append(data.getOrientation())
@@ -73,7 +76,8 @@ public class PacketDataEncoder {
     }
 
     public static byte[] placeBlockReq(Block data) {
-        PacketDataBuilder writer = new PacketDataBuilder();writer
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer
                 .append(serverPlaceBlock(data))
                 .append(data.getPrevBlockData())
                 .append(data.getPrevBlockType());
@@ -103,7 +107,8 @@ public class PacketDataEncoder {
     }
 
     public static byte[] login(LoginInfo data) {
-        PacketDataBuilder writer = new PacketDataBuilder();writer
+        PacketDataBuilder writer = new PacketDataBuilder();
+        writer
                 .append(data.getUsername())
                 .append(data.getSkinId())
                 .append(data.getClientVer())
@@ -158,6 +163,7 @@ public class PacketDataEncoder {
                 .append(data.isReadOlny());
         return writer.build();
     }
+
     public static byte[] joinRoomResponse(JoinRoomResponse data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.isUserOwner())
@@ -173,6 +179,7 @@ public class PacketDataEncoder {
                 .append(data.getBaseMessage());
         return writer.build();
     }
+
     public static byte[] playerList(List<Player> data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         for (Player player : data) {
@@ -180,23 +187,26 @@ public class PacketDataEncoder {
         }
         return writer.build();
     }
+
     public static byte[] playerInfo(Player player) {
         PacketDataBuilder writer = new PacketDataBuilder()
                 .append(player.getId())
-        .append(player.getNickname())
-        .append(player.getSkinId())
-        .append(player.getPos().getPlayerId())
-        .append(player.getPos().getPosition())
-        .append(player.getPos().getOrientation())
-        .append(player.getPos().getBase());
+                .append(player.getNickname())
+                .append(player.getSkinId())
+                .append(player.getPos().getPlayerId())
+                .append(player.getPos().getPosition())
+                .append(player.getPos().getOrientation())
+                .append(player.getPos().getBase());
         return writer.build();
     }
+
     public static byte[] playerUpdateInfo(PlayerInfo data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getNickname());
         writer.append(data.getSkinId());
         return writer.build();
     }
+
     public static byte[] enemyUpdateInfo(PlayerInfo data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getId());
@@ -204,33 +214,37 @@ public class PacketDataEncoder {
         writer.append(data.getSkinId());
         return writer.build();
     }
+
     public static byte[] roomsSearchReq(RoomSearchReq data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getQuery())
                 .append(data.getStartingIndex());
         return writer.build();
     }
-    public static byte[] roomCreateReq(RoomCreateReq data){
+
+    public static byte[] roomCreateReq(RoomCreateReq data) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.append(data.getRoomName())
                 .append(data.getRoomPassword())
                 .append(data.isReadOnly());
         return writer.build();
     }
+
     public static byte[] purchaseSaveReq(PurchasesList data) {
         return purchaseLoadResponse(data);
     }
+
     @SneakyThrows
     public static byte[] purchaseLoadResponse(PurchasesList data) {
         PacketDataBuilder writer = new PacketDataBuilder();
-        if (data != null){
+        if (data != null) {
             writer.append(data.encodeToJson());
-        }
-        else {
+        } else {
             writer.append("");
         }
         return writer.build();
     }
+
     public static byte[] roomCreateResp(String token) {
         PacketDataBuilder writer = new PacketDataBuilder();
         writer.appendAsText(token);

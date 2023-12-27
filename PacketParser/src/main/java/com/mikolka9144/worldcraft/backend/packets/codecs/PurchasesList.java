@@ -15,27 +15,29 @@ public class PurchasesList {
     public String Coins;
     public String MarketOperationVersion;
     public String Resurrections;
+
     @SneakyThrows
-    public static PurchasesList decodefromJson(String jsonData){
+    public static PurchasesList decodefromJson(String jsonData) {
         Gson gson = new Gson();
         String payload = jsonData
-                .replace("\n","")
-                .replace(",}","}")
-                .replace("{","{\"")
-                .replace(": ","\":\"")
-                .replace(",","\",\"")
-                .replace("}","\"}");
+                .replace("\n", "")
+                .replace(",}", "}")
+                .replace("{", "{\"")
+                .replace(": ", "\":\"")
+                .replace(",", "\",\"")
+                .replace("}", "\"}");
         return gson.fromJson(payload, PurchasesList.class);
     }
+
     @SneakyThrows
-    public String encodeToJson(){
+    public String encodeToJson() {
 
         return new Gson().toJson(this)
-                .replace("{","{\n")
-                .replace("}","\n}")
-                .replace(",",",\n")
-                .replace("\"","")
-                .replace(":",": ")
+                .replace("{", "{\n")
+                .replace("}", "\n}")
+                .replace(",", ",\n")
+                .replace("\"", "")
+                .replace(":", ": ")
                 ;
     }
 }

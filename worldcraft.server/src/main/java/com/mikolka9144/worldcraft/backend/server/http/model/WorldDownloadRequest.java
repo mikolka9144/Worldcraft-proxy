@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class WorldDownloadRequest{
+public class WorldDownloadRequest {
     private int worldId;
     private World world;
     private List<String> flags;

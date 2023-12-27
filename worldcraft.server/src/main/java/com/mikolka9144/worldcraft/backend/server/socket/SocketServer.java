@@ -19,48 +19,50 @@ import java.util.function.Supplier;
 public class SocketServer implements Closeable {
     private final ServerSocket serverSocket;
     private final Supplier<List<PacketAlteringModule>> interceptors;
+
     @Autowired
     public SocketServer(ServerConfig config) throws IOException {
         this(config.getHostingSocketPort(), config.getReqInterceptors());
     }
+
     public SocketServer(int port, Supplier<List<PacketAlteringModule>> interceptors) throws IOException {
         serverSocket = new ServerSocket(port);
         this.interceptors = interceptors;
     }
+
     public void start() throws IOException {
         log.info("Starting socket thread loop");
 
         //noinspection InfiniteLoopStatement
-        while (true){
+        while (true) {
             // this is thread-locking
             WorldcraftSocket client = new WorldcraftSocket(serverSocket.accept());
-            log.info("New client to server connected: "+client.getConnectedIp());
+            log.info("New client to server connected: " + client.getConnectedIp());
 
             List<PacketAlteringModule> clientInterceptors = new ArrayList<>(interceptors.get());
             List<PacketAlteringModule> serverInterceptors = new ArrayList<>(clientInterceptors);
 
-            PacketAlteringModule loopback = new SendToSocketInterceptor(client.getChannel(),() -> onClientDisconnect(clientInterceptors));
+            PacketAlteringModule loopback = new SendToSocketInterceptor(client.getChannel(), () -> onClientDisconnect(clientInterceptors));
             serverInterceptors.add(loopback);
-            setupAlteringModules(clientInterceptors,serverInterceptors,client);
+            setupAlteringModules(clientInterceptors, serverInterceptors, client);
 
             WorldcraftThread clientThread = new WorldcraftThread(client, clientInterceptors, serverInterceptors);
             clientThread.startThread();
         }
     }
 
-    private void setupAlteringModules(List<PacketAlteringModule> clientInterceptors,List<PacketAlteringModule> serverInterceptors,WorldcraftSocket conn) {
+    private void setupAlteringModules(List<PacketAlteringModule> clientInterceptors, List<PacketAlteringModule> serverInterceptors, WorldcraftSocket conn) {
         for (PacketAlteringModule module : clientInterceptors) {
-            module.setupSockets(new SocketPacketSender(clientInterceptors,serverInterceptors,conn));
+            module.setupSockets(new SocketPacketSender(clientInterceptors, serverInterceptors, conn));
         }
     }
 
-    private void onClientDisconnect(List<PacketAlteringModule> modulesToClose){
+    private void onClientDisconnect(List<PacketAlteringModule> modulesToClose) {
         modulesToClose.forEach(packetAlteringModule -> {
             try {
                 packetAlteringModule.close();
-            }
-            catch (Exception ignored){
-                log.warn(String.format("%s threw an exception while closing down. Ignoring!",packetAlteringModule.getClass().getName()));
+            } catch (Exception ignored) {
+                log.warn(String.format("%s threw an exception while closing down. Ignoring!", packetAlteringModule.getClass().getName()));
             }
         });
     }

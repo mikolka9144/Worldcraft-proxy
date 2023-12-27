@@ -13,23 +13,22 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 public class Innit {
-    public static void start(ApplicationContext context){
+    public static void start(ApplicationContext context) {
         try {
             var config = context.getBean(ServerConfig.class);
             var server = context.getBean(SocketServer.class);
 
             log.info(String.format("Creating Server:  socketHost %d", config.getHostingSocketPort()));
             server.start();
-        }
-        catch (NoSuchBeanDefinitionException b){
+        } catch (NoSuchBeanDefinitionException b) {
             String className = Objects.requireNonNull(b.getBeanType()).getName();
-            log.error("Bean of type "+ className +" couldn't be found");
+            log.error("Bean of type " + className + " couldn't be found");
             log.error("Have you added 'com.mikolka9144.worldcraft' to 'ComponentScan' addnotation?");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Server crashed!!!", e);
         }
     }
+
     @Bean
     public ServerConfig configure(ConfigurationBuilder builder, ServerConfigManifest manifest, ConfigurableApplicationContext context) {
         return builder.configure(manifest);

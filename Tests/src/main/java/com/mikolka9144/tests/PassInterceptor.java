@@ -22,7 +22,7 @@ public class PassInterceptor extends CommandPacketInterceptor {
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {
         PacketsFormula formula = super.interceptRawPacket(packet);
-        if(!packet.getMsg().equals(TAINT)){
+        if (!packet.getMsg().equals(TAINT)) {
             formula.clearInitialPacket();
         }
         return formula;
@@ -30,7 +30,7 @@ public class PassInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptVersionCheckReq(Packet packet, ClientBuildManifest clientBuildManifest, PacketsFormula formula) {
-        formula.addWriteback(packager.checkVersionResp(VersionCheckErrorCode.NO_ERROR,""));
+        formula.addWriteback(packager.checkVersionResp(VersionCheckErrorCode.NO_ERROR, ""));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }
 
@@ -43,15 +43,15 @@ public class PassInterceptor extends CommandPacketInterceptor {
     @Override
     public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
         formula.addWriteback(packager.respondWithRooms(List.of(new RoomsPacket.Room(
-                0,
-                "test",
-                false,
-                (short) 0,
-                (short) 0,
-                0,
-                0,
-                false
-        ),
+                        0,
+                        "test",
+                        false,
+                        (short) 0,
+                        (short) 0,
+                        0,
+                        0,
+                        false
+                ),
                 new RoomsPacket.Room(
                         2,
                         "test",
@@ -62,13 +62,13 @@ public class PassInterceptor extends CommandPacketInterceptor {
                         0,
                         false
                 )
-                ),data.getRoomsType(),5));
+        ), data.getRoomsType(), 5));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }
 
     @Override
     public void interceptJoinRoomReq(Packet packet, JoinRoomRequest joinRoomRequest, PacketsFormula formula) {
-        formula.addWriteback(packager.joinRoomResp(true,false));
+        formula.addWriteback(packager.joinRoomResp(true, false));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }
 

@@ -19,7 +19,7 @@ public class GzipEntry {
     }
 
     public void setData(byte[] data) {
-            this.data = data;
-            header.setSize(this.data.length);
+        this.data = data;
+        header.setSize(this.data.length);
     }
 }

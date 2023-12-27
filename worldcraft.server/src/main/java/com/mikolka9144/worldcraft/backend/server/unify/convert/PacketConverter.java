@@ -2,10 +2,10 @@ package com.mikolka9144.worldcraft.backend.server.unify.convert;
 
 
 import com.mikolka9144.worldcraft.backend.packets.Packet;
-import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
-import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import com.mikolka9144.worldcraft.backend.packets.codecs.LoginInfo;
 import com.mikolka9144.worldcraft.backend.packets.codecs.RoomsPacket;
+import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
+import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import static com.mikolka9144.worldcraft.utills.enums.BlockType.*;
 public class PacketConverter {
     public static byte replaceForWorldcraft(byte block) {
         BlockType blockData = BlockType.findBlockById(block);
-        if (blockData == UNKNOWN) log.warn(String.format("Unknown block %s. YOU BET BEBROCK FOR DINNER!!!",block));
+        if (blockData == UNKNOWN) log.warn(String.format("Unknown block %s. YOU BET BEBROCK FOR DINNER!!!", block));
         BlockType newBlock = switch (blockData) {
             case WHEAT_CROP_ID, CARROT_CROP_ID, POTATO_CROP_ID, MELON_STEM_ID, PUMPKIN_STEM_ID -> GRASS_ID;
             case BALE_ID -> SAND_ID;
@@ -37,7 +37,7 @@ public class PacketConverter {
             case FENCE_GATE_ID -> OPENED_WOOD_DOOR_ID;
             default -> blockData;
         };
-        return newBlock == UNKNOWN ? block: newBlock.getId();
+        return newBlock == UNKNOWN ? block : newBlock.getId();
     }
 
     private PacketConverter() {

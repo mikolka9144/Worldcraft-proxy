@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class GameVersionSpoofer extends CommandPacketInterceptor {
 
     @Override
-    public void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode errorByCode,String message, PacketsFormula formula) {
+    public void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode errorByCode, String message, PacketsFormula formula) {
         // This line suppresses any "Critical update alerts", because we have this class to convert XD
         packet.setErrorCode((byte) 0);
     }

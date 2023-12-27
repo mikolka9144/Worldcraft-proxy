@@ -10,19 +10,20 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 
 public class LevelNBT {
-    private LevelNBT(){}
+    private LevelNBT() {
+    }
 
     @SneakyThrows
-    public static CompoundTag open(byte[] nbtBinary){
+    public static CompoundTag open(byte[] nbtBinary) {
         var decompressedNBT = GZipConverter.unGzip(nbtBinary);
         return new Nbt().fromByteArray(decompressedNBT);
     }
 
     @SneakyThrows
-    public static byte[] build(CompoundTag nbt)  {
+    public static byte[] build(CompoundTag nbt) {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutput dataOutput = new DataOutputStream(byteOut);
-        new Nbt().toStream(nbt,dataOutput);
+        new Nbt().toStream(nbt, dataOutput);
         return GZipConverter.gzipify(byteOut.toByteArray());
     }
 }

@@ -17,10 +17,11 @@ public class WorldcraftSocket implements Closeable {
     private final Closeable rawSocket;
 
     public WorldcraftSocket(Socket rawSocket) throws IOException {
-        this(rawSocket.getInputStream(),rawSocket.getOutputStream(),rawSocket.getInetAddress().toString(),rawSocket);
+        this(rawSocket.getInputStream(), rawSocket.getOutputStream(), rawSocket.getInetAddress().toString(), rawSocket);
     }
-    public WorldcraftSocket(InputStream input, OutputStream output,String clientName,Closeable lifecycleObject) { //NOTE remove lifecycleObject
-        channel = new WorldcraftPacketIO(input,output);
+
+    public WorldcraftSocket(InputStream input, OutputStream output, String clientName, Closeable lifecycleObject) { //NOTE remove lifecycleObject
+        channel = new WorldcraftPacketIO(input, output);
         connectedIp = clientName;
         this.rawSocket = lifecycleObject;
     }

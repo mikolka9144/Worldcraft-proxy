@@ -21,21 +21,22 @@ import java.util.ArrayList;
 public class HttpServer {
 
     private ServerConfig configuration;
+
     @GetMapping("rooms/{roomId}/game.tar.gz")
-    public ResponseEntity<byte[]> getWorld(@PathVariable int roomId){
-        WorldDownloadRequest request = new WorldDownloadRequest(roomId,null,new ArrayList<>());
+    public ResponseEntity<byte[]> getWorld(@PathVariable int roomId) {
+        WorldDownloadRequest request = new WorldDownloadRequest(roomId, null, new ArrayList<>());
         for (HttpDownloadInterceptor interceptor : configuration.getHttpDownloadInterceptors()) {
             interceptor.getWorld(request);
         }
         return ResponseEntity.ok()
-                .header("Content-Type","application/x-gzip")
+                .header("Content-Type", "application/x-gzip")
                 .body(request.getWorld().toTarGzBin());
     }
 
     @PostMapping("upload")
     public ResponseEntity<byte[]> uploadWorld(@RequestPart("file") MultipartFile worldBin, @RequestPart("uploadToken") String token) throws IOException {
 
-        WorldUploadRequest world = new WorldUploadRequest(token,worldBin.getBytes(),new ArrayList<>() );
+        WorldUploadRequest world = new WorldUploadRequest(token, worldBin.getBytes(), new ArrayList<>());
         for (HttpUploadInterceptor interceptor : configuration.getHttpUploadInterceptors()) {
             interceptor.uploadWorld(world);
         }

@@ -1,10 +1,10 @@
 import com.mikolka9144.worldcraft.backend.packets.codecs.PurchasesList;
-import org.junit.Test;
 import org.assertj.core.api.Assertions;
+import org.junit.Test;
 
 public class JsonTests {
     @Test
-    public void testJson(){
+    public void testJson() {
         String test = """
                 {
                 PurchaseId: 123,
@@ -12,7 +12,7 @@ public class JsonTests {
                 MarketOperationVersion: 123,
                 Resurrections: 123
                 }""";
-        PurchasesList list = new PurchasesList("123","123","123","123");
+        PurchasesList list = new PurchasesList("123", "123", "123", "123");
         Assertions.assertThat(list.encodeToJson()).isEqualTo(test);
     }
 }

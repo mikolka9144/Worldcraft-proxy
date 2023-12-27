@@ -1,9 +1,13 @@
 package com.mikolka9144.worldcraft.backend.packets.codecs;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,12 +27,13 @@ public class RoomsPacket {
     private RoomListRequest.RoomsType roomType;
     private List<Room> rooms = new ArrayList<>();
 
-    public RoomsPacket(int packetIndex, int allPackets, short initialRoomListSize,  RoomListRequest.RoomsType roomType) {
+    public RoomsPacket(int packetIndex, int allPackets, short initialRoomListSize, RoomListRequest.RoomsType roomType) {
         this.packetIndex = packetIndex;
         this.allPackets = allPackets;
         this.initialRoomListSize = initialRoomListSize;
         this.roomType = roomType;
     }
+
     @Getter
     @Setter
     @AllArgsConstructor

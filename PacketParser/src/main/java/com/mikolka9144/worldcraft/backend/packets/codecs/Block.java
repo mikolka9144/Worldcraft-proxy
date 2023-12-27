@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.backend.packets.codecs;
 
-import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
+import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,21 +23,24 @@ public class Block {
     private byte blockData;
     private byte prevBlockType;
     private byte prevBlockData;
-    public Vector3Short getPosition(){
+
+    public Vector3Short getPosition() {
         return new Vector3Short(
-                (x+(chunkX*CHUNK_SIZE)),
+                (x + (chunkX * CHUNK_SIZE)),
                 y,
-                (z+(chunkZ*CHUNK_SIZE)));
+                (z + (chunkZ * CHUNK_SIZE)));
     }
-    public BlockType getBlockName(){
+
+    public BlockType getBlockName() {
         return BlockType.findBlockById(blockType);
     }
-    public void setPosition(Vector3Short position){
-        x = (short) (position.getX()%CHUNK_SIZE);
+
+    public void setPosition(Vector3Short position) {
+        x = (short) (position.getX() % CHUNK_SIZE);
         y = position.getY();
-        z = (short) (position.getZ()%CHUNK_SIZE);
-        chunkX = (short) (position.getX()/CHUNK_SIZE);
-        chunkZ = (short) (position.getZ()/CHUNK_SIZE);
+        z = (short) (position.getZ() % CHUNK_SIZE);
+        chunkX = (short) (position.getX() / CHUNK_SIZE);
+        chunkZ = (short) (position.getZ() / CHUNK_SIZE);
     }
 
     public Block(short x, short y, short z, short chunkX, short chunkZ, byte blockType, byte blockData) {
@@ -49,11 +52,13 @@ public class Block {
         this.blockType = blockType;
         this.blockData = blockData;
     }
+
     public Block(Vector3Short position, BlockType blockType, byte blockData) {
         setPosition(position);
         this.blockType = blockType.getId();
         this.blockData = blockData;
     }
+
     public Block(Vector3Short position, BlockType blockType, byte blockData, byte prevBlockType, byte prevBlockData) {
         setPosition(position);
         this.blockType = blockType.getId();

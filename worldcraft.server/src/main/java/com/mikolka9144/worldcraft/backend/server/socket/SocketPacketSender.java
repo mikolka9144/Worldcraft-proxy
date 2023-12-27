@@ -17,7 +17,7 @@ public class SocketPacketSender {
     private final List<PacketAlteringModule> serverInterceptors;
     private final WorldcraftSocket clientconnection;
 
-    public SocketPacketSender(List<PacketAlteringModule> clientInterceptors, List<PacketAlteringModule> serverInterceptors, WorldcraftSocket clientConnection){
+    public SocketPacketSender(List<PacketAlteringModule> clientInterceptors, List<PacketAlteringModule> serverInterceptors, WorldcraftSocket clientConnection) {
         this.clientInterceptors = clientInterceptors;
 
         this.serverInterceptors = serverInterceptors;
@@ -26,25 +26,26 @@ public class SocketPacketSender {
 
     /**
      * Sends packet to connected client
+     *
      * @param packet packet to send
      */
-    public void sendToClient(Packet packet){
+    public void sendToClient(Packet packet) {
         try {
-            WorldcraftThread.sendPacket(packet,serverInterceptors,clientInterceptors);
-        }
-        catch (Exception x){
-            log.error("Exception was thrown when attempting to send packet by interceptor to client:",x);
+            WorldcraftThread.sendPacket(packet, serverInterceptors, clientInterceptors);
+        } catch (Exception x) {
+            log.error("Exception was thrown when attempting to send packet by interceptor to client:", x);
         }
     }
+
     /**
      * Sends packet to server as connected client
+     *
      * @param packet packet to send
      */
-    public void sendToServer(Packet packet){
+    public void sendToServer(Packet packet) {
         try {
-            WorldcraftThread.sendPacket(packet,clientInterceptors,serverInterceptors);
-        }
-        catch (Exception x) {
+            WorldcraftThread.sendPacket(packet, clientInterceptors, serverInterceptors);
+        } catch (Exception x) {
             log.error("Exception was thrown when attempting to send packet by interceptor to server:", x);
         }
     }
@@ -53,7 +54,7 @@ public class SocketPacketSender {
      * Terminates connection with client
      */
     @SneakyThrows
-    public void closeConnection(){
+    public void closeConnection() {
         clientconnection.close();
     }
 }

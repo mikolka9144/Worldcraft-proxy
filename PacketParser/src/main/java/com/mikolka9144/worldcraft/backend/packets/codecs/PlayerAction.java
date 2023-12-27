@@ -10,7 +10,8 @@ import lombok.Setter;
 public class PlayerAction {
     private int playerId;
     private ActionType actionType;
-    public enum ActionType{
+
+    public enum ActionType {
         NONE, // not used by world craft
         TAP,
         HOLD,

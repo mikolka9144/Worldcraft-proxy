@@ -23,23 +23,26 @@ public class PacketDataReader {
             byte[] strAsBytes = data.readNBytes(strSize);
             return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(strAsBytes)).toString();
         } catch (IOException e) {
-            throw new ParsingException("Reading string from packet bytes failed.",e);
+            throw new ParsingException("Reading string from packet bytes failed.", e);
         }
     }
-    public String readAsText(){
+
+    public String readAsText() {
         return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(data.readAllBytes())).toString();
     }
+
     @SneakyThrows
     public int getInt() {
         return ByteBuffer.wrap(this.data.readNBytes(Integer.BYTES)).getInt();
     }
+
     @SneakyThrows
     public int getLong() {
         return ByteBuffer.wrap(this.data.readNBytes(Long.BYTES)).getInt();
     }
 
     @SneakyThrows
-    public short getShort()  {
+    public short getShort() {
         return ByteBuffer.wrap(this.data.readNBytes(Short.BYTES)).getShort();
     }
 
@@ -59,7 +62,7 @@ public class PacketDataReader {
         return data.available() >= bytes;
     }
 
-    public float getFloat()  {
+    public float getFloat() {
         return Float.intBitsToFloat(getInt());
     }
 

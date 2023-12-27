@@ -8,12 +8,16 @@ public enum VersionCheckErrorCode {
     UPDATE_REQUIRED((byte) -2),
     UNKNOWN((byte) -255);
     private final byte code;
-    public byte getvalue() {return code;}
+
+    public byte getvalue() {
+        return code;
+    }
 
     VersionCheckErrorCode(byte code) {
         this.code = code;
     }
-    public static VersionCheckErrorCode findErrorByCode(int code){
+
+    public static VersionCheckErrorCode findErrorByCode(int code) {
         var command = Arrays.stream(VersionCheckErrorCode.values()).filter(s -> s.getvalue() == code).findFirst();
         return command.orElse(UNKNOWN);
     }
