@@ -239,19 +239,19 @@ public interface PacketCommands {
     default void interceptUnknownPacket(Packet packet, PacketsFormula formula) {
 
     }
-    default void interceptErrorLogin(Packet packet, LoginErrorCode errorByCode, PacketsFormula formula) {
+    default void interceptErrorLogin(Packet packet, LoginErrorCode code,String errorMessage, PacketsFormula formula) {
     }
 
-    default void interceptErrorJoinRoom(Packet packet, RoomJoinError errorByCode, PacketsFormula formula) {
+    default void interceptErrorJoinRoom(Packet packet, RoomJoinError code,String errorMessage, PacketsFormula formula) {
 
     }
 
-    default void interceptErrorCreateRoom(Packet packet, CreateRoomErrorCode errorByCode, PacketsFormula formula) {
+    default void interceptErrorCreateRoom(Packet packet, CreateRoomErrorCode code,String errorMessage, PacketsFormula formula) {
 
     }
     default void interceptUnknownErrorPacket(Packet packet, PacketsFormula formula) {
 
     }
 
-    default void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode errorByCode, PacketsFormula formula){}
+    default void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode code,String errorMessage, PacketsFormula formula){}
 }

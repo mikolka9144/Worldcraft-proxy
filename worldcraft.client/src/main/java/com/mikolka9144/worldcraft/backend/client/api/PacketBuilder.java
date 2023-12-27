@@ -3,6 +3,9 @@ package com.mikolka9144.worldcraft.backend.client.api;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.LoginErrorCode;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.RoomJoinError;
+import com.mikolka9144.worldcraft.backend.packets.errorcodes.CreateRoomErrorCode;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
@@ -54,26 +57,29 @@ public class PacketBuilder {
                 data
         );
     }
-    public Packet requestLogin(LoginInfo info){
+    public Packet loginReq(LoginInfo info){
         return clientPacket(PacketCommand.CLIENT_LOGIN_REQ,PacketDataEncoder.login(info));
     }
-    public Packet respondToLogin(int playerId,String playerName){
+    public Packet loginResp(int playerId, String playerName){
         return serverPacket(PacketCommand.SERVER_LOGIN_RESP,
                 PacketDataEncoder.loginResponse(
                         new LoginResponse(playerId,playerName,false)
                 ));
+    }
+    public Packet loginResp(LoginErrorCode error,String message){
+        return serverPacket(PacketCommand.SERVER_LOGIN_RESP,message.getBytes(),error.getvalue());
     }
     public Packet playerSpeak(String line) {
         return new Packet(clientProto,playerId,
                 PacketCommand.CLIENT_SPEAK,"", (byte) 0, PacketDataEncoder.playerMessage(line));
     }
 
-    public Packet println(String text) {
+    public Packet serverChatMessage(String text) {
         var chatMsg = new ChatMessage("", text, ChatMessage.MsgType.STANDARD);
-        return println(chatMsg);
+        return serverChatMessage(chatMsg);
 
     }
-    public Packet println(ChatMessage message) {
+    public Packet serverChatMessage(ChatMessage message) {
         return serverPacket(PacketCommand.SERVER_MESSAGE,PacketDataEncoder.chatMessage(message));
 
     }
@@ -87,11 +93,32 @@ public class PacketBuilder {
     public Packet createRoomResp(String creationToken){
         return serverPacket(PacketCommand.SERVER_ROOM_CREATE_RESP,PacketDataEncoder.roomCreateResp(creationToken));
     }
+    public Packet createRoomResp(CreateRoomErrorCode error,String message){
+        return serverPacket(PacketCommand.SERVER_ROOM_CREATE_RESP,message.getBytes(),error.getvalue());
+    }
+    public Packet joinRoomReq(String name,String password,boolean isReadOnly){
+        return clientPacket(PacketCommand.CLIENT_ROOM_JOIN_REQ,PacketDataEncoder.joinRoomRequest(new JoinRoomRequest(name,password,isReadOnly)));
+    }
+    public Packet joinRoomReq(String name,String password){
+        return joinRoomReq(name, password,false);
+    }
+    public Packet joinRoomReq(String name){
+        return joinRoomReq(name, "");
+    }
+    public Packet joinRoomResp(boolean isAdmin,boolean isReadOlny){
+        return serverPacket(PacketCommand.SERVER_ROOM_JOIN_RESP,PacketDataEncoder.joinRoomResponse(new JoinRoomResponse(isAdmin,isReadOlny)));
+    }
+    public Packet joinRoomResp(RoomJoinError error,String message){
+        return serverPacket(PacketCommand.SERVER_ROOM_JOIN_RESP,message.getBytes(),error.getvalue());
+    }
     public Packet checkVersion(String buildSource,int buildNumber){
         return clientPacket(PacketCommand.CLIENT_CHECK_VERSION_REQ,PacketDataEncoder.versionCheckReq(new ClientBuildManifest(buildSource,buildNumber)));
     }
     public Packet checkVersionResp(VersionCheckErrorCode status,String message){
         return serverPacket(PacketCommand.SERVER_CHECK_VERSION_RESP,message.getBytes(),status.getvalue());
+    }
+    public Packet checkVersionResp(){
+        return checkVersionResp(VersionCheckErrorCode.NO_ERROR,"");
     }
     public Packet requestRooms(RoomListRequest.RoomsType list,int startingIndex){
         return clientPacket(PacketCommand.CLIENT_ROOM_LIST_REQ,PacketDataEncoder.roomsReq(new RoomListRequest(list,startingIndex)));

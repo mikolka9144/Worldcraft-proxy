@@ -36,8 +36,14 @@ public class PacketsFormula {
     public void addUpstream(Packet packet){
         upstreamPackets.add(packet);
     }
+    public void addUpstream(List<Packet> packets){
+        upstreamPackets.addAll(packets);
+    }
     public void addWriteback(Packet packet){
         writebackPackets.add(packet);
+    }
+    public void addWriteback(List<Packet> packets){
+        writebackPackets.addAll(packets);
     }
     public void clearInitialPacket(){
         upstreamPackets.remove(initialpacket);

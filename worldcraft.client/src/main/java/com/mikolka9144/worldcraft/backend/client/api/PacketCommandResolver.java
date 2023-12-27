@@ -9,6 +9,7 @@ import com.mikolka9144.worldcraft.backend.packets.errorcodes.CreateRoomErrorCode
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.LoginErrorCode;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.RoomJoinError;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
+import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import lombok.extern.slf4j.Slf4j;
 
@@ -97,11 +98,16 @@ public class PacketCommandResolver {
                 .filter(s -> s.getName().equals(target)).findFirst();
     }
     private void analiseErrors(Packet packet, PacketsFormula formula){
+        String message = new PacketDataReader(packet.getData()).readAsText();
             switch (packet.getCommand()){
-                case SERVER_ROOM_CREATE_RESP -> commands.interceptErrorCreateRoom(packet, CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()),formula);
-                case SERVER_LOGIN_RESP -> commands.interceptErrorLogin(packet, LoginErrorCode.findErrorByCode(packet.getErrorCode()),formula);
-                case SERVER_ROOM_JOIN_RESP -> commands.interceptErrorJoinRoom(packet, RoomJoinError.findErrorByCode(packet.getErrorCode()),formula);
-                case SERVER_CHECK_VERSION_RESP -> commands.interceptErrorVersionCheck(packet, VersionCheckErrorCode.findErrorByCode(packet.getErrorCode()),formula);
+                case SERVER_ROOM_CREATE_RESP -> commands.interceptErrorCreateRoom(packet,
+                        CreateRoomErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
+                case SERVER_LOGIN_RESP -> commands.interceptErrorLogin(packet,
+                        LoginErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
+                case SERVER_ROOM_JOIN_RESP -> commands.interceptErrorJoinRoom(packet,
+                        RoomJoinError.findErrorByCode(packet.getErrorCode()),message,formula);
+                case SERVER_CHECK_VERSION_RESP -> commands.interceptErrorVersionCheck(packet,
+                        VersionCheckErrorCode.findErrorByCode(packet.getErrorCode()),message,formula);
                 default -> commands.interceptUnknownErrorPacket(packet,formula);
             }
     }
