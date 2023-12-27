@@ -1,3 +1,5 @@
+package tests;
+
 import com.mikolka9144.worldcraft.backend.packets.codecs.PurchasesList;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

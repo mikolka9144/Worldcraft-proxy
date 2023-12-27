@@ -1,3 +1,5 @@
+package tests;
+
 import com.mikolka9144.worldcraft.backend.packets.codecs.PurchasesList;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataDecoder;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
