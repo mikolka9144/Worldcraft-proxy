@@ -130,26 +130,27 @@ public class ChunkData {
 
         private byte getLight(ByteArrayTag set) {
             int targetByteIndex = index >> 1;
-            boolean isDivisiable = (index & 1) == 1;
+            boolean isNotDivisiable = (index & 1) == 1;
             byte targetByte = set.get(targetByteIndex);
-            return (byte) (!isDivisiable ? targetByte & 15 : targetByte >> 4);
+            byte b = (byte) (isNotDivisiable ? targetByte >> 4 : targetByte & 15);
+            return b<0? (byte) (16 + b) :b; // this fixes minus light levels
         }
 
         private void setLight(ByteArrayTag set, byte value) {
             if (!ValueRange.of(0, 15).isValidValue(value))
                 throw new IllegalArgumentException("Light must be between 0 and 15");
             int targetByteIndex = index >> 1;
-            boolean isDivisiable = (index & 1) == 1;
+            boolean isNotDivisiable = (index & 1) == 1;
             byte targetByte = set.get(targetByteIndex);
-            if (!isDivisiable) {
-                byte leftPart = (byte) (targetByte >> 4);
-                byte stub = (byte) (leftPart << 4);
-                byte result = (byte) (stub + value);
-                set.set(targetByteIndex, result);
-            } else {
+            if (isNotDivisiable) {
                 byte rightPart = (byte) (targetByte & 15);
                 byte stub = (byte) (value << 4);
                 byte result = (byte) (stub + rightPart);
+                set.set(targetByteIndex, result);
+            } else {
+                byte leftPart = (byte) (targetByte >> 4);
+                byte stub = (byte) (leftPart << 4);
+                byte result = (byte) (stub + value);
                 set.set(targetByteIndex, result);
             }
         }

@@ -1,3 +1,5 @@
+package tests;
+
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftPacketIO;
 import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftSocket;

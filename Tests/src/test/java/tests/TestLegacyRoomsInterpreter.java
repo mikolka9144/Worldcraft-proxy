@@ -1,3 +1,5 @@
+package tests;
+
 import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
