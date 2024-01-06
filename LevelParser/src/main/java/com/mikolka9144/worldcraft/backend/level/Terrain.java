@@ -69,9 +69,18 @@ public class Terrain {
     /**
      * Manually creates chunk.
      * Use this function at your own risk.
+     * It breaks enumeration functions
+     * and world size calculations.
      */
     public void createChunk(int x, int z) {
         chunks[x][z] = new ChunkData(x, z);
+    }
+
+    /**
+     * Get maximum X value of avaliable chunks.
+     */
+    public int getMaxChunkX() {
+        return (int) (Arrays.stream(chunks).takeWhile(s -> s[0] != null).count());
     }
 
     /**
@@ -79,7 +88,7 @@ public class Terrain {
      * It's based on created chunks.
      */
     public int getMaxX() {
-        return (int) (Arrays.stream(chunks).takeWhile(s -> s[0] != null).count() * ChunksMCR.CHUNK_SIZE);
+        return getMaxChunkX() * ChunksMCR.CHUNK_SIZE;
     }
 
     /**
@@ -87,7 +96,14 @@ public class Terrain {
      * It's based on created chunks.
      */
     public int getMaxZ() {
-        return (int) (Arrays.stream(chunks[0]).takeWhile(Objects::nonNull).count() * ChunksMCR.CHUNK_SIZE);
+        return getMaxChunkZ() * ChunksMCR.CHUNK_SIZE;
+    }
+
+    /**
+     * Get maximum Z value of avaliable chunks.
+     */
+    private int getMaxChunkZ() {
+        return (int) Arrays.stream(chunks[0]).takeWhile(Objects::nonNull).count();
     }
 
     /**
@@ -107,6 +123,16 @@ public class Terrain {
      */
     public void enumerateWorld3D(Consumer<Vector3Short> step) {
         enumerate3D(getMaxX(), MAX_Y, getMaxZ(), step);
+    }
+
+    /**
+     * Iterates through every chunk in the world.
+     * {@code DO NOT USE  Y as it's always 0.}
+     *
+     * @param step action to run
+     */
+    public void enumerateChunks(Consumer<Vector3Short> step) {
+        enumerate2D(getMaxChunkX(), 0, getMaxChunkZ(), step);
     }
 
     public static void enumerate2D(int maxX, int constantY, int maxZ, Consumer<Vector3Short> step) {

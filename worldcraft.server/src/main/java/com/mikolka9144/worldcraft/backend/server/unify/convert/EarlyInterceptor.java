@@ -22,7 +22,7 @@ public class EarlyInterceptor extends CommandPacketInterceptor {
     @Override
     public PacketsFormula interceptRawPacket(Packet packet) {
         if (packet.getCommand() == PacketCommand.CLIENT_LOGIN_REQ) {
-            LoginInfo ret = PacketConverter.pareLegacyLoginInfo(packet);
+            LoginInfo ret = PacketConverter.prepareLegacyLoginInfo(packet);
 
             if (packet.getProtoId() == PacketProtocol.LEGACY_VERSION) {
                 newProto = ret.getClientVer().equals("2.7.4")
