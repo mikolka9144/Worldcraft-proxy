@@ -1,16 +1,11 @@
 package com.mikolka9144.worldcraft.backend.packets.codecs;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class RoomsPacket {
     /**
      * Represents packet index in a list of packets for room list. (from 0 to allPackets-1)
@@ -34,11 +29,12 @@ public class RoomsPacket {
         this.roomType = roomType;
     }
 
-    @Getter
-    @Setter
+    @Data
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class Room {
+        public Room(int id,String name,boolean isReadOnly){
+            this(id,name,false,(short) 0,(short) 0,0,0,isReadOnly);
+        }
         private int id;
         private String name;
         private boolean isProtected;

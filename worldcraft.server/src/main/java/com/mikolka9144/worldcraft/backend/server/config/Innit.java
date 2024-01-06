@@ -8,6 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Slf4j
@@ -15,18 +16,27 @@ import java.util.Objects;
 public class Innit {
     public static void start(ApplicationContext context) {
         try {
-            var config = context.getBean(ServerConfig.class);
-            var server = context.getBean(SocketServer.class);
-
-            log.info(String.format("Creating Server:  socketHost %d", config.getHostingSocketPort()));
-            server.start();
+            bootloader(context);
         } catch (NoSuchBeanDefinitionException b) {
             String className = Objects.requireNonNull(b.getBeanType()).getName();
             log.error("Bean of type " + className + " couldn't be found");
-            log.error("Have you added 'com.mikolka9144.worldcraft' to 'ComponentScan' addnotation?");
+            log.error("Have you added 'com.mikolka9144.worldcraft' to 'ComponentScan' annotation?");
         } catch (Exception e) {
             log.error("Server crashed!!!", e);
         }
+        log.error("Forcefully killing app...");
+        System.exit(-1);
+    }
+
+    private static void bootloader(ApplicationContext context) throws IOException {
+        var config = context.getBean(ServerConfig.class);
+        if(!config.isConfigured()){
+            log.error("Configuration failed to initialise.");
+            return;
+        }
+        var server = context.getBean(SocketServer.class);
+        log.info(String.format("Creating Server:  socketHost %d", config.getHostingSocketPort()));
+        server.start();
     }
 
     @Bean

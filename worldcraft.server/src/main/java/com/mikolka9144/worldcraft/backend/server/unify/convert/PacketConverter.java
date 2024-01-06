@@ -16,7 +16,7 @@ import static com.mikolka9144.worldcraft.utills.enums.BlockType.*;
 public class PacketConverter {
     public static byte replaceForWorldcraft(byte block) {
         BlockType blockData = BlockType.findBlockById(block);
-        if (blockData == UNKNOWN) log.warn(String.format("Unknown block %s. YOU BET BEBROCK FOR DINNER!!!", block));
+        if (blockData == UNKNOWN) log.warn(String.format("Unknown block %s! This might cause issues.", block));
         BlockType newBlock = switch (blockData) {
             case WHEAT_CROP_ID, CARROT_CROP_ID, POTATO_CROP_ID, MELON_STEM_ID, PUMPKIN_STEM_ID -> GRASS_ID;
             case BALE_ID -> SAND_ID;
@@ -61,7 +61,7 @@ public class PacketConverter {
         return builder.build();
     }
 
-    static LoginInfo pareLegacyLoginInfo(Packet packet) {
+    static LoginInfo prepareLegacyLoginInfo(Packet packet) {
         PacketDataReader reader = new PacketDataReader(packet.getData());
         return new LoginInfo(
                 reader.getString(),

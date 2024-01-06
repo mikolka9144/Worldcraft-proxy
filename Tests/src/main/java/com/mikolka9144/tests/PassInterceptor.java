@@ -42,26 +42,9 @@ public class PassInterceptor extends CommandPacketInterceptor {
 
     @Override
     public void interceptRoomsReq(Packet packet, RoomListRequest data, PacketsFormula formula) {
-        formula.addWriteback(packager.respondWithRooms(List.of(new RoomsPacket.Room(
-                        0,
-                        "test",
-                        false,
-                        (short) 0,
-                        (short) 0,
-                        0,
-                        0,
-                        false
-                ),
-                new RoomsPacket.Room(
-                        2,
-                        "test",
-                        false,
-                        (short) 0,
-                        (short) 0,
-                        0,
-                        0,
-                        false
-                )
+        formula.addWriteback(packager.respondWithRooms(List.of(
+                new RoomsPacket.Room(0, "test", false),
+                new RoomsPacket.Room(2, "test", false)
         ), data.getRoomsType(), 5));
         formula.getWritebackPackets().get(0).setMsg(TAINT);
     }

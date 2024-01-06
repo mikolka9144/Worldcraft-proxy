@@ -14,8 +14,8 @@ public class OfficialUploader implements HttpUploadInterceptor {
 
     public OfficialUploader(ServerConfigManifest manifest) {
         client = new HttpWorldClient(
-                manifest.getTargetServer(),
-                manifest.getTargetHttpPort());
+                manifest.obtainOption("server.target.address"),
+                Integer.parseInt(manifest.obtainOption("server.target.port")));
     }
 
     @Override

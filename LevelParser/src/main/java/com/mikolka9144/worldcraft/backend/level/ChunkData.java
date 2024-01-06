@@ -20,7 +20,7 @@ public class ChunkData {
     public static final String LIGHT_CALCULATED = "LightCalculated";
     public static final String DATA = "Data";
 
-    private CompoundTag rawNBT;
+    private final CompoundTag rawNBT;
 
     public ChunkData(byte[] chunkBlob) {
         rawNBT = RegionNBT.open(chunkBlob);

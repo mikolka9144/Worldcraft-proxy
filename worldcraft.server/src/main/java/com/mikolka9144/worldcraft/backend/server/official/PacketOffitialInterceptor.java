@@ -25,8 +25,8 @@ public class PacketOffitialInterceptor extends PacketAlteringModule {
     private SocketPacketSender io;
 
     public PacketOffitialInterceptor(ServerConfigManifest manifest) {
-        this.hostname = manifest.getTargetServer();
-        this.port = manifest.getTargetSocketPort();
+        this.hostname = manifest.obtainOption("server.target.address");
+        this.port = Integer.parseInt(manifest.obtainOption("server.target.socketPort"));
     }
 
     @Override
