@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.utills.enums;
 
-import com.mikolka9144.worldcraft.utills.ParsingException;
+import com.mikolka9144.worldcraft.utills.exception.ParsingException;
 import lombok.Getter;
 
 import java.util.Arrays;

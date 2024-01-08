@@ -1,6 +1,6 @@
 package com.mikolka9144.worldcraft.backend.client.http;
 
-import com.mikolka9144.worldcraft.utills.ParsingException;
+import com.mikolka9144.worldcraft.utills.exception.ParsingException;
 import kong.unirest.core.ContentType;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;

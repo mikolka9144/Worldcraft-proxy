@@ -21,12 +21,16 @@ public class SocketServer implements Closeable {
     private final Supplier<List<PacketAlteringModule>> interceptors;
 
     @Autowired
-    public SocketServer(ServerConfig config) throws IOException {
+    public SocketServer(ServerConfig config){
         this(config.getHostingSocketPort(), config.getReqInterceptors());
     }
 
-    public SocketServer(int port, Supplier<List<PacketAlteringModule>> interceptors) throws IOException {
-        serverSocket = new ServerSocket(port);
+    public SocketServer(int port, Supplier<List<PacketAlteringModule>> interceptors)  {
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            throw new IllegalStateException("Couldn't create socket server on port "+port,e);
+        }
         this.interceptors = interceptors;
     }
 

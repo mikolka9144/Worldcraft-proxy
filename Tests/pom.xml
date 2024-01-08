@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.mikolka9144</groupId>
         <artifactId>WoCserver</artifactId>
-        <version>2.1.69</version>
+        <version>2.1</version>
     </parent>
 
     <artifactId>Tests</artifactId>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>client</artifactId>
-            <version>2.1.69</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,12 +61,12 @@
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>LevelParser</artifactId>
-            <version>2.1.69</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>com.mikolka9144</groupId>
             <artifactId>server</artifactId>
-            <version>2.1.69</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

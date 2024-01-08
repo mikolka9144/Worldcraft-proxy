@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.backend.packets.codecs;
 
 
-import com.mikolka9144.worldcraft.utills.ParsingException;
+import com.mikolka9144.worldcraft.utills.exception.ParsingException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

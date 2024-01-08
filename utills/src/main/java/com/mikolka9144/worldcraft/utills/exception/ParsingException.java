@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.utills;
+package com.mikolka9144.worldcraft.utills.exception;
 
 import java.io.IOException;
 
