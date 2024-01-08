@@ -21,7 +21,7 @@ public class ConfigurationBuilder {
 
     public ServerConfig configure(ServerConfigManifest manifest) {
         if(!validateBeans(manifest)) return new ServerConfig();
-        List<HttpDownloadInterceptor> httpDownloadPreset = new ArrayList<>(requestBeans(manifest.getSocketInterBeans(), HttpDownloadInterceptor.class));
+        List<HttpDownloadInterceptor> httpDownloadPreset = new ArrayList<>(requestBeans(manifest.getHttpInterDownBeans(), HttpDownloadInterceptor.class));
         List<HttpUploadInterceptor> httpUploadPreset = new ArrayList<>(requestBeans(manifest.getHttpInterUpBeans(), HttpUploadInterceptor.class));
         Supplier<List<PacketAlteringModule>> socketPreset = () -> generatePacketInterceptors(manifest);
         return new ServerConfig(manifest.getSocketPort(), socketPreset, httpDownloadPreset, httpUploadPreset,true);

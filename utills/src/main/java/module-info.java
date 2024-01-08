@@ -4,4 +4,5 @@ module utills {
     exports com.mikolka9144.worldcraft.utills;
     exports com.mikolka9144.worldcraft.utills.builders;
     exports com.mikolka9144.worldcraft.utills.enums;
+    exports com.mikolka9144.worldcraft.utills.exception;
 }

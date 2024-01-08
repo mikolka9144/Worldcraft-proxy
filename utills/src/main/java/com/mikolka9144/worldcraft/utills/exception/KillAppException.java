@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.config;
+package com.mikolka9144.worldcraft.utills.exception;
 
 import lombok.NoArgsConstructor;
 

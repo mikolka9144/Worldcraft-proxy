@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.utills.builders;
 
 
-import com.mikolka9144.worldcraft.utills.ParsingException;
+import com.mikolka9144.worldcraft.utills.exception.ParsingException;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import lombok.SneakyThrows;
 
