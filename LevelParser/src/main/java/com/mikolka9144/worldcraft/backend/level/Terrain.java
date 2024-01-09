@@ -134,7 +134,12 @@ public class Terrain {
     public void enumerateChunks(Consumer<Vector3Short> step) {
         enumerate2D(getMaxChunkX(), 0, getMaxChunkZ(), step);
     }
-
+    public byte[] toMcrFile(){
+        return ChunksMCR.build(this);
+    }
+    public static Terrain fromMcrFile(byte[] data){
+        return ChunksMCR.createFromMCR(data);
+    }
     public static void enumerate2D(int maxX, int constantY, int maxZ, Consumer<Vector3Short> step) {
         IntStream.range(0, maxX).forEach(x ->
                 IntStream.range(0, maxZ).forEach(z -> step.accept(new Vector3Short(x, constantY, z))
