@@ -1,5 +1,6 @@
 package com.mikolka9144.worldcraft.backend.level;
 
+import com.mikolka9144.worldcraft.backend.level.nbt.LevelNBT;
 import com.mikolka9144.worldcraft.utills.Vector3;
 import com.mikolka9144.worldcraft.utills.Vector3Short;
 import dev.dewy.nbt.tags.collection.CompoundTag;
@@ -131,5 +132,11 @@ public class Level {
 
     private IntTag getInt(String key) {
         return getData().getInt(key);
+    }
+    public byte[] toLevelDat(){
+        return LevelNBT.build(this);
+    }
+    public static Level fromLevelDat(byte[] data){
+        return LevelNBT.open(data);
     }
 }
