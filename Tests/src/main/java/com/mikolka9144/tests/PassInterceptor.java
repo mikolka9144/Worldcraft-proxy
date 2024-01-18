@@ -4,7 +4,7 @@ import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.*;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +15,7 @@ import java.util.List;
 @Component("pass")
 @Slf4j
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class PassInterceptor extends CommandPacketInterceptor {
+public class PassInterceptor extends FullPacketInterceptor {
 
     public static final String TAINT = "taint";
 

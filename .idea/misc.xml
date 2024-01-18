@@ -22,6 +22,7 @@
         <option value="$PROJECT_DIR$/config/WoClegacy-build/pom.xml" />
         <option value="$PROJECT_DIR$/runners/server.clean/pom.xml" />
         <option value="$PROJECT_DIR$/runners/server.modded/pom.xml" />
+        <option value="$PROJECT_DIR$/wotldcraft.modules.unify/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

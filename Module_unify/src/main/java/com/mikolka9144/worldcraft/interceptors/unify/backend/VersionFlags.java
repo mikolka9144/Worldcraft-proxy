@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.unify.backend;
+package com.mikolka9144.worldcraft.interceptors.unify.backend;
 
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;

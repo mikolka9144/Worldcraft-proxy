@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.unify.convert;
+package com.mikolka9144.worldcraft.interceptors.unify.convert;
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
@@ -6,8 +6,8 @@ import com.mikolka9144.worldcraft.backend.packets.codecs.ChatMessage;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ClientBuildManifest;
 import com.mikolka9144.worldcraft.backend.packets.codecs.LoginInfo;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.backend.server.unify.backend.VersionFlags;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.interceptors.unify.backend.VersionFlags;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component("packetConvEarly")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class EarlyInterceptor extends CommandPacketInterceptor {
+public class EarlyInterceptor extends FullPacketInterceptor {
     PacketProtocol newProto = null;
 
     @Override

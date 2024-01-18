@@ -1,7 +1,7 @@
 package com.mikolka9144.worldcraft.backend.client.api;
 
 
-import com.mikolka9144.worldcraft.backend.client.socket.PacketCommands;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.PacketCommands;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataDecoder;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketHook;

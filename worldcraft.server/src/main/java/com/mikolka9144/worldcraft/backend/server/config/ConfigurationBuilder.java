@@ -2,7 +2,7 @@ package com.mikolka9144.worldcraft.backend.server.config;
 
 import com.mikolka9144.worldcraft.backend.server.http.interceptors.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.backend.server.http.interceptors.HttpUploadInterceptor;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.PacketInterceptor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -23,7 +23,7 @@ public class ConfigurationBuilder {
         if(!validateBeans(manifest)) return new ServerConfig();
         List<HttpDownloadInterceptor> httpDownloadPreset = new ArrayList<>(requestBeans(manifest.getHttpInterDownBeans(), HttpDownloadInterceptor.class));
         List<HttpUploadInterceptor> httpUploadPreset = new ArrayList<>(requestBeans(manifest.getHttpInterUpBeans(), HttpUploadInterceptor.class));
-        Supplier<List<PacketAlteringModule>> socketPreset = () -> generatePacketInterceptors(manifest);
+        Supplier<List<PacketInterceptor>> socketPreset = () -> generatePacketInterceptors(manifest);
         return new ServerConfig(manifest.getSocketPort(), socketPreset, httpDownloadPreset, httpUploadPreset,true);
     }
 
@@ -41,13 +41,13 @@ public class ConfigurationBuilder {
     }
     private boolean validateBeans(ServerConfigManifest manifest) {
         return
-                validateBeans(manifest.getSocketInterBeans(),PacketAlteringModule.class) &&
+                validateBeans(manifest.getSocketInterBeans(), PacketInterceptor.class) &&
                 validateBeans(manifest.getHttpInterUpBeans(),HttpUploadInterceptor.class) &&
                 validateBeans(manifest.getHttpInterDownBeans(),HttpDownloadInterceptor.class);
     }
 
-    private List<PacketAlteringModule> generatePacketInterceptors(ServerConfigManifest manifest) {
-        return new ArrayList<>(requestBeans(manifest.getSocketInterBeans(), PacketAlteringModule.class));
+    private List<PacketInterceptor> generatePacketInterceptors(ServerConfigManifest manifest) {
+        return new ArrayList<>(requestBeans(manifest.getSocketInterBeans(), PacketInterceptor.class));
     }
 
     private <T> List<T> requestBeans(List<String> beans, Class<T> target) {
