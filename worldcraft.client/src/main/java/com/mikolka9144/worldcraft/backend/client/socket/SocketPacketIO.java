@@ -5,7 +5,6 @@ import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
-import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import com.mikolka9144.worldcraft.utills.exception.WorldcraftCommunicationException;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +39,7 @@ public class SocketPacketIO implements Closeable{
         PacketDataReader headerReader = new PacketDataReader(inputStream.readNBytes(8));
 
         // Reading early header
-        PacketProtocol protocol = PacketProtocol.findPacketProtoById(headerReader.getInt());
+        int protocol = headerReader.getInt();
         int packetSize = headerReader.getInt();
 
         // Loading packet
@@ -77,7 +76,7 @@ public class SocketPacketIO implements Closeable{
         PacketDataBuilder tcpPacket = new PacketDataBuilder();
         byte[] rawPacket = out.build();
         byte[] tcpBlob = tcpPacket
-                .append(packet.getProtoId().getProto())
+                .append(packet.getProtocolByteCode())
                 .append(rawPacket.length)
                 .append(rawPacket)
                 .build();

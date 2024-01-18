@@ -17,9 +17,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Packet {
     /**
-     * Game version of the sender or {@code SERVER}
+     * ID of the protocol version used by the sender.
      */
-    private PacketProtocol protoId;
+    private int protocolByteCode;
     /**
      * ID of the sender.
      * <h4>Not present in:<h4/>
@@ -45,4 +45,21 @@ public class Packet {
      * Raw content of the packet.
      */
     private byte[] data;
+
+    public Packet(PacketProtocol packetProtocol, int playerId, PacketCommand command, String msg, byte error, byte[] data) {
+        this(packetProtocol.getProto(), playerId,command,msg,error,data);
+    }
+
+    /**
+     * Gets game version of the sender or {@code SERVER}
+     */
+    public PacketProtocol getProtoId(){
+        return PacketProtocol.findPacketProtoById(protocolByteCode);
+    }
+    /**
+     * Gets game version of the sender or {@code SERVER}
+     */
+    public void setProtoId(PacketProtocol protoId){
+        protocolByteCode = protoId.getProto();
+    }
 }
