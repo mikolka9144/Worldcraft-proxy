@@ -45,6 +45,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>3.1.2</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsonassert</artifactId>
+                    <groupId>org.skyscreamer</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

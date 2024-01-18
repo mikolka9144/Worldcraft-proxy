@@ -10,6 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mikolka9144</groupId>
+
     <artifactId>WoCserver</artifactId>
     <version>3.0</version>
     <packaging>pom</packaging>
@@ -63,10 +64,6 @@
             <artifactId>commons-compress</artifactId>
             <version>1.21</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
             <groupId>com.konghq</groupId>
