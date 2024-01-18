@@ -1,6 +1,5 @@
 package com.mikolka9144.worldcraft;
 
-import com.mikolka9144.worldcraft.backend.server.config.Innit;
 import com.mikolka9144.worldcraft.backend.server.config.ServerConfigManifest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +29,7 @@ public class Main {
         });
         app.setDefaultProperties(Collections
                 .singletonMap("server.target.address", addr.get().toLowerCase()));
-        Innit.start(app.run(args));
+        app.run(args);
     }
 
     @Bean

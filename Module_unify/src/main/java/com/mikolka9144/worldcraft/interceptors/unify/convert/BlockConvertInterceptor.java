@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.unify.convert;
+package com.mikolka9144.worldcraft.interceptors.unify.convert;
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
@@ -7,15 +7,15 @@ import com.mikolka9144.worldcraft.backend.packets.codecs.LoginInfo;
 import com.mikolka9144.worldcraft.backend.packets.codecs.RoomsPacket;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ServerBlockData;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.backend.server.unify.backend.VersionFlags;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.interceptors.unify.backend.VersionFlags;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("blockConverter")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class BlockConvertInterceptor extends CommandPacketInterceptor {
+public class BlockConvertInterceptor extends FullPacketInterceptor {
     private VersionFlags flags;
 
     @Override

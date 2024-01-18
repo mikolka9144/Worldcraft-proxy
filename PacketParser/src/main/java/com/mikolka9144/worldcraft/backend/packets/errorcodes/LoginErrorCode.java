@@ -12,7 +12,8 @@ public enum LoginErrorCode {
     BANNED_DEVIDE((byte) -4),
     USERNAME_HAS_BLACKLISTED_WORD((byte) -5),
     USERNAME_TOO_LONG((byte) -6),
-    USERNAME_IS_BLACKLISTED((byte) -7);
+    USERNAME_IS_BLACKLISTED((byte) -7),
+    UNPROCESSABLE_LOGIN((byte) -8); // Network error. Please try again later or try to update WorldCraft
     private final byte code;
 
     public byte getvalue() {

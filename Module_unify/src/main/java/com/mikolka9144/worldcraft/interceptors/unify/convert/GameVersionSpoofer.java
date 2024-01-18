@@ -1,13 +1,13 @@
-package com.mikolka9144.worldcraft.backend.server.unify.convert;
+package com.mikolka9144.worldcraft.interceptors.unify.convert;
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.errorcodes.VersionCheckErrorCode;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
 import org.springframework.stereotype.Component;
 
 @Component("gameVersionSpoofer")
-public class GameVersionSpoofer extends CommandPacketInterceptor {
+public class GameVersionSpoofer extends FullPacketInterceptor {
 
     @Override
     public void interceptErrorVersionCheck(Packet packet, VersionCheckErrorCode errorByCode, String message, PacketsFormula formula) {

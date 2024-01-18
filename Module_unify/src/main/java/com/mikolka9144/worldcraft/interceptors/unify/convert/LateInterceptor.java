@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.unify.convert;
+package com.mikolka9144.worldcraft.interceptors.unify.convert;
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
@@ -7,8 +7,8 @@ import com.mikolka9144.worldcraft.backend.packets.codecs.LoginResponse;
 import com.mikolka9144.worldcraft.backend.packets.codecs.PopupMessage;
 import com.mikolka9144.worldcraft.backend.packets.codecs.RoomsPacket;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
-import com.mikolka9144.worldcraft.backend.server.unify.backend.VersionFlags;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.interceptors.unify.backend.VersionFlags;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component("packetConvLate")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class LateInterceptor extends CommandPacketInterceptor {
+public class LateInterceptor extends FullPacketInterceptor {
     private VersionFlags flags;
 
 

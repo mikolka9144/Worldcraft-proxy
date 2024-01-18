@@ -6,22 +6,32 @@ import com.mikolka9144.worldcraft.utills.builders.PacketDataBuilder;
 import com.mikolka9144.worldcraft.utills.builders.PacketDataReader;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
+import com.mikolka9144.worldcraft.utills.exception.WorldcraftCommunicationException;
+import lombok.RequiredArgsConstructor;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 
 /**
  * Low-level class used to receiving and sending Packets.
  */
-public class WorldcraftPacketIO {
+@RequiredArgsConstructor
+public class SocketPacketIO implements Closeable{
     private final InputStream inputStream;
     private final OutputStream outputStream;
-
-    public WorldcraftPacketIO(InputStream in, OutputStream out) {
-
-        this.inputStream = in;
-        this.outputStream = out;
+    private final Closeable closeable;
+    public SocketPacketIO(Socket connection) throws WorldcraftCommunicationException {
+        try {
+            this.inputStream = connection.getInputStream();
+            this.outputStream = connection.getOutputStream();
+            this.closeable = connection;
+        }
+        catch (IOException x){
+            throw new WorldcraftCommunicationException("General communication error occurred while connecting!",x);
+        }
 
     }
 
@@ -77,4 +87,8 @@ public class WorldcraftPacketIO {
         outputStream.flush();
     }
 
+    @Override
+    public void close() throws IOException {
+        closeable.close();
+    }
 }

@@ -19,6 +19,7 @@
         <module name="server" />
         <module name="LevelParser" />
         <module name="utills" />
+        <module name="Module_unify" />
         <module name="client" />
         <module name="clean" />
         <module name="Tests" />
@@ -41,11 +42,13 @@
       <module name="worldcraft.client" target="17" />
       <module name="worldcraft.server" target="17" />
       <module name="worldcraft.spring" target="17" />
+      <module name="wotldcraft.modules.unify" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="LevelParser" options="-parameters" />
+      <module name="Module_unify" options="-parameters" />
       <module name="PacketParser" options="-parameters" />
       <module name="Tests" options="-parameters" />
       <module name="WoCserver" options="" />
@@ -60,6 +63,7 @@
       <module name="worldcraft.client" options="-parameters" />
       <module name="worldcraft.server" options="-parameters" />
       <module name="worldcraft.spring" options="-parameters" />
+      <module name="wotldcraft.modules.unify" options="-parameters" />
     </option>
   </component>
 </project>

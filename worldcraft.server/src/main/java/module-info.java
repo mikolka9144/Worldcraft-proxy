@@ -12,13 +12,10 @@ module worldcraft.server {
     requires worldcraft.client;
     requires spring.boot;
     exports com.mikolka9144.worldcraft.backend.server.socket;
-    exports com.mikolka9144.worldcraft.backend.server.socket.interceptor;
     exports com.mikolka9144.worldcraft.backend.server.config;
     exports com.mikolka9144.worldcraft.backend.server.http.interceptors;
     exports com.mikolka9144.worldcraft.backend.server.http;
     exports com.mikolka9144.worldcraft.backend.server.http.model;
     exports com.mikolka9144.worldcraft.backend.server.official;
-    exports com.mikolka9144.worldcraft.backend.server.unify;
-    exports com.mikolka9144.worldcraft.backend.server.unify.convert;
     opens com.mikolka9144.worldcraft.backend.server.config;
 }

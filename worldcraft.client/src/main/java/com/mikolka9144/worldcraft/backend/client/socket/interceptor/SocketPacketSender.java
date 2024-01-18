@@ -1,27 +1,26 @@
-package com.mikolka9144.worldcraft.backend.server.socket;
+package com.mikolka9144.worldcraft.backend.client.socket.interceptor;
 
-import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftSocket;
+import com.mikolka9144.worldcraft.backend.client.socket.WorldcraftThread;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.PacketAlteringModule;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
+import java.io.Closeable;
 
 /**
  * Class used to communicate with client and server alike.
  */
 @Slf4j
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SocketPacketSender {
-    private final List<PacketAlteringModule> clientInterceptors;
-    private final List<PacketAlteringModule> serverInterceptors;
-    private final WorldcraftSocket clientconnection;
+    private final WorldcraftThread thread;
+    private final Closeable dispose;
 
-    public SocketPacketSender(List<PacketAlteringModule> clientInterceptors, List<PacketAlteringModule> serverInterceptors, WorldcraftSocket clientConnection) {
-        this.clientInterceptors = clientInterceptors;
-
-        this.serverInterceptors = serverInterceptors;
-        this.clientconnection = clientConnection;
+    public static void configureWoCThread(WorldcraftThread thread, Closeable dispose) {
+        SocketPacketSender sender = new SocketPacketSender(thread, dispose);
+        thread.getInterceptors().forEach(s ->  s.setupSockets(sender));
     }
 
     /**
@@ -31,7 +30,7 @@ public class SocketPacketSender {
      */
     public void sendToClient(Packet packet) {
         try {
-            WorldcraftThread.sendPacket(packet, serverInterceptors, clientInterceptors);
+            thread.sendServerPacket(packet);
         } catch (Exception x) {
             log.error("Exception was thrown when attempting to send packet by interceptor to client:", x);
         }
@@ -44,7 +43,7 @@ public class SocketPacketSender {
      */
     public void sendToServer(Packet packet) {
         try {
-            WorldcraftThread.sendPacket(packet, clientInterceptors, serverInterceptors);
+            thread.sendClientPacket(packet);
         } catch (Exception x) {
             log.error("Exception was thrown when attempting to send packet by interceptor to server:", x);
         }
@@ -55,6 +54,6 @@ public class SocketPacketSender {
      */
     @SneakyThrows
     public void closeConnection() {
-        clientconnection.close();
+        dispose.close();
     }
 }

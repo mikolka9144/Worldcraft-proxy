@@ -9,4 +9,5 @@ module worldcraft.client {
     exports com.mikolka9144.worldcraft.backend.client.socket;
     exports com.mikolka9144.worldcraft.backend.client.api;
     exports com.mikolka9144.worldcraft.backend.client.http;
+    exports com.mikolka9144.worldcraft.backend.client.socket.interceptor;
 }

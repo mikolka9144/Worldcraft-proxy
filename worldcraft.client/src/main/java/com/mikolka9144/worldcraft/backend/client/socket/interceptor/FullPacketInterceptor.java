@@ -1,9 +1,8 @@
-package com.mikolka9144.worldcraft.backend.server.socket.interceptor;
+package com.mikolka9144.worldcraft.backend.client.socket.interceptor;
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketBuilder;
 import com.mikolka9144.worldcraft.backend.client.api.PacketCommandResolver;
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
-import com.mikolka9144.worldcraft.backend.client.socket.PacketCommands;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +12,12 @@ import lombok.extern.slf4j.Slf4j;
  * In addition, it also initialises {@link PacketBuilder packager}, but only after it receives playerId from one of packets.
  */
 @Slf4j
-public abstract class CommandPacketInterceptor extends PacketAlteringModule implements PacketCommands {
+public abstract class FullPacketInterceptor extends PacketInterceptor implements PacketCommands {
 
     protected PacketBuilder packager = null;
     private final PacketCommandResolver resolver;
 
-    protected CommandPacketInterceptor() {
+    protected FullPacketInterceptor() {
         resolver = new PacketCommandResolver(this);
     }
 

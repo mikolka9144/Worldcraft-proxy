@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.client.socket;
+package com.mikolka9144.worldcraft.backend.client.socket.interceptor;
 
 
 import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;

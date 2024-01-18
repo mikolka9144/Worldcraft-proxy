@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.backend.server.unify;
+package com.mikolka9144.worldcraft.interceptors.unify;
 
 import com.mikolka9144.worldcraft.backend.server.http.interceptors.HttpDownloadInterceptor;
 import com.mikolka9144.worldcraft.backend.server.http.model.WorldDownloadRequest;

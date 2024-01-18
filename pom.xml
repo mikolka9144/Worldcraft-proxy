@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.mikolka9144</groupId>
     <artifactId>WoCserver</artifactId>
-    <version>2.1</version>
+    <version>3.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>LevelParser</module>
@@ -21,6 +21,7 @@
         <module>utills</module>
         <module>worldcraft.client</module>
         <module>Tests</module>
+        <module>Module_unify</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

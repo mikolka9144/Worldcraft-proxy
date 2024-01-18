@@ -69,6 +69,8 @@ public enum PacketProtocol {
     WORLD_OF_CRAFT_3_8_11(76),
     WORLD_OF_CRAFT_3_8_12(77),
     WORLD_OF_CRAFT_3_8_13(78),
+    WORLD_OF_CRAFT_3_8_14(79),
+    WORLD_OF_CRAFT_3_8_15(80),
     UNKNOWN(200),
     WORLDCRAFT_2_7_4(201),
     WORLD_OF_CRAFT_1_2(202);

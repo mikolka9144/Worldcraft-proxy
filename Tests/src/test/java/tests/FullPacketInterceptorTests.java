@@ -5,7 +5,7 @@ import com.mikolka9144.worldcraft.backend.client.api.PacketsFormula;
 import com.mikolka9144.worldcraft.backend.packets.Packet;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ChatMessage;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
-import com.mikolka9144.worldcraft.backend.server.socket.interceptor.CommandPacketInterceptor;
+import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FullPacketInterceptorTests {
     @Getter
-    public static class TestFullInterceptor extends CommandPacketInterceptor {
+    public static class TestFullInterceptor extends FullPacketInterceptor {
         private String msg;
 
         @Override
