@@ -82,8 +82,6 @@ public enum PacketProtocol {
 
     public static PacketProtocol findPacketProtoById(int id) {
         Optional<PacketProtocol> command = Arrays.stream(PacketProtocol.values()).filter(s -> s.getProto() == id).findFirst();
-        if (command.isPresent()) return command.get();
-        log.warn("Protocol " + id + " is not declared. Returning UNKNOWN");
-        return UNKNOWN;
+        return command.orElse(UNKNOWN);
     }
 }
