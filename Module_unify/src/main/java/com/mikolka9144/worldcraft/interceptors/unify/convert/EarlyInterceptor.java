@@ -7,6 +7,7 @@ import com.mikolka9144.worldcraft.backend.packets.codecs.ClientBuildManifest;
 import com.mikolka9144.worldcraft.backend.packets.codecs.LoginInfo;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.interceptors.unify.backend.PacketConverter;
 import com.mikolka9144.worldcraft.interceptors.unify.backend.VersionFlags;
 import com.mikolka9144.worldcraft.utills.enums.PacketCommand;
 import com.mikolka9144.worldcraft.utills.enums.PacketProtocol;

@@ -27,7 +27,7 @@ public class HttpWorldClient {
      * @param worldBin World to upload. Refer to {@code World} class in {@code LevelParser} for more details
      */
     public void uploadWorld(String token, byte[] worldBin) {
-        String uploadURL = "/worldcraft-web/upload";
+        String uploadURL = "worldcraft-web/upload";
         Unirest.post(serverURL + uploadURL)
                 .header("accept-encoding", "gzip")
                 .field("file", new ByteArrayInputStream(worldBin), ContentType.create("application/x-gzip"), "game.tar.gz")

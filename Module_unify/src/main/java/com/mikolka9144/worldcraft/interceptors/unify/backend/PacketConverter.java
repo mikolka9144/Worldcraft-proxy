@@ -1,4 +1,4 @@
-package com.mikolka9144.worldcraft.interceptors.unify.convert;
+package com.mikolka9144.worldcraft.interceptors.unify.backend;
 
 
 import com.mikolka9144.worldcraft.backend.packets.Packet;
@@ -61,7 +61,7 @@ public class PacketConverter {
         return builder.build();
     }
 
-    static LoginInfo prepareLegacyLoginInfo(Packet packet) {
+    public static LoginInfo prepareLegacyLoginInfo(Packet packet) {
         PacketDataReader reader = new PacketDataReader(packet.getData());
         return new LoginInfo(
                 reader.getString(),
