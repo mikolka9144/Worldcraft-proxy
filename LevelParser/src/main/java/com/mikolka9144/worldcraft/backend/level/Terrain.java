@@ -37,7 +37,7 @@ public class Terrain {
      * @param z Z position of requested block.
      * @return Object representing said block.
      */
-    public ChunkData.StepBlock at(int x, int y, int z) {
+    public TerrainBlock at(int x, int y, int z) {
         int xPos = x & 15;   // mod by CHUNK_SIZE
         int zPos = z & 15;   // mod by CHUNK_SIZE
         int chunkX = x >> 4; // dividing by CHUNK_SIZE
@@ -62,7 +62,7 @@ public class Terrain {
      * @param vector Position of requested block.
      * @return Object representing said block.
      */
-    public ChunkData.StepBlock at(Vector3Short vector) {
+    public TerrainBlock at(Vector3Short vector) {
         return at(vector.getX(), vector.getY(), vector.getZ());
     }
 

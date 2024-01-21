@@ -8,6 +8,7 @@ import com.mikolka9144.worldcraft.backend.packets.codecs.RoomsPacket;
 import com.mikolka9144.worldcraft.backend.packets.codecs.ServerBlockData;
 import com.mikolka9144.worldcraft.backend.packets.encodings.PacketDataEncoder;
 import com.mikolka9144.worldcraft.backend.client.socket.interceptor.FullPacketInterceptor;
+import com.mikolka9144.worldcraft.interceptors.unify.backend.PacketConverter;
 import com.mikolka9144.worldcraft.interceptors.unify.backend.VersionFlags;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
