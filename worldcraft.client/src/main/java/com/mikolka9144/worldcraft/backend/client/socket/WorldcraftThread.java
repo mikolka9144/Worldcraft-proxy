@@ -20,7 +20,6 @@ public class WorldcraftThread {
     @Getter
     private final List<PacketInterceptor> interceptors;
     private final Consumer<Packet> onClientReturn;
-    private final boolean isServer;
     /**
      * This method sends given packet as if it was sent by a client.
      *
@@ -54,15 +53,7 @@ public class WorldcraftThread {
         downstreamFormula.getUpstreamPackets().forEach(onClientReturn);
 
         if (!downstreamFormula.getWritebackPackets().isEmpty()) {
-            if (isServer){
-                log.error("Downstream packets generated more upstream packets.");
-                log.error("To avoid looping " + downstreamFormula.getWritebackPackets().size() + " packets will be dropped");
-                log.error("Make sure, that interceptors are working as intended.");
-            }
-            else {
                 sendServerPacket(downstreamFormula.getWritebackPackets());
-            }
-
         }
     }
 

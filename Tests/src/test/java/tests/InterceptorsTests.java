@@ -67,7 +67,7 @@ public class InterceptorsTests {
         }));
         // act
         socket.send(packet);
-        WorldcraftThread thread = new WorldcraftThread( upstreamInterceptors,s ->{},true);
+        WorldcraftThread thread = new WorldcraftThread( upstreamInterceptors,s ->{});
         thread.sendClientPacket(packet);
     }
 
@@ -93,7 +93,7 @@ public class InterceptorsTests {
 
         // act
         socket.send(packet);
-        WorldcraftThread thread = new WorldcraftThread( upstreamInterceptors, s -> {},true);
+        WorldcraftThread thread = new WorldcraftThread( upstreamInterceptors, s -> {});
         assertThatCode(() -> thread.sendClientPacket(packet)).doesNotThrowAnyException();
     }
 
@@ -127,7 +127,7 @@ public class InterceptorsTests {
             assertThat(s.getMsg()).isEqualTo("test");
             assertThat(s.getPlayerId()).isEqualTo(15);
             executed.set(true);
-        },true);
+        });
         thread.sendClientPacket(packet);
         // assert
         assertThat(executed).isTrue();
