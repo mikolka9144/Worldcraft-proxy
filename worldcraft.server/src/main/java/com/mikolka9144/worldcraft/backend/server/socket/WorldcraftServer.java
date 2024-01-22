@@ -55,7 +55,7 @@ public class WorldcraftServer implements Closeable {
                 List<PacketInterceptor> clientInterceptors = new ArrayList<>(interceptors.get());
                 SendToSocketInterceptor loopback = new SendToSocketInterceptor(io, () -> onClientDisconnect(clientInterceptors));
 
-                WorldcraftThread clientThread = new WorldcraftThread(clientInterceptors, loopback::interceptRawPacket,true);
+                WorldcraftThread clientThread = new WorldcraftThread(clientInterceptors, loopback::interceptRawPacket);
                 SocketPacketSender.configureWoCThread(clientThread,io);
                 SocketClient client = new SocketClient(io,name,clientThread::sendClientPacket);
                 client.start();

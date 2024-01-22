@@ -41,7 +41,7 @@ public class WorldcraftClient implements Closeable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        },false);
+        });
         SocketPacketSender.configureWoCThread(clientThread, io);
         client = new SocketClient(target, connectionName,clientThread::sendServerPacket);
     }
