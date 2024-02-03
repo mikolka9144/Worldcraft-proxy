@@ -25,6 +25,7 @@ public class ChunksMCR {
     public static byte[] build(Terrain terrain) {
         PacketDataBuilder builder = new PacketDataBuilder();
         PacketDataBuilder chunksSectionBuilder = new PacketDataBuilder();
+        PacketDataBuilder stamperBuilder = new PacketDataBuilder();
         short sectorsWritten = 2;
 
         for (int z = 0; z < 32; z++) {
@@ -33,6 +34,7 @@ public class ChunksMCR {
                 byte[] sector = chunk != null ? chunk.build() : new byte[0];
                 int sectorCount = (int) Math.ceil((double) sector.length / ChunksMCR.SECTOR_SIZE);
 
+                stamperBuilder.append(chunk != null ? chunk.getTimestamp() : 0);
                 builder.append((byte) 0);
                 builder.append(sectorCount != 0 ? sectorsWritten : 0);
                 builder.append((byte) sectorCount);
@@ -42,7 +44,7 @@ public class ChunksMCR {
             }
         }
 
-        builder.append(terrain.getTimestamps());
+        builder.append(stamperBuilder.build());
         builder.append(chunksSectionBuilder.build());
         return builder.build();
     }
@@ -54,9 +56,10 @@ public class ChunksMCR {
         byte[] headerPositions = sections.get(0);
         byte[] timeStamps = sections.get(1);
 
-        Terrain newterrain = new Terrain(timeStamps);
+        Terrain newterrain = new Terrain();
 
         var reader = new PacketDataReader(headerPositions);
+        var stamps = new PacketDataReader(timeStamps);
         int i = 0;
         while (reader.hasNext(4)) {
             reader.getByte();
@@ -65,8 +68,9 @@ public class ChunksMCR {
 
             byte[] chunkBlob = readSectors(sections, sectorLocation, sectorCount);
             ChunkData chunk;
+            int timestamp = stamps.getInt();
             try {
-                chunk = new ChunkData(chunkBlob);
+                chunk = new ChunkData(RegionNBT.open(chunkBlob),timestamp);
             } catch (Exception ignore) {
                 chunk = null;
             }

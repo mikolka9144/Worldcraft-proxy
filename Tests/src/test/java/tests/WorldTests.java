@@ -51,4 +51,16 @@ public class WorldTests {
         Terrain trn = new Terrain(10, 20);
         assertThatCode(() -> trn.at(5, 5, 5).setSkyLight((byte) 17)).hasNoCause();
     }
+    @Test
+    public void testTimestampSave(){
+        Terrain trn = new Terrain(10, 20);
+
+        trn.atChunk(5,5).setTimestamp(666);
+        trn.atChunk(7,2).setTimestamp(999);
+        byte[] mcrFile = trn.toMcrFile();
+        Terrain loadedFile = Terrain.fromMcrFile(mcrFile);
+
+        assertEquals(666,loadedFile.atChunk(5,5).getTimestamp());
+        assertEquals(999,loadedFile.atChunk(7,2).getTimestamp());
+    }
 }

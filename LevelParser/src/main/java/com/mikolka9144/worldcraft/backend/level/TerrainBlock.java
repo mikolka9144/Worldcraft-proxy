@@ -2,25 +2,26 @@ package com.mikolka9144.worldcraft.backend.level;
 
 import com.mikolka9144.worldcraft.utills.enums.BlockType;
 import dev.dewy.nbt.tags.array.ByteArrayTag;
+import dev.dewy.nbt.tags.collection.CompoundTag;
 
 import java.time.temporal.ValueRange;
 
 public class TerrainBlock {
-    private final ChunkData chunkData;
+    private final CompoundTag chunkData;
     private final int index;
 
     TerrainBlock(ChunkData chunkData, int index) {
-        this.chunkData = chunkData;
+        this.chunkData = chunkData.getLevel();
         this.index = index;
     }
 
     public TerrainBlock setBlock(byte block) {
-        chunkData.getLevel().getByteArray(ChunkData.BLOCKS).set(index, block);
+        setDoubleHexValue(array(ChunkData.BLOCKS),block);
         return this;
     }
 
     public TerrainBlock setData(byte data) {
-        chunkData.getLevel().getByteArray(ChunkData.DATA).set(index, data);
+        setDoubleHexValue(array(ChunkData.DATA),data);
         return this;
     }
 
@@ -42,32 +43,37 @@ public class TerrainBlock {
     }
 
     public TerrainBlock setBlockLight(byte value) {
-        setLight(chunkData.getLevel().getByteArray(ChunkData.BLOCK_LIGHT), value);
+        setSingleHexValue(chunkData.getByteArray(ChunkData.BLOCK_LIGHT), value);
         return this;
     }
 
     public TerrainBlock setSkyLight(byte value) {
-        setLight(chunkData.getLevel().getByteArray(ChunkData.SKY_LIGHT), value);
+        setSingleHexValue(chunkData.getByteArray(ChunkData.SKY_LIGHT), value);
         return this;
     }
 
     public byte getBlock() {
-        return chunkData.getLevel().getByteArray(ChunkData.BLOCKS).get(index);
+        return getDoubleHexValue(array(ChunkData.BLOCKS));
     }
 
     public byte getData() {
-        return chunkData.getLevel().getByteArray(ChunkData.DATA).get(index);
+        return getDoubleHexValue(array(ChunkData.DATA));
     }
 
     public byte getBlockLight() {
-        return getLight(chunkData.getLevel().getByteArray(ChunkData.BLOCK_LIGHT));
+        return getSingleHexValue(array(ChunkData.BLOCK_LIGHT));
     }
 
     public byte getSkyLight() {
-        return getLight(chunkData.getLevel().getByteArray(ChunkData.SKY_LIGHT));
+        return getSingleHexValue(array(ChunkData.SKY_LIGHT));
     }
-
-    private byte getLight(ByteArrayTag set) {
+    public byte getDoubleHexValue(ByteArrayTag set){
+        return set.get(index);
+    }
+    public void setDoubleHexValue(ByteArrayTag set, byte value) {
+        set.set(index,value);
+    }
+    public byte getSingleHexValue(ByteArrayTag set) {
         int targetByteIndex = index >> 1;
         boolean isNotDivisiable = (index & 1) == 1;
         byte targetByte = set.get(targetByteIndex);
@@ -75,7 +81,7 @@ public class TerrainBlock {
         return b < 0 ? (byte) (16 + b) : b; // this fixes minus light levels
     }
 
-    private void setLight(ByteArrayTag set, byte value) {
+    public void setSingleHexValue(ByteArrayTag set, byte value) {
         if (!ValueRange.of(0, 15).isValidValue(value))
             throw new IllegalArgumentException("Light must be between 0 and 15");
         int targetByteIndex = index >> 1;
@@ -92,5 +98,8 @@ public class TerrainBlock {
             byte result = (byte) (stub + value);
             set.set(targetByteIndex, result);
         }
+    }
+    private ByteArrayTag array(String name){
+        return chunkData.getByteArray(name);
     }
 }

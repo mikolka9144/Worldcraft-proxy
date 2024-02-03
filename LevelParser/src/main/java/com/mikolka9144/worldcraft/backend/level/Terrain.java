@@ -13,14 +13,9 @@ import java.util.stream.IntStream;
 
 public class Terrain {
     public static final int MAX_Y = 128;
-    @Getter
     private final ChunkData[][] chunks = new ChunkData[32][32];
-    private byte[] timestamps = new byte[ChunksMCR.SECTOR_SIZE];
 
-    public Terrain(byte[] timestamps) {
-        if (timestamps.length != ChunksMCR.SECTOR_SIZE)
-            throw new IllegalArgumentException("Timestamps must be EXACTLY 4096 bytes in size");
-        this.timestamps = timestamps;
+    public Terrain() {
     }
 
     public Terrain(int xChunks, int zChunks) {
@@ -68,12 +63,15 @@ public class Terrain {
 
     /**
      * Manually creates chunk.
-     * Use this function at your own risk.
-     * It breaks enumeration functions
-     * and world size calculations.
      */
     public void createChunk(int x, int z) {
         chunks[x][z] = new ChunkData(x, z);
+    }
+    /**
+     * Manually puts a chunk in a world.
+     */
+    public void createChunk(ChunkData chunk) {
+        chunks[chunk.xPos().getValue()][chunk.zPos().getValue()] = chunk;
     }
 
     /**
@@ -113,7 +111,13 @@ public class Terrain {
      * @param step      action to run
      */
     public void enumerateWorld2D(int constantY, Consumer<Vector3Short> step) {
-        enumerate2D(getMaxX(), constantY, getMaxZ(), step);
+        enumerateChunks(chunk ->
+                atChunk(chunk.getX(),chunk.getZ()).enumerateChunk2D(constantY,block ->
+                        step.accept(new Vector3Short(
+                                chunk.getX()+block.getX(),
+                                block.getY(),
+                                chunk.getZ()+block.getZ()
+                        ))));
     }
 
     /**
@@ -122,17 +126,25 @@ public class Terrain {
      * @param step action to run
      */
     public void enumerateWorld3D(Consumer<Vector3Short> step) {
-        enumerate3D(getMaxX(), MAX_Y, getMaxZ(), step);
+        enumerateChunks(chunk ->
+                atChunk(chunk.getX(),chunk.getZ()).enumerateChunk3D(block ->
+                        step.accept(new Vector3Short(
+                                chunk.getX()+block.getX(),
+                                block.getY(),
+                                chunk.getZ()+block.getZ()
+                        ))));
     }
 
     /**
-     * Iterates through every chunk in the world.
+     * Iterates through every chunk, that exists in the world.
      * {@code DO NOT USE  Y as it's always 0.}
      *
      * @param step action to run
      */
     public void enumerateChunks(Consumer<Vector3Short> step) {
-        enumerate2D(getMaxChunkX(), 0, getMaxChunkZ(), step);
+        enumerate2D(getMaxChunkX(), 0, getMaxChunkZ(), x ->{
+            if(atChunk(x.getX(),x.getZ()) != null) step.accept(x);
+        });
     }
     public byte[] toMcrFile(){
         return ChunksMCR.build(this);
